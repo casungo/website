@@ -1,0 +1,91 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Projects from "@layouts/Projects.astro";
+
+import Card from "@components/Card.astro";
+import CardProjects from "@components/CardProjects.astro";
+import CardSocials from "@components/CardSocials.astro";
+
+import Chance from "@images/1Chance.png";
+import Carsteroids from "@images/Carsteroids.jpg";
+import Fedora33 from "@images/Fedora 33 wallpaper.jpg";
+import MetaSpark from "@images/Meta Spark.jpg";
+import Niagara from "@images/Niagara.png";
+import RA from "@images/RA.jpg";
+import Sedbot from "@images/sedbot.jpg";
+import Webscreenshot from "@images/webscreenshot.jpeg";
+---
+
+<Layout title="Pagina iniziale">
+  <Card
+    title="About Me"
+    desc="Hi, I am Alessandro, an Italian guy. I use Adobe Suite regularly and I have over 4 years of experience with Blender, Git, HTML and CSS. This site was made entirely by me, from 0 without any template, with Bootstrap. In my projects section I have listed this site with the link to the source code."
+  />
+  <CardSocials title="Reach Out" desc="Feel free to contact me through any of the methods listed." />
+  <Projects>
+    <CardProjects
+      img={RA}
+      title="Rocket Assault"
+      desc="I translated more than 600 words for this game. The game feels like Rocket League and speedrunning combined, really challenging."
+      btnLink="https://store.steampowered.com/app/880730/Rocket_Assault/"
+      btnText="Buy Rocket Assault!"
+      btnIcon="bi bi-controller"
+    />
+    <CardProjects
+      img={Sedbot}
+      title="@sedbot"
+      desc="I created this Telegram bot to mimic the function that sed provides in Unix terminals."
+      btnLink="https://t.me/sedbot"
+      btnText="Try @sedbot"
+      btnIcon="bi bi-telegram"
+    />
+    <CardProjects
+      img={Webscreenshot}
+      title="This website"
+      desc="I made this website from scratch, without any template, with Bootstrap."
+      btnLink="https://github.com/casungo/casungo-site"
+      btnText="Check out the source code!"
+      btnIcon="bi bi-github"
+    />
+    <CardProjects
+      img={Fedora33}
+      title="Fedora 33 Wallpaper"
+      desc="I contributed to the development of the default Fedora 33 Wallpaper that gets shown on every machine with a new install of the OS!"
+      btnLink="https://pagure.io/design/issue/raw/files/219f997ff4aa506ea4ec4b3f82d380f32e2411027f3d62f8d8b059d55ed3c3b3-dawn.png"
+      btnText="View the wallpaper!"
+      btnIcon="bi bi-image"
+    />
+    <CardProjects
+      img={Niagara}
+      title="Niagara Launcher"
+      desc="I translated more than 4.500 words for this app. I use this launcher on a daily basis and I recommend it to everyone."
+      btnLink="https://play.google.com/store/apps/details?id=bitpit.launcher"
+      btnText="Try Niagara Launcher"
+      btnIcon="bi bi-google-play"
+    />
+    <CardProjects
+      img={MetaSpark}
+      title="Instagram Filter"
+      desc="I made some Instagram filters with Meta Spark. So far my most successful filter has 860K+ impressions and 540K+ opens with 14K+ shares."
+      btnLink="https://www.instagram.com/ar/361254755244484/"
+      btnText="Try my filter!"
+      btnIcon="bi bi-instagram"
+    />
+    <CardProjects
+      img={Carsteroids}
+      title="Carsteroids"
+      desc="I translated more than 3.500 words for this game. A really well made top-down shooter."
+      btnLink="https://store.steampowered.com/app/671470/CARSTEROIDS/"
+      btnText="Play CARSTEROIDS!"
+      btnIcon="bi bi-controller"
+    />
+    <CardProjects
+      img={Chance}
+      title="1 Chance"
+      desc="I translated more than 440 words for this game. Try it, it's free!"
+      btnLink="https://apps.apple.com/app/1-chance/id1529736678"
+      btnText="Play 1 Chance!"
+      btnIcon="bi bi-controller"
+    />
+  </Projects>
+</Layout>
