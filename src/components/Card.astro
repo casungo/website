@@ -6,5 +6,6 @@ const { title, desc } = Astro.props;
   <h2 class="card-header">{title}</h2>
   <div class="card-body">
     <p class="card-text">{desc}</p>
+    <slot />
   </div>
 </div>

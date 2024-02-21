@@ -1,10 +1,10 @@
 ---
-import Layout from "@layouts/Layout.astro";
+import Default from "@layouts/Default.astro";
 import Projects from "@layouts/Projects.astro";
 
 import Card from "@components/Card.astro";
 import CardProjects from "@components/CardProjects.astro";
-import CardSocials from "@components/CardSocials.astro";
+import Socials from "@components/Socials.astro";
 
 import Chance from "@images/1Chance.png";
 import Carsteroids from "@images/Carsteroids.jpg";
@@ -13,16 +13,18 @@ import MetaSpark from "@images/Meta Spark.jpg";
 import Niagara from "@images/Niagara.png";
 import RA from "@images/RA.jpg";
 import Sedbot from "@images/sedbot.jpg";
-import Webscreenshot from "@images/webscreenshot.jpeg";
+import Webscreenshot from "@images/webscreenshot.png";
 ---
 
-<Layout title="Pagina iniziale">
+<Default title="Pagina iniziale">
   <Card
     title="About Me"
     desc="Hi, I am Alessandro, an Italian guy. I use Adobe Suite regularly and I have over 4 years of experience with Blender, Git, HTML and CSS. This site was made entirely by me, from 0 without any template, with Bootstrap. In my projects section I have listed this site with the link to the source code."
   />
-  <CardSocials title="Reach Out" desc="Feel free to contact me through any of the methods listed." />
-  <Projects>
+  <Card title="Reach Out" desc="Feel free to contact me through any of the methods listed.">
+    <Socials />
+  </Card>
+  <Projects title="My projects">
     <CardProjects
       img={RA}
       title="Rocket Assault"
@@ -33,7 +35,7 @@ import Webscreenshot from "@images/webscreenshot.jpeg";
     />
     <CardProjects
       img={Sedbot}
-      title="@sedbot"
+      title="@sedbot Telegram bot"
       desc="I created this Telegram bot to mimic the function that sed provides in Unix terminals."
       btnLink="https://t.me/sedbot"
       btnText="Try @sedbot"
@@ -88,4 +90,4 @@ import Webscreenshot from "@images/webscreenshot.jpeg";
       btnIcon="bi bi-controller"
     />
   </Projects>
-</Layout>
+</Default>

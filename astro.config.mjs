@@ -1,5 +1,4 @@
 import { defineConfig } from "astro/config";
-import pageInsight from "astro-page-insight";
 
 import sitemap from "@astrojs/sitemap";
 
@@ -7,5 +6,5 @@ import sitemap from "@astrojs/sitemap";
 export default defineConfig({
   site: "https://casungo.top",
   prefetch: true,
-  integrations: [pageInsight(), sitemap()]
+  integrations: [sitemap()],
 });
