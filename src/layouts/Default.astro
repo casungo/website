@@ -23,9 +23,9 @@ const { title } = Astro.props;
   </head>
   <body>
     <div class="container">
-      <Navbar />
+      <Navbar brand="casungo" home="Home" />
       <slot />
-      <Footer />
+      <Footer text="This site is powered by Astro, Bootstrap & Cloudflare." />
     </div>
   </body>
 </html>

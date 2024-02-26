@@ -1,11 +1,11 @@
 ---
-
+const { text } = Astro.props;
 ---
 
 <footer>
   <div class="card mx-auto my-3 border border-secondary">
     <div class="card-body">
-      <p class="card-text">This site is powered by Astro, Bootstrap & Cloudflare.</p>
+      <p class="card-text">{text}</p>
     </div>
   </div>
 </footer>
