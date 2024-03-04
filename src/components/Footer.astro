@@ -1,11 +1,20 @@
 ---
+import { getRelativeLocaleUrl } from "astro:i18n";
+
 const { text } = Astro.props;
+
+const enHow = getRelativeLocaleUrl("en", "how");
+const itHow = getRelativeLocaleUrl("it", "how");
 ---
 
 <footer>
   <div class="card mx-auto my-3 border border-secondary">
     <div class="card-body">
-      <p class="card-text">{text}</p>
+      <p class="card-text">
+        {text}
+        <!-- <a href={Astro.currentLocale == "en" ? enHow : itHow}> {Astro.currentLocale == "en" ? "Learn how this site works" : "Scopri come funziona questo sito"}</a>
+      -->
+      </p>
     </div>
   </div>
 </footer>

@@ -5,7 +5,7 @@ const { title, desc } = Astro.props;
 <div class="card mb-3 mx-3">
   <h2 class="card-header">{title}</h2>
   <div class="card-body">
-    <p class="card-text">{desc}</p>
+    <p class="card-text">{desc}<slot name="desc" /></p>
     <slot />
   </div>
 </div>

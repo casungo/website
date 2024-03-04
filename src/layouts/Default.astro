@@ -1,12 +1,10 @@
 ---
-import Navbar from "@components/Navbar.astro";
-import Footer from "@components/Footer.astro";
 import "@css/styles.css";
-const { title } = Astro.props;
+const { lang, title, description } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="it">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <script src="@js/colorModes.js"></script>
@@ -14,18 +12,16 @@ const { title } = Astro.props;
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
-    <meta name="description" content="Astro description" />
+    <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="../favicon.ico" type="image/x-icon" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
   <body>
     <div class="container">
-      <Navbar brand="casungo" home="Home" />
       <slot />
-      <Footer text="This site is powered by Astro, Bootstrap & Cloudflare." />
     </div>
   </body>
 </html>
