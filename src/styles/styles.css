@@ -5,3 +5,7 @@
 .card-img-top {
   object-fit: cover
 }
+
+.img-cover {
+  object-fit: fill
+}
