@@ -7,7 +7,7 @@ import CardProjects from "@components/CardProjects.astro";
 import Socials from "@components/Socials.astro";
 import Navbar from "@components/Navbar.astro";
 import Footer from "@components/Footer.astro";
-import NowPlaying from "@components/NowPlaying.astro";
+import NowPlaying from "@components/NowPlaying.svelte";
 
 import Chance from "@images/1Chance.png";
 import Carsteroids from "@images/Carsteroids.jpg";
@@ -103,6 +103,6 @@ import Astroimg from "@images/astro.jpg";
       btnIcon="bi bi-controller"
     />
   </Projects>
-  <NowPlaying client:load title="Alessandro sta ascoltando a" by="di" notPlayingSomethingText="Normalmente qua dovresti vedere cosa sto ascoltando su Spotify in tempo reale, ma ora non sto ascoltando a niente :)" />
+  <NowPlaying client:idle title="Alessandro sta ascoltando a" by="di" notPlayingSomethingText="Normalmente qua dovresti vedere cosa sto ascoltando su Spotify in tempo reale, ma ora non sto ascoltando a niente :)" />
   <Footer text="Questo sito è alimentato da Astro, Bootstrap & Cloudflare." />
 </Default>

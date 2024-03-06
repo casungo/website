@@ -2,12 +2,13 @@ import { defineConfig } from "astro/config";
 
 import sitemap from "@astrojs/sitemap";
 import cloudflare from "@astrojs/cloudflare";
+import svelte from "@astrojs/svelte";
 
 // https://astro.build/config
 export default defineConfig({
   site: "https://casungo.top",
   prefetch: true,
-  integrations: [sitemap()],
+  integrations: [sitemap(), svelte()],
   output: "hybrid",
   adapter: cloudflare({
     imageService: "compile",
