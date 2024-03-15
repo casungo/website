@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "astro dev",
+    "build": "astro build",
     "cloudflarePreview": "astro build && wrangler pages dev ./dist --port 9001",
     "upgradeEverything": "pnpm dlx @astrojs/upgrade && pnpm update"
   },
