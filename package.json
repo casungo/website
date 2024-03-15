@@ -1,23 +1,20 @@
 {
   "name": "casungo-site",
   "type": "module",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro build && astro preview",
-    "cloudflareDev": "wrangler pages dev --port 9000 -- astro dev",
     "cloudflarePreview": "astro build && wrangler pages dev ./dist --port 9001",
-    "astro": "astro"
+    "upgradeEverything": "pnpm dlx @astrojs/upgrade && pnpm update"
   },
   "dependencies": {
-    "@astrojs/check": "^0.5.6",
+    "@astrojs/check": "^0.5.9",
     "@astrojs/cloudflare": "^9.1.0",
     "@astrojs/sitemap": "^3.1.1",
     "@astrojs/svelte": "^5.2.0",
-    "astro": "^4.4.13",
+    "astro": "^4.5.4",
     "sharp": "^0.33.2",
     "svelte": "^4.2.12",
-    "wrangler": "^3.31.0"
+    "wrangler": "^3.34.2"
   }
 }

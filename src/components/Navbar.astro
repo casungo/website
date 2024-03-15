@@ -1,10 +1,10 @@
 ---
-import { getRelativeLocaleUrl } from "astro:i18n";
+// import { getRelativeLocaleUrl } from "astro:i18n";
 
 const { brand, home, translate } = Astro.props;
 
-const enHow = getRelativeLocaleUrl("en", "how");
-const itHow = getRelativeLocaleUrl("it", "how");
+// const enHow = getRelativeLocaleUrl("en", "how");
+// const itHow = getRelativeLocaleUrl("it", "how");
 const enVersion = Astro.url.pathname.replace(/\/en\//g, "/it/").replace(/\/it\//g, "/en/");
 const itVersion = Astro.url.pathname.replace(/\/it\//g, "/en/").replace(/\/en\//g, "/it/");
 ---
