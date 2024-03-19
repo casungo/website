@@ -1,12 +1,15 @@
 ---
+import { getRelativeLocaleUrl } from "astro:i18n";
+
 import Default from "@layouts/Default.astro";
 import Projects from "@layouts/Projects.astro";
 
-import Card from "@components/Card.astro";
-import CardProjects from "@components/CardProjects.astro";
-import Socials from "@components/Socials.astro";
 import Navbar from "@components/Navbar.astro";
+import Card from "@components/Card.astro";
+import Socials from "@components/Socials.astro";
+import CardProjects from "@components/CardProjects.astro";
 import Footer from "@components/Footer.astro";
+
 import NowPlaying from "@components/NowPlaying.svelte";
 
 import Chance from "@images/1Chance.png";
@@ -18,6 +21,8 @@ import RA from "@images/RA.jpg";
 import Sedbot from "@images/sedbot.jpg";
 import Webscreenshot from "@images/webscreenshot.png";
 import Astroimg from "@images/astro.jpg";
+
+const itContact = getRelativeLocaleUrl("it", "contact");
 ---
 
 <Default title="Pagina iniziale" lang="it">
@@ -26,17 +31,23 @@ import Astroimg from "@images/astro.jpg";
     title="Su di me"
     desc="Ciao, mi chiamo Alessandro e sono un ragazzo appassionato di design e programmazione. Sotto troverai una sezione per contattarmi e un'altra per i progetti a cui ho contribuito o che ho sviluppato."
   />
-  <Card title="Contattami" desc="Sentiti libero di contattarmi attraverso uno dei metodi elencati.">
-    <Socials email="casungo@casungo.top" />
+  <Card title="Contattami">
+    <div class="text-center">
+      <a class="btn btn-primary btn-lg m-1" href={itContact} role="button"><i class="bi bi-envelope"></i> Scrivimi un messaggio</a>
+      <hr />
+      oppure
+      <hr />
+      <Socials />
+    </div>
   </Card>
   <Projects title="I miei progetti">
     <CardProjects
-      img={RA}
-      title="Rocket Assault"
-      desc="Ho tradotto più di 600 parole per questo gioco. Il gioco si sente come Rocket League e speedrunning combinati, davvero impegnativo."
-      btnLink="https://store.steampowered.com/app/880730"
-      btnText="Acquista Rocket Assault!"
-      btnIcon="bi bi-controller"
+      img={Webscreenshot}
+      title="Questo sito web"
+      desc="Ho realizzato questo sito web utlizzando Astro, Bootstrap & Cloudflare."
+      btnLink="https://github.com/casungo/casungo-site"
+      btnText="Controlla il codice sorgente!"
+      btnIcon="bi bi-github"
     />
     <CardProjects
       img={Sedbot}
@@ -47,22 +58,6 @@ import Astroimg from "@images/astro.jpg";
       btnIcon="bi bi-telegram"
     />
     <CardProjects
-      img={Astroimg}
-      title="Astro e starlight"
-      desc="Sto attivamente traducendo la documentazione di Astro, framework che sto utilizzando in questo momento per costruire questo sito e Starlight, uno strumento che per creare un sito per la documentazione per qualsiasi prodotto, sfruttando la potenza di Astro."
-      btnLink="https://docs.astro.build/it"
-      btnText="Leggi la documentazione"
-      btnIcon="bi bi-book"
-    />
-    <CardProjects
-      img={Webscreenshot}
-      title="Questo sito web"
-      desc="Ho realizzato questo sito web da zero, senza alcun modello, con Bootstrap."
-      btnLink="https://github.com/casungo/casungo-site"
-      btnText="Controlla il codice sorgente!"
-      btnIcon="bi bi-github"
-    />
-    <CardProjects
       img={Fedora33}
       title="Fedora 33 Wallpaper"
       desc="Ho contribuito allo sviluppo dello sfondo predefinito di Fedora 33 che viene mostrato su ogni macchina con una nuova installazione del sistema operativo!"
@@ -71,20 +66,28 @@ import Astroimg from "@images/astro.jpg";
       btnIcon="bi bi-image"
     />
     <CardProjects
-      img={Niagara}
-      title="Niagara Launcher"
-      desc="Ho tradotto più di 4.500 parole per questa app. Uso questo launcher quotidianamente e lo consiglio a tutti."
-      btnLink="https://play.google.com/store/apps/details?id=bitpit.launcher"
-      btnText="Prova Niagara Launcher"
-      btnIcon="bi bi-google-play"
-    />
-    <CardProjects
       img={MetaSpark}
       title="Filtro Instagram"
       desc="Ho realizzato alcuni filtri Instagram con Meta Spark. Finora il mio filtro più riuscito ha 860K+ impressioni e 540K+ aperture con 14K+ condivisioni."
       btnLink="https://www.instagram.com/ar/361254755244484"
       btnText="Prova il mio filtro!"
       btnIcon="bi bi-instagram"
+    />
+    <CardProjects
+      img={RA}
+      title="Rocket Assault"
+      desc="Ho tradotto più di 600 parole per questo gioco. Il gioco si sente come Rocket League e speedrunning combinati, davvero impegnativo."
+      btnLink="https://store.steampowered.com/app/880730"
+      btnText="Acquista Rocket Assault!"
+      btnIcon="bi bi-controller"
+    />
+    <CardProjects
+      img={Astroimg}
+      title="Astro e starlight"
+      desc="Sto attivamente traducendo la documentazione di Astro, framework che sto utilizzando in questo momento per costruire questo sito e Starlight, uno strumento che per creare un sito per la documentazione per qualsiasi prodotto, sfruttando la potenza di Astro."
+      btnLink="https://docs.astro.build/it"
+      btnText="Leggi la documentazione"
+      btnIcon="bi bi-book"
     />
     <CardProjects
       img={Carsteroids}
@@ -102,7 +105,15 @@ import Astroimg from "@images/astro.jpg";
       btnText="Gioca a 1 Chance!"
       btnIcon="bi bi-controller"
     />
+    <CardProjects
+      img={Niagara}
+      title="Niagara Launcher"
+      desc="Ho tradotto più di 4.500 parole per questa app. Uso questo launcher quotidianamente e lo consiglio a tutti."
+      btnLink="https://play.google.com/store/apps/details?id=bitpit.launcher"
+      btnText="Prova Niagara Launcher"
+      btnIcon="bi bi-google-play"
+    />
   </Projects>
-  <NowPlaying client:idle title="Alessandro sta ascoltando a" by="di" notPlayingSomethingText="Normalmente qua dovresti vedere cosa sto ascoltando su Spotify in tempo reale, ma ora non sto ascoltando a niente :)" />
   <Footer text="Questo sito è alimentato da Astro, Bootstrap & Cloudflare." />
 </Default>
+<NowPlaying client:idle title="Alessandro sta ascoltando a" by="di" notPlayingSomethingText="Normalmente qua dovresti vedere cosa sto ascoltando su Spotify in tempo reale, ma ora non sto ascoltando a niente :)" />

@@ -20,5 +20,6 @@ pnpm-debug.log*
 # macOS-specific files
 .DS_Store
 
-/.wrangler
-/.vscode
+.wrangler/
+.vscode/
+.github/

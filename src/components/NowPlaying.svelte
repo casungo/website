@@ -1,5 +1,4 @@
 <script>
-  import { onMount } from "svelte";
   import { writable } from "svelte/store";
 
   const nowPlaying = writable(null);
@@ -8,6 +7,8 @@
   export let by;
   export let notPlayingSomethingText;
 
+  const loading = writable(true);
+
   const fetchDataAndUpdate = async () => {
     try {
       const response = await fetch(`https://worker-aged-scene-cfe6.casungo.workers.dev/`);
@@ -15,12 +16,12 @@
       nowPlaying.set(data.recenttracks.track[0]);
     } catch (error) {
       console.error("Error fetching data:", error);
+    } finally {
+      loading.set(false);
     }
   };
 
-  onMount(fetchDataAndUpdate);
-
-  /* Result from APi in JSON:
+  /* Result from APi in JSON, DON'T DELETE, IT'S USED FOR TESTING:
 {
     "recenttracks": {
         "track": [{
@@ -97,7 +98,15 @@
 
 <div class="position-fixed bottom-0 end-0" style="z-index: 7;">
   <div class="collapse" id="collapseWidthExample">
-    {#if $nowPlaying && $nowPlaying["@attr"] && $nowPlaying["@attr"].nowplaying === "true"}
+    {#if $loading}
+      <div class="pm-3 mx-3 my-2 card position-sticky top-100 start-100">
+        <div class="card-body">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      </div>
+    {:else if $nowPlaying && $nowPlaying["@attr"] && $nowPlaying["@attr"].nowplaying === "true"}
       <div class="pm-3 mx-3 my-2 card position-sticky top-100 start-100">
         <div class="row g-0">
           <div class="col-4">
