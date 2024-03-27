@@ -12,13 +12,10 @@ export default defineConfig({
   integrations: [sitemap(), svelte(), db()],
   output: "hybrid",
   adapter: cloudflare({
-    imageService: "compile"
+    imageService: "compile",
   }),
   i18n: {
     defaultLocale: "it",
     locales: ["en", "it"],
-    routing: {
-      prefixDefaultLocale: true
-    }
-  }
+  },
 });

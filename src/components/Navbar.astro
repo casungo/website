@@ -3,12 +3,16 @@ import { getRelativeLocaleUrl } from "astro:i18n";
 
 const { brand, home, translate } = Astro.props;
 
-// const enHow = getRelativeLocaleUrl("en", "how");
+const currentPathname = Astro.url.pathname;
+
 // const itHow = getRelativeLocaleUrl("it", "how");
-const enContact = getRelativeLocaleUrl("en", "contact");
+// const enHow = getRelativeLocaleUrl("en", "how");
+
 const itContact = getRelativeLocaleUrl("it", "contact");
-const enVersion = Astro.url.pathname.replace(/\/en\//g, "/it/").replace(/\/it\//g, "/en/");
-const itVersion = Astro.url.pathname.replace(/\/it\//g, "/en/").replace(/\/en\//g, "/it/");
+const enContact = getRelativeLocaleUrl("en", "contact");
+
+const itVersion = currentPathname.replace(/\/en(?:\/|$)/, "/");
+const enVersion = currentPathname.startsWith("/en") ? currentPathname : `/en${currentPathname}`;
 ---
 
 <nav class="navbar navbar-expand-md bg-body-secondary rounded my-3">
