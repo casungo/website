@@ -11,7 +11,7 @@
 
   const fetchDataAndUpdate = async () => {
     try {
-      const response = await fetch(`https://worker-aged-scene-cfe6.casungo.workers.dev/`);
+      const response = await fetch(`https://lastfmnowlistening.casungo.workers.dev`);
       const data = await response.json();
       nowPlaying.set(data.recenttracks.track[0]);
     } catch (error) {
