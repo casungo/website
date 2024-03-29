@@ -9,8 +9,8 @@ dependencies:
     specifier: ^10.0.1
     version: 10.0.1(astro@4.5.12)
   '@astrojs/db':
-    specifier: ^0.9.8
-    version: 0.9.8
+    specifier: 0.8.8
+    version: 0.8.8
   '@astrojs/sitemap':
     specifier: ^3.1.2
     version: 3.1.2
@@ -27,8 +27,8 @@ dependencies:
     specifier: ^4.2.12
     version: 4.2.12
   wrangler:
-    specifier: ^3.40.0
-    version: 3.40.0(@cloudflare/workers-types@4.20240320.1)
+    specifier: ^3.41.0
+    version: 3.41.0(@cloudflare/workers-types@4.20240320.1)
 
 packages:
 
@@ -52,7 +52,7 @@ packages:
       esbuild: 0.19.12
       miniflare: 3.20240320.1
       tiny-glob: 0.2.9
-      wrangler: 3.40.0(@cloudflare/workers-types@4.20240320.1)
+      wrangler: 3.41.0(@cloudflare/workers-types@4.20240320.1)
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -63,14 +63,13 @@ packages:
     resolution: {integrity: sha512-XpC8MAaWjD1ff6/IfkRq/5k1EFj6zhCNqXRd5J43SVJEBj/Bsmizkm8N0xOYscGcDFQkRgEw6/eKnI5x/1l6aA==}
     dev: false
 
-  /@astrojs/db@0.9.8:
-    resolution: {integrity: sha512-wTeJ6KcJTv6EOjinu6BkVwldJvSb8jUgZWITc6qeF/6Hrq33esnAa3h6N8wSuW+WCWf1CqNEGXMi7FcAs3hMyA==}
+  /@astrojs/db@0.8.8:
+    resolution: {integrity: sha512-tTIXt0oSSgcT33UARUkWBAnP1I0ihrp0cI7qvaIDM9yCSlg849HH5hCTVwOOIV4uDDwmYRhdfclvFnL8oma7gw==}
     dependencies:
       '@libsql/client': 0.5.6
       async-listen: 3.0.1
       deep-diff: 1.0.2
-      drizzle-orm: 0.30.6(@libsql/client@0.5.6)
-      github-slugger: 2.0.0
+      drizzle-orm: 0.29.5(@libsql/client@0.5.6)
       kleur: 4.1.5
       nanoid: 5.0.6
       open: 10.1.0
@@ -82,9 +81,7 @@ packages:
     transitivePeerDependencies:
       - '@aws-sdk/client-rds-data'
       - '@cloudflare/workers-types'
-      - '@electric-sql/pglite'
       - '@neondatabase/serverless'
-      - '@op-engineering/op-sqlite'
       - '@opentelemetry/api'
       - '@planetscale/database'
       - '@types/better-sqlite3'
@@ -92,7 +89,6 @@ packages:
       - '@types/react'
       - '@types/sql.js'
       - '@vercel/postgres'
-      - '@xata.io/client'
       - better-sqlite3
       - bufferutil
       - bun-types
@@ -483,8 +479,8 @@ packages:
       '@jridgewell/trace-mapping': 0.3.9
     dev: false
 
-  /@emnapi/runtime@1.1.0:
-    resolution: {integrity: sha512-gCGlE0fJGWalfy+wbFApjhKn6uoSVvopru77IPyxNKkjkaiSx2HxDS7eOYSmo9dcMIhmmIvoxiC3N9TM1c3EaA==}
+  /@emnapi/runtime@1.1.1:
+    resolution: {integrity: sha512-3bfqkzuR1KLx57nZfjr2NLnFOobvyS0aTszaEGCGqmYMVDRaGvgIZbjGSV/MHSSmLgQ/b9JFHQ5xm5WRZYd+XQ==}
     requiresBuild: true
     dependencies:
       tslib: 2.6.2
@@ -1292,7 +1288,7 @@ packages:
     cpu: [wasm32]
     requiresBuild: true
     dependencies:
-      '@emnapi/runtime': 1.1.0
+      '@emnapi/runtime': 1.1.1
     dev: false
     optional: true
 
@@ -2374,15 +2370,13 @@ packages:
     resolution: {integrity: sha512-+HlytyjlPKnIG8XuRG8WvmBP8xs8P71y+SKKS6ZXWoEgLuePxtDoUEiH7WkdePWrQ5JBpE6aoVqfZfJUQkjXwA==}
     dev: false
 
-  /drizzle-orm@0.30.6(@libsql/client@0.5.6):
-    resolution: {integrity: sha512-8RgNUmY7J03GRuRgBV5SaJNbYgLVPjdSWNS/bRkIMIHt2TFCA439lJsNpqYX8asyKMqkw8ceBiamUnCIXZIt9w==}
+  /drizzle-orm@0.29.5(@libsql/client@0.5.6):
+    resolution: {integrity: sha512-jS3+uyzTz4P0Y2CICx8FmRQ1eplURPaIMWDn/yq6k4ShRFj9V7vlJk67lSf2kyYPzQ60GkkNGXcJcwrxZ6QCRw==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
       '@cloudflare/workers-types': '>=3'
-      '@electric-sql/pglite': '>=0.1.1'
       '@libsql/client': '*'
       '@neondatabase/serverless': '>=0.1'
-      '@op-engineering/op-sqlite': '>=2'
       '@opentelemetry/api': ^1.4.1
       '@planetscale/database': '>=1'
       '@types/better-sqlite3': '*'
@@ -2390,7 +2384,6 @@ packages:
       '@types/react': '>=18'
       '@types/sql.js': '*'
       '@vercel/postgres': '*'
-      '@xata.io/client': '*'
       better-sqlite3: '>=7'
       bun-types: '*'
       expo-sqlite: '>=13.2.0'
@@ -2407,13 +2400,9 @@ packages:
         optional: true
       '@cloudflare/workers-types':
         optional: true
-      '@electric-sql/pglite':
-        optional: true
       '@libsql/client':
         optional: true
       '@neondatabase/serverless':
-        optional: true
-      '@op-engineering/op-sqlite':
         optional: true
       '@opentelemetry/api':
         optional: true
@@ -2428,8 +2417,6 @@ packages:
       '@types/sql.js':
         optional: true
       '@vercel/postgres':
-        optional: true
-      '@xata.io/client':
         optional: true
       better-sqlite3:
         optional: true
@@ -5051,8 +5038,8 @@ packages:
       '@cloudflare/workerd-windows-64': 1.20240320.1
     dev: false
 
-  /wrangler@3.40.0(@cloudflare/workers-types@4.20240320.1):
-    resolution: {integrity: sha512-2LLqnWJu6HSATidUYFg4LRmm497CI+Pmpu2eH20kYs8CtSY+FWY0g97PrsvT4QLzuUA0aDEUjqek6eGvuz92HA==}
+  /wrangler@3.41.0(@cloudflare/workers-types@4.20240320.1):
+    resolution: {integrity: sha512-iPFHF+88ZchnoZaQnq69Qkcpt0/LwkD44FzTxHWGzuBiNFwWwaNZ5zJ1G7Ga4nyipwcgtj+ykGlB/Amdgmut7w==}
     engines: {node: '>=16.17.0'}
     hasBin: true
     peerDependencies:

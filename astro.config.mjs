@@ -4,6 +4,7 @@ import cloudflare from "@astrojs/cloudflare";
 import svelte from "@astrojs/svelte";
 import db from "@astrojs/db";
 
+// https://astro.build/config
 export default defineConfig({
   site: "https://casungo.top",
   prefetch: true,
