@@ -9,13 +9,13 @@
     "upgradeEverything": "pnpm dlx @astrojs/upgrade && pnpm update"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^10.0.0",
+    "@astrojs/cloudflare": "^10.0.1",
     "@astrojs/db": "^0.9.8",
     "@astrojs/sitemap": "^3.1.2",
     "@astrojs/svelte": "^5.2.0",
     "astro": "^4.5.12",
     "sharp": "^0.33.3",
     "svelte": "^4.2.12",
-    "wrangler": "^3.39.0"
+    "wrangler": "^3.40.0"
   }
 }

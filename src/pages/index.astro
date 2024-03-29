@@ -10,6 +10,7 @@ import Socials from "@components/Socials.astro";
 import CardProjects from "@components/CardProjects.astro";
 import Footer from "@components/Footer.astro";
 
+import Alert from "@components/Alert.svelte";
 import NowPlaying from "@components/NowPlaying.svelte";
 
 import Chance from "@images/1Chance.png";
@@ -27,6 +28,7 @@ const itContact = getRelativeLocaleUrl("it", "contact");
 
 <Default title="Pagina iniziale" lang="it">
   <Navbar brand="casungo" home="Home" translate="Lingua" />
+  <Alert client:load locale="it" />
   <Card
     title="Su di me"
     desc="Ciao, mi chiamo Alessandro e sono un ragazzo appassionato di design e programmazione. Sotto troverai una sezione per contattarmi e un'altra per i progetti a cui ho contribuito o che ho sviluppato."

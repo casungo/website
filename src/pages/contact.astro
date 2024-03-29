@@ -2,13 +2,13 @@
 export const prerender = false;
 
 import Default from "@layouts/Default.astro";
+
 import Navbar from "@components/Navbar.astro";
-import Contact from "@components/Contact.astro";
 import Footer from "@components/Footer.astro";
-
-import NowPlaying from "@components/NowPlaying.svelte";
-
 import Card from "@components/Card.astro";
+
+import Alert from "@components/Alert.svelte";
+import NowPlaying from "@components/NowPlaying.svelte";
 
 import { db, ContactForm } from "astro:db";
 if (Astro.request.method === "POST") {
@@ -41,6 +41,7 @@ if (Astro.request.method === "POST") {
 
 <Default title="Pagina iniziale" lang="it">
   <Navbar brand="casungo" home="Home" translate="Lingua" />
+  <Alert client:load locale="it" />
   <Card title="Scrivimi un messaggio">
     <form method="POST">
       <div class="row">
