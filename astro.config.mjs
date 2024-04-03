@@ -13,6 +13,11 @@ export default defineConfig({
   adapter: cloudflare({
     imageService: "compile",
   }),
+  vite: {
+    ssr: {
+      external: ["url"],
+    },
+  },
   i18n: {
     defaultLocale: "it",
     locales: ["en", "it"],
