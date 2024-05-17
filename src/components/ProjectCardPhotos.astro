@@ -12,18 +12,11 @@ const { data, slug } = Astro.props.project;
 <div class="col py-3">
   <div class="card h-100 shadow">
     <div class="ratio ratio-16x9">
-      <Image
-        src={data.heroImage}
-        alt={data.title}
-        class="card-img-top"
-        draggable="false"
-      />
+      <Image src={data.heroImage} alt={data.title} class="card-img-top" draggable="false" />
     </div>
     <div class="card-body">
       <h5 class="card-title">{data.title}</h5>
-      <h6 class="card-subtitle mb-2 text-body-secondary">
-        {data.description}
-      </h6>
+      <h6 set:html={data.description} class="card-subtitle mb-2 text-body-secondary" />
     </div>
     <div class="card-footer">
       <a href={`/projects/${slug}`} class="btn btn-outline-primary">

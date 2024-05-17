@@ -1,6 +1,6 @@
 ---
 title: Festa pazza matta
-description: Scatti di Mihidu Rajasinghe
+description: Scatti di <a href="https://www.instagram.com/miudi_official_ph/">miudi_official_ph</b>
 pubDate: 2024-04-27
 heroImage: "@assets/20240427-Festa pazza matta/20240427-Festa pazza matta_hero.jpg"
 images:
