@@ -1,5 +1,8 @@
 ---
 import "@css/styles.css";
+
+import { AstroFont } from "astro-font";
+
 const { lang, title, description } = Astro.props;
 ---
 
@@ -7,6 +10,20 @@ const { lang, title, description } = Astro.props;
 <html lang={lang}>
   <head>
     <meta charset="UTF-8" />
+    <AstroFont
+      config={[
+        {
+          src: [],
+          name: "Bungee Spice",
+          // Google Fonts URL
+          googleFontsURL: "https://fonts.googleapis.com/css2?family=Bungee+Spice",
+          preload: true,
+          display: "swap",
+          selector: "body",
+          fallback: "sans-serif",
+        },
+      ]}
+    />
     <script src="@js/colorModes.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" />

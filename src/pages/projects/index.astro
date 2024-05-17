@@ -1,0 +1,19 @@
+---
+import { getCollection } from "astro:content";
+
+import Default from "@layouts/Default.astro";
+import ProjectCardPhotos from "@components/ProjectCardPhotos.astro";
+
+import Navbar from "@components/Navbar.astro";
+import Footer from "@components/Footer.astro";
+
+const projects = (await getCollection("projects")).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<Default>
+  <Navbar brand="casungo" home="Home" translate="Lingua" />
+  <div class="row m-3 row-cols-1 row-cols-md-2 row-cols-lg-3">
+    {projects.map((project) => <ProjectCardPhotos project={project} />)}
+  </div>
+  <Footer text="Questo sito è alimentato da Astro, Bootstrap & Cloudflare." />
+</Default>

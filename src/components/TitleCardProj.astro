@@ -1,0 +1,22 @@
+---
+const { img, title, contentDate, contentTitle } = Astro.props;
+
+import { Image } from "astro:assets";
+---
+
+<style>
+  .card-img-overlay {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
+  }
+</style>
+
+<div class="card text-bg-dark mx-auto my-4">
+  <Image src={img} class="card-img" alt={title} style="max-height: 200px; object-fit: cover;" />
+  <div class="card-img-overlay">
+    <p class="card-text position-absolute bottom-0 start-50 translate-middle-x pb-3">
+      {contentDate}
+      <br />
+      {contentTitle}
+    </p>
+  </div>
+</div>

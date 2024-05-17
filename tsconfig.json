@@ -20,6 +20,9 @@
       ],
       "@images/*": [
         "src/images/*"
+      ],
+      "@assets/*": [
+        "src/assets/*"
       ]
     }
   }

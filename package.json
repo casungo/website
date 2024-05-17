@@ -3,19 +3,23 @@
   "type": "module",
   "version": "1.1.0",
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build --remote",
+    "dev": "astro sync && astro dev",
+    "build": "astro sync && astro build --remote",
     "cloudflarePreview": "astro build --remote && wrangler pages dev ./dist --port 9001",
     "upgradeEverything": "pnpm dlx @astrojs/upgrade && pnpm update"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^10.0.2",
-    "@astrojs/db": "0.10.1",
-    "@astrojs/sitemap": "^3.1.2",
-    "@astrojs/svelte": "^5.3.0",
-    "astro": "^4.5.16",
-    "sharp": "^0.33.3",
-    "svelte": "^4.2.12",
-    "wrangler": "^3.45.0"
+    "@astrojs/cloudflare": "^10.2.6",
+    "@astrojs/db": "0.11.3",
+    "@astrojs/sitemap": "^3.1.4",
+    "@astrojs/svelte": "^5.4.0",
+    "@iconify-json/line-md": "^1.1.37",
+    "astro": "^4.8.6",
+    "astro-font": "^0.0.80",
+    "astro-icon": "^1.1.0",
+    "photoswipe": "^5.4.3",
+    "sharp": "^0.33.4",
+    "svelte": "^4.2.17",
+    "wrangler": "^3.57.0"
   }
 }
