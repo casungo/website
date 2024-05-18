@@ -7,6 +7,16 @@ interface Props {
 }
 
 const { data, slug } = Astro.props.project;
+
+function formatDate(date: number | Date) {
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  return new Intl.DateTimeFormat("it-IT", options).format(date);
+}
 ---
 
 <div class="col py-3">
@@ -17,6 +27,7 @@ const { data, slug } = Astro.props.project;
     <div class="card-body">
       <h5 class="card-title">{data.title}</h5>
       <h6 set:html={data.description} class="card-subtitle mb-2 text-body-secondary" />
+      <p class="card-text"><small class="text-body-secondary"> Scattate {formatDate(data.pubDate)}</small></p>
     </div>
     <div class="card-footer">
       <a href={`/projects/${slug}`} class="btn btn-outline-primary">

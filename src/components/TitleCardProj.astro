@@ -1,7 +1,22 @@
 ---
-const { img, title, contentDate, contentTitle } = Astro.props;
-
+import type { CollectionEntry } from "astro:content";
 import { Image } from "astro:assets";
+
+interface Props {
+  project: CollectionEntry<"projects">;
+}
+
+const { data } = Astro.props.project;
+
+function formatDate(date: number | Date) {
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  return new Intl.DateTimeFormat("it-IT", options).format(date);
+}
 ---
 
 <style>
@@ -11,12 +26,18 @@ import { Image } from "astro:assets";
 </style>
 
 <div class="card text-bg-dark mx-auto my-4">
-  <Image src={img} class="card-img" alt={title} style="max-height: 200px; object-fit: cover;" />
+  <Image src={data.heroImage} class="card-img" alt={data.title} style="max-height: 30vh; object-fit: cover;" />
   <div class="card-img-overlay">
-    <p class="card-text position-absolute bottom-0 start-50 translate-middle-x pb-3">
-      {contentDate}
+    <p class="card-text position-absolute bottom-0 start-50 translate-middle-x pb-3 fs-3 text-nowrap">
+      {formatDate(data.pubDate)}
       <br />
-      {contentTitle}
+      {data.title}
     </p>
+  </div>
+</div>
+
+<div class="card m-3">
+  <div class="card-body">
+    <p set:html={data.credit} class="card-text fs-6" />
   </div>
 </div>

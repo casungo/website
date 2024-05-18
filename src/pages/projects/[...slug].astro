@@ -27,12 +27,7 @@ import Navbar from "@components/Navbar.astro";
 <Navbar brand="casungo" home="Home" translate="Lingua" />
 <link rel="stylesheet" href="/photoswipe/photoswipe.css" slot="head" />
 <h1 class="text-center">
-  <TitleCardProj
-  img={entry.data.heroImage}
-  title={entry.data.title}
-  contentDate={entry.data.pubDate.toDateString()}
-  contentTitle={entry.data.title}
-  />
+  <TitleCardProj project={entry} />
 </h1>
   <div class="pswp-gallery centered" id="gallery">
     <div class="gallery-container">
