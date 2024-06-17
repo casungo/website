@@ -1,4 +1,4 @@
-import { defineConfig } from "astro/config";
+import { defineConfig, envField } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 import cloudflare from "@astrojs/cloudflare";
 import svelte from "@astrojs/svelte";
@@ -23,5 +23,16 @@ export default defineConfig({
   i18n: {
     defaultLocale: "it",
     locales: ["en", "it"],
+  },
+  experimental: {
+    env: {
+      schema: {
+        LASTFM_API_KEY: envField.string({
+          context: "server",
+          access: "secret",
+          optional: false,
+        }),
+      },
+    },
   },
 });
