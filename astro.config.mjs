@@ -4,14 +4,12 @@ import cloudflare from "@astrojs/cloudflare";
 import svelte from "@astrojs/svelte";
 import db from "@astrojs/db";
 
-import icon from "astro-icon";
-
 // https://astro.build/config
 export default defineConfig({
   site: "https://casungo.top",
   prefetch: true,
-  integrations: [sitemap(), svelte(), db(), icon()],
-  output: "hybrid",
+  integrations: [sitemap(), svelte(), db()],
+  output: "server",
   adapter: cloudflare({
     imageService: "compile",
   }),
