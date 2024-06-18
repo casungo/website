@@ -1,8 +1,6 @@
 <script>
   import { writable } from "svelte/store";
 
-  export const prerender = false;
-
   const nowPlaying = writable(null);
   const isLoading = writable(true);
   const isPopupVisible = writable(true);
