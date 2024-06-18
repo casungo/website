@@ -1,6 +1,8 @@
 import type { APIRoute } from 'astro';
 import { getSecret } from 'astro:env/server';
 
+export const prerender = false;
+
 export const GET: APIRoute = async () => {
   const LastfmApiKey = getSecret('LASTFM_API_KEY');
   const user = 'casungo';
