@@ -3,30 +3,21 @@
 
   const nowPlaying = writable(null);
   const isLoading = writable(true);
-  const isPopupVisible = writable(true);
 
   export let title;
   export let by;
   export let notPlayingSomethingText;
 
   const fetchNowPlayingData = async () => {
-    if (!$isPopupVisible) {
-      isLoading.set(true);
-      try {
-        const response = await fetch(`/api/lastfmnowlistening.json`);
-        const data = await response.json();
-        nowPlaying.set(data.recenttracks.track[0]);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        isLoading.set(false);
-      }
+    try {
+      const response = await fetch(`/api/lastfmnowlistening.json`);
+      const data = await response.json();
+      nowPlaying.set(data.recenttracks.track[0]);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      isLoading.set(false);
     }
-  };
-
-  const togglePopupVisibility = () => {
-    isPopupVisible.update((visible) => !visible);
-    fetchNowPlayingData();
   };
 </script>
 
@@ -72,7 +63,7 @@
   </div>
   <p>
     <button
-      on:click={togglePopupVisibility}
+      on:click={fetchNowPlayingData}
       class="position-sticky top-100 start-100 pm-3 mx-3 btn btn-light"
       type="button"
       data-bs-toggle="collapse"
