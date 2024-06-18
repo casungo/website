@@ -9,7 +9,7 @@ export default defineConfig({
   site: "https://casungo.top",
   prefetch: true,
   integrations: [sitemap(), svelte(), db()],
-  output: "server",
+  output: "hybrid",
   adapter: cloudflare({
     imageService: "compile",
   }),
