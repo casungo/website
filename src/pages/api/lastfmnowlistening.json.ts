@@ -1,17 +1,16 @@
 import type { APIRoute } from 'astro';
-import { getSecret } from 'astro:env/server';
+import { LASTFM_API_KEY } from 'astro:env/server';
 
 export const prerender = false;
 
-export const GET: APIRoute = async () => {
-  const LastfmApiKey = getSecret('LASTFM_API_KEY');
-  const user = 'casungo';
-  const apiUrl = `http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${user}&api_key=${LastfmApiKey}&limit=1&format=json`;
+const getLastfmApiKey = () => LASTFM_API_KEY;
+const LASTFM_USER = 'casungo';
+const API_URL = `http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${LASTFM_USER}&api_key=${getLastfmApiKey()}&limit=1&format=json`;
 
+export const GET: APIRoute = async () => {
   try {
-    const apiResponse = await fetch(apiUrl, {
+    const apiResponse = await fetch(API_URL, {
       method: 'GET',
-      headers: {},
     });
 
     const data = await apiResponse.json();
