@@ -1,14 +1,14 @@
 <script>
   import { onMount } from "svelte";
 
-  export let locale = "it"; // Passa la lingua corrente come prop
+  export let locale = "it";
 
   const API_URL = "https://websitealert.casungo.workers.dev/";
 
   let alerts = [];
-  let currentLocale = locale; // Assegna la lingua corrente a currentLocale
+  let currentLocale = locale;
 
-  async function fetchAlertData() {
+  const fetchAlertData = async () => {
     try {
       const response = await fetch(API_URL);
       if (!response.ok) {
@@ -19,31 +19,30 @@
       console.error("Error fetching alert data:", error);
       return null;
     }
-  }
+  };
 
-  function getDefaultErrorAlert() {
-    return {
-      visible: true,
-      closable: false,
-      alertClass: "alert-danger",
-      icon: "bi-exclamation-triangle-fill",
-      strongText: currentLocale === "it" ? "Errore:" : "Error:",
-      secondaryText: currentLocale === "it" ? "Impossibile recuperare i dati degli avvisi." : "Unable to fetch alert data.",
-    };
-  }
+  const getLocalizedErrorAlert = (locale) => ({
+    visible: true,
+    closable: false,
+    alertClass: "alert-danger",
+    icon: "bi-exclamation-triangle-fill",
+    strongText: locale === "it" ? "Errore:" : "Error:",
+    secondaryText: locale === "it" ? "Impossibile recuperare i dati degli avvisi." : "Unable to fetch alert data.",
+  });
 
-  onMount(async () => {
+  const updateAlerts = async (locale) => {
     const alertsData = await fetchAlertData();
-    alerts = alertsData?.[currentLocale] ?? [getDefaultErrorAlert()];
+    alerts = alertsData?.[locale] ?? [getLocalizedErrorAlert(locale)];
+  };
+
+  onMount(() => {
+    updateAlerts(currentLocale);
   });
 
   $: {
-    // Aggiorna currentLocale quando cambia la prop locale
     currentLocale = locale;
-
-    // Aggiorna gli avvisi quando cambia currentLocale
     if (alerts.length === 1 && alerts[0].alertClass === "alert-danger") {
-      alerts = [getDefaultErrorAlert()];
+      alerts = [getLocalizedErrorAlert(currentLocale)];
     }
   }
 </script>
