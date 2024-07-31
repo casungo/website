@@ -1,0 +1,81 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+import { Image } from "astro:assets";
+import Default from "@layouts/Default.astro";
+
+interface Props {
+  entry: CollectionEntry<"projects">;
+}
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+  return projects.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { data } = entry;
+const photos = data.images;
+
+function formatDate(date: number | Date) {
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  } as const;
+  return new Intl.DateTimeFormat("it-IT", options).format(date);
+}
+---
+
+<Default>
+  <link rel="stylesheet" href="/photoswipe/photoswipe.css" slot="head" />
+
+  <div class="flex flex-col items-center justify-center m-4">
+    <div class="card bg-base-100 w-4/6 shadow-xl">
+      <figure>
+        <div class="aspect-video">
+          <Image src={data.heroImage} alt={data.title} />
+        </div>
+      </figure>
+      <div class="card-body">
+        <h2 class="card-title">
+          {data.title}
+        </h2>
+        <div class="badge badge-secondary">{formatDate(data.pubDate)}</div>
+        <p set:html={data.credit} />
+      </div>
+    </div>
+  </div>
+
+  <div class="flex flex-col items-center justify-center mt-4">
+    <div class="pswp-gallery grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4" id="gallery">
+      {
+        photos.map((photo: any, index) => (
+          <a href={photo.src} data-pswp-width={photo.width} data-pswp-height={photo.height} target="_blank" class="">
+            <div class="block w-44 h-full">
+              <Image src={entry.data.images[index]} alt={entry.data.title} class="rounded-btn" width="176" />
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</Default>
+
+<script>
+  import PhotoSwipeLightbox from "photoswipe/lightbox";
+  import "photoswipe/style.css";
+
+  const lightbox = new PhotoSwipeLightbox({
+    gallery: "#gallery",
+    children: "a",
+    pswpModule: () => import("photoswipe"),
+    wheelToZoom: true,
+    pinchToClose: false,
+  });
+
+  lightbox.init();
+</script>

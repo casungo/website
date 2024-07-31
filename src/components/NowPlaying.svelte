@@ -1,77 +1,79 @@
 <script>
   import { writable } from "svelte/store";
+  import { t } from "i18n:astro";
 
   const nowPlaying = writable(null);
-  const isLoading = writable(true);
+  const isLoading = writable(false);
+  const isDropdownOpen = writable(false);
 
-  export let title;
-  export let by;
-  export let notPlayingSomethingText;
-
-  const fetchNowPlayingData = async () => {
+  async function fetchNowPlayingData() {
+    isLoading.set(true);
     try {
       const response = await fetch(`/api/lastfmnowlistening.json`);
+      if (!response.ok) {
+        throw new Error(`HTTP error ${response.status}`);
+      }
       const data = await response.json();
-      nowPlaying.set(data.recenttracks.track[0]);
+      nowPlaying.set(data);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("Error fetching now playing data:", error);
+      nowPlaying.set({ IsUserListeningToSomething: false });
     } finally {
       isLoading.set(false);
     }
-  };
+  }
+
+  function handleButtonClick() {
+    if ($isDropdownOpen) {
+      isDropdownOpen.set(false);
+    } else {
+      fetchNowPlayingData();
+      isDropdownOpen.set(true);
+    }
+  }
+
+  function handleKeyDown(event) {
+    if (event.key === "Enter" || event.key === " ") {
+      handleButtonClick();
+    }
+  }
 </script>
 
-<div class="position-fixed bottom-0 end-0" style="z-index: 7;">
-  <div class="collapse" id="nowPlayingPopup">
+<div class="fixed bottom-0 right-0 z-10">
+  <div tabindex="0" role="button" class="btn mb-4 mr-4" on:click={handleButtonClick} on:keydown={handleKeyDown}>Click</div>
+  {#if $isDropdownOpen}
     {#if $isLoading}
-      <div class="pm-3 mx-3 my-2 card position-sticky top-100 start-100">
-        <div class="card-body">
-          <div class="spinner-border" role="status">
-            <span class="visually-hidden">Loading...</span>
-          </div>
-        </div>
+      <div tabindex="-1" class="dropdown-content absolute bottom-full right-0 transform -translate-y-2 z-10 mr-4 bg-neutral text-neutral-content p-4">
+        <span class="loading loading-spinner loading-lg"></span>
       </div>
-    {:else if $nowPlaying && $nowPlaying["@attr"] && $nowPlaying["@attr"].nowplaying === "true"}
-      <div class="pm-3 mx-3 my-2 card position-sticky top-100 start-100">
-        <div class="row g-0">
-          <div class="col-4">
-            <img src={$nowPlaying.image[3]["#text"]} class="img-fluid rounded-start img-cover" draggable="false" alt="Album Art" width="150" />
-          </div>
-          <div class="col-8">
+    {:else if $nowPlaying && $nowPlaying.IsUserListeningToSomething}
+      <div tabindex="-1" class="dropdown-content absolute bottom-full right-0 transform -translate-y-2 z-10 bg-neutral text-neutral-content mr-4">
+        <div class="w-96">
+          <div class="card">
             <div class="card-body">
-              <h6 class="card-title">{title}</h6>
-              <p class="card-text">
-                <b>
-                  <a class="link-body-emphasis link-offset-2 link-underline-opacity-0 link-underline-opacity-75-hover" href={$nowPlaying.url}>
-                    {$nowPlaying.name}
-                  </a>
-                </b>
-              </p>
-              <p class="card-text text-body-secondary">
-                {by}
-                <b>{$nowPlaying.artist["#text"]}</b>
-              </p>
+              <h2 class="card-title">{t("nowPlaying.title")}</h2>
+              <div class="flex items-center">
+                <figure class="mr-4 w-2/5">
+                  <img src={$nowPlaying.NowPlayingAlbumArt} alt="Album Art" class="" />
+                </figure>
+                <div class="min-w-0 flex-auto space-y-1 font-semibold">
+                  <b class="text-lg">
+                    <a class="link" href={$nowPlaying.NowPlayingUrl}>
+                      {$nowPlaying.NowPlayingName}
+                    </a>
+                  </b>
+                  <br />
+                  <b>{$nowPlaying.NowPlayingArtist}</b>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     {:else}
-      <div class="pm-3 mx-3 my-2 card position-sticky top-100 start-100" style="width: 18rem;">
-        <div class="card-body">{notPlayingSomethingText}</div>
+      <div tabindex="-1" class="dropdown-content absolute bottom-full right-0 transform -translate-y-2 z-10 bg-neutral text-neutral-content mr-4 w-64">
+        <div class="card-body">{t("nowPlaying.notPlayingSomethingText")}</div>
       </div>
     {/if}
-  </div>
-  <p>
-    <button
-      on:click={fetchNowPlayingData}
-      class="position-sticky top-100 start-100 pm-3 mx-3 btn btn-light"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#nowPlayingPopup"
-      aria-expanded="false"
-      aria-controls="nowPlayingPopup"
-    >
-      <i class="bi bi-music-note"></i>
-    </button>
-  </p>
+  {/if}
 </div>

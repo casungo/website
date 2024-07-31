@@ -2,25 +2,45 @@ import { defineConfig, envField } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 import cloudflare from "@astrojs/cloudflare";
 import svelte from "@astrojs/svelte";
+import tailwind from "@astrojs/tailwind";
+import icon from "astro-icon";
 import db from "@astrojs/db";
+import i18n from "@astrolicious/i18n";
 
 // https://astro.build/config
 export default defineConfig({
   site: "https://casungo.top",
   prefetch: true,
-  integrations: [sitemap(), svelte(), db()],
+  integrations: [
+    icon({
+      include: {
+        "material-symbols": ["translate-rounded", "sunny-rounded"],
+        "fluent-emoji": ["sparkles"],
+        "line-md": ["sunny-filled-loop", "moon-loop"],
+      },
+    }),
+    i18n({
+      defaultLocale: "en",
+      locales: ["en", "it"],
+      client: {
+        data: true,
+        paths: true,
+        translations: true,
+      },
+    }),
+    sitemap(),
+    svelte(),
+    db(),
+    tailwind(),
+  ],
   output: "hybrid",
   adapter: cloudflare({
     imageService: "compile",
   }),
   vite: {
     ssr: {
-      external: ["node:buffer", "node:path", "node:fs", "node:os"],
+      external: ["buffer", "path", "fs", "os", "crypto", "async_hooks"].map((i) => `node:${i}`),
     },
-  },
-  i18n: {
-    defaultLocale: "it",
-    locales: ["en", "it"],
   },
   experimental: {
     env: {

@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .navbar-brand {
   font-family: "Poppins"
 }
@@ -35,27 +39,4 @@
 .divider[text-position="right"]:after,
 .divider[text-position="left"]:before {
   content: none;
-}
-
-.pswp-gallery.centered {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.gallery-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-}
-
-.image-wrapper {
-  flex: 0 0 auto;
-}
-
-.image-wrapper img {
-  object-fit: contain;
-  max-width: 100%;
-  max-height: 100%;
 }

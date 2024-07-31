@@ -1,0 +1,90 @@
+{
+  "navbar": {
+    "home": "Home",
+    "contact": "Contact Me",
+    "theme": {
+      "Emerald": "Emerald",
+      "Retro": "Retro",
+      "Corporate": "Corporate",
+      "Cyberpunk": "Cyberpunk",
+      "Coffee": "Coffee",
+      "Luxury": "Luxury",
+      "Black": "Black"
+    }
+  },
+  "intro": {
+    "title": "About Me",
+    "desc": "Hi, my name is Alessandro and I'm a guy passionate about design and programming. Below you'll find a section to contact me and another for projects I've contributed to or developed."
+  },
+  "contact": {
+    "title": "Contact Me",
+    "desc": "Write me a message",
+    "or": "or",
+    "form": {
+      "name": "First and last name",
+      "namePlaceholder": "Enter first and last name",
+      "email": "Email",
+      "emailPlaceholder": "Enter email address",
+      "message": "Message",
+      "messagePlaceholder": "Enter your message",
+      "send": "Send"
+    }
+  },
+  "projects": {
+    "title": "My Projects",
+    "cards": {
+      "website": {
+        "title": "This website",
+        "desc": "I created this website using Astro, Bootstrap & Cloudflare.",
+        "btnText": "Check out the source code!"
+      },
+      "sedbot": {
+        "title": "@sedbot Telegram bot",
+        "desc": "I created this Telegram bot to mimic the function that sed provides in Unix terminals.",
+        "btnText": "Try @sedbot"
+      },
+      "fedora33": {
+        "title": "Fedora 33 Wallpaper",
+        "desc": "I contributed to the development of the default Fedora 33 wallpaper that is shown on every machine with a fresh installation of the operating system!",
+        "btnText": "View the wallpaper!"
+      },
+      "metaspark": {
+        "title": "Instagram Filter",
+        "desc": "I created some Instagram filters with Meta Spark. So far my most successful filter has 860K+ impressions and 540K+ opens with 14K+ shares.",
+        "btnText": "Try my filter!"
+      },
+      "rocketassault": {
+        "title": "Rocket Assault",
+        "desc": "I translated more than 600 words for this game. The game feels like Rocket League and speedrunning combined, really challenging.",
+        "btnText": "Buy Rocket Assault!"
+      },
+      "astrostarlight": {
+        "title": "Astro and starlight",
+        "desc": "I'm actively translating the documentation for Astro, the framework I'm currently using to build this site, and Starlight, a tool for creating a documentation site for any product, leveraging the power of Astro.",
+        "btnText": "Read the documentation"
+      },
+      "carsteroids": {
+        "title": "Carsteroids",
+        "desc": "I translated more than 3,500 words for this game. A really well-made top-down shooter.",
+        "btnText": "Play CARSTEROIDS!"
+      },
+      "1chance": {
+        "title": "1 Chance",
+        "desc": "I translated more than 440 words for this game. Try it, it's free!",
+        "btnText": "Play 1 Chance!"
+      },
+      "niagara": {
+        "title": "Niagara Launcher",
+        "desc": "I translated more than 4,500 words for this app. I use this launcher daily and recommend it to everyone.",
+        "btnText": "Try Niagara Launcher"
+      }
+    }
+  },
+  "footer": {
+    "text": "This site is powered by Astro, Bootstrap & Cloudflare."
+  },
+  "nowPlaying": {
+    "title": "Alessandro is listening to",
+    "notPlayingSomethingText": "Normally you should see what I'm listening to on Spotify in real-time here, but now I'm not listening to anything :)"
+  }
+}

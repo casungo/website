@@ -1,0 +1,90 @@
+---
+export const prerender = false;
+
+import { t } from "i18n:astro";
+
+import Default from "@layouts/Default.astro";
+
+import Navbar from "@components/Navbar.astro";
+import Footer from "@components/Footer.astro";
+import Card from "@components/Card.astro";
+
+import Alert from "@components/Alert.svelte";
+import NowPlaying from "@components/NowPlaying.svelte";
+
+import { db, ContactForm } from "astro:db";
+if (Astro.request.method === "POST") {
+  const formData = await Astro.request.formData();
+  const name = formData.get("name");
+  const email = formData.get("email");
+  const special = formData.get("special");
+  const message = formData.get("message");
+  const from = Astro.currentLocale;
+  if (!special) {
+    if (typeof name === "string" && typeof email === "string" && typeof message === "string") {
+      await db.insert(ContactForm).values({ name, email, message, from });
+    }
+  }
+}
+---
+
+<script>
+  const tx = document.getElementsByTagName("textarea");
+  for (let i = 0; i < tx.length; i++) {
+    tx[i].setAttribute("style", "height:" + tx[i].scrollHeight + "px;overflow-y:hidden;");
+    tx[i].addEventListener("input", OnInput, false);
+  }
+
+  function OnInput() {
+    this.style.height = "auto";
+    this.style.height = this.scrollHeight + "px";
+  }
+</script>
+
+<Default title="Pagina iniziale">
+  <Alert client:load />
+
+  <Card title={t("contact.desc")}>
+    <form method="POST">
+      <div class="flex flex-wrap">
+        <div class="w-full sm:w-1/2">
+          <div class="m-2">
+            <label class="form-control w-full">
+              <div class="label">
+                <span class="label-text">{t("contact.form.name")}</span>
+              </div>
+              <input type="text" placeholder={t("contact.form.namePlaceholder")} class="input input-bordered w-full" />
+            </label>
+          </div>
+        </div>
+        <div class="w-full sm:w-1/2">
+          <div class="m-2">
+            <label class="form-control w-full">
+              <div class="label">
+                <span class="label-text">{t("contact.form.email")}</span>
+              </div>
+              <input type="email" placeholder={t("contact.form.emailPlaceholder")} class="input input-bordered w-full" />
+            </label>
+          </div>
+        </div>
+        <label for="special" class="sr-only">
+          <input id="special" name="special" class="hidden" />
+        </label>
+        <div class="w-full">
+          <div class="m-2">
+            <label class="form-control w-full">
+              <div class="label">
+                <span class="label-text">{t("contact.form.message")}</span>
+              </div>
+              <textarea placeholder={t("contact.form.messagePlaceholder")} class="textarea textarea-bordered w-full"></textarea>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="text-center my-2">
+        <button type="submit" class="btn btn-primary btn-lg">{t("contact.form.send")}</button>
+      </div>
+    </form>
+  </Card>
+  <NowPlaying client:idle />
+</Default>

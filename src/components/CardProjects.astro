@@ -3,17 +3,15 @@ import { Image } from "astro:assets";
 const { img, title, desc, btnLink, btnIcon, btnText } = Astro.props;
 ---
 
-<div class="col">
-  <div class="card h-100">
-    <div class="ratio ratio-16x9">
-      <Image src={img} class="card-img-top" draggable="false" alt={title} />
-    </div>
-    <div class="card-body">
-      <p class="card-title fs-5 fw-bold">{title}</p>
-      <p class="card-text">{desc}</p>
-    </div>
-    <div class="card-footer">
-      <a href={btnLink} class="btn btn-outline-light"><i class={btnIcon}></i> {btnText}</a>
+<div class="card h-full bg-base-200 m-2">
+  <figure>
+    <Image src={img} class="card-img-top aspect-video" draggable="false" alt={title} />
+  </figure>
+  <div class="card-body">
+    <p class="card-title">{title}</p>
+    <p class="card-text">{desc}</p>
+    <div class="card-actions justify-end">
+      <a href={btnLink} class="btn btn-outline text-wrap"><i class={btnIcon}></i> {btnText}</a>
     </div>
   </div>
 </div>

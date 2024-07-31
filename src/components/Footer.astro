@@ -1,21 +1,12 @@
 ---
-import { getRelativeLocaleUrl } from "astro:i18n";
-
-const { text } = Astro.props;
-
-// const enHow = getRelativeLocaleUrl("en", "how");
-// const itHow = getRelativeLocaleUrl("it", "how");
+import { t } from "i18n:astro";
 ---
 
-<footer>
-  <div class="card mx-auto my-3 border border-secondary">
-    <div class="card-body">
-      <p class="card-text">
-        {text}
-        <!-- <a href="https://astro.build"><img src="https://astro.badg.es/v2/built-with-astro/tiny.svg" alt="Built with Astro" width="120" height="20" /></a> -->
-        <!-- <a href={Astro.currentLocale == "en" ? enHow : itHow}> {Astro.currentLocale == "en" ? "Learn how this site works" : "Scopri come funziona questo sito"}</a>
-      -->
-      </p>
-    </div>
-  </div>
-</footer>
+<div class="m-2">
+  <footer class="footer footer-center bg-base-300 text-base-content p-4 rounded-box">
+    <aside>
+      <p>{t("footer.text")}</p>
+      <a href="https://astro.build"><img src="https://astro.badg.es/v2/built-with-astro/tiny.svg" alt="Built with Astro" width="120" height="20" /></a>
+    </aside>
+  </footer>
+</div>

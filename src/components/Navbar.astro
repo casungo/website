@@ -1,45 +1,63 @@
 ---
-import { getRelativeLocaleUrl } from "astro:i18n";
+import { getLocalePath } from "i18n:astro";
+import { Icon } from "astro-icon/components";
+import { t } from "i18n:astro";
 
-const { brand, home, translate } = Astro.props;
+import LanguageSelector from "@components/LanguageSelector.astro";
 
-const currentPathname = Astro.url.pathname;
-
-// const itHow = getRelativeLocaleUrl("it", "how");
-// const enHow = getRelativeLocaleUrl("en", "how");
-
-const itContact = getRelativeLocaleUrl("it", "contact");
-const enContact = getRelativeLocaleUrl("en", "contact");
-
-const itVersion = currentPathname.replace(/\/en(?:\/|$)/, "/");
-const enVersion = currentPathname.startsWith("/en") ? currentPathname : `/en${currentPathname}`;
+const homeLink = getLocalePath("/");
+const contact = getLocalePath("/contact");
 ---
 
-<nav class="navbar navbar-expand-md bg-body-secondary rounded my-3">
-  <div class="container-fluid">
-    <a class="navbar-brand me-2" href="../">{brand}</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse d-md-flex" id="navbar">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="../"><i class="bi bi-house"></i> {home}</a>
-        </li>
-        <!--<li class="nav-item">
-          <a class="nav-link" href={Astro.currentLocale == "en" ? enHow : itHow}><i class="bi bi-tools"></i> {Astro.currentLocale == "en" ? "How this site works" : "Come funziona questo sito"}</a>
-        </li> -->
-        <li class="nav-item">
-          <a class="nav-link" href={Astro.currentLocale == "en" ? enContact : itContact}><i class="bi bi-envelope"></i> {Astro.currentLocale == "en" ? "Contact me" : "Contattami"}</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"><i class="bi bi-translate"></i> {translate}</a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href={itVersion}> Italiano</a></li>
-            <li><a class="dropdown-item" href={enVersion}> English</a></li>
-          </ul>
-        </li>
+<div class="m-2">
+  <div class="navbar bg-primary rounded-box">
+    <div class="navbar-start">
+      <div class="dropdown">
+        <div tabindex="0" role="button" class="btn btn-ghost sm:hidden">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"></path>
+          </svg>
+        </div>
+        <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+          <li><a href={homeLink}>{t("navbar.home")}</a></li>
+          <li><a href={contact}><i class="bi bi-envelope"></i> {t("navbar.contact")}</a></li>
+        </ul>
+      </div>
+      <a class="btn btn-ghost text-xl" href={homeLink}>casungo</a>
+    </div>
+    <div class="navbar-center hidden sm:flex">
+      <ul class="menu menu-horizontal px-1">
+        <li><a href={homeLink}>{t("navbar.home")}</a></li>
+        <li><a href={contact}><i class="bi bi-envelope"></i> {t("navbar.contact")}</a></li>
       </ul>
     </div>
+    <div class="navbar-end">
+      <div class="dropdown dropdown-end">
+        <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+          <div class="indicator">
+            <Icon name="material-symbols:translate-rounded" />
+          </div>
+        </div>
+        <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+          <LanguageSelector />
+        </ul>
+      </div>
+      <select data-choose-theme class="select select-bordered">
+        <option value="emerald">{t("navbar.theme.Emerald")}</option>
+        <option value="retro">{t("navbar.theme.Retro")}</option>
+        <option value="corporate">{t("navbar.theme.Corporate")}</option>
+        <option value="cyberpunk">{t("navbar.theme.Cyberpunk")}</option>
+        <option value="coffee">{t("navbar.theme.Coffee")}</option>
+        <option value="luxury">{t("navbar.theme.Luxury")}</option>
+        <option value="black">{t("navbar.theme.Black")}</option>
+      </select>
+    </div>
   </div>
-</nav>
+
+  <script>
+    // Ensure theme-change initialization
+    import("theme-change").then(({ themeChange }) => {
+      themeChange();
+    });
+  </script>
+</div>

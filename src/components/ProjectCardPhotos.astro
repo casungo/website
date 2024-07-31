@@ -19,20 +19,20 @@ function formatDate(date: number | Date) {
 }
 ---
 
-<div class="col py-3">
-  <div class="card h-100 shadow">
-    <div class="ratio ratio-16x9">
-      <Image src={data.heroImage} alt={data.title} class="card-img-top" draggable="false" />
+<div class="col m-3">
+  <div class="card bg-base-300 shadow">
+    <div class="ratio-video">
+      <Image src={data.heroImage} alt={data.title} draggable="false" />
     </div>
     <div class="card-body">
       <h5 class="card-title">{data.title}</h5>
-      <h6 set:html={data.description} class="card-subtitle mb-2 text-body-secondary" />
-      <p class="card-text"><small class="text-body-secondary"> Scattate {formatDate(data.pubDate)}</small></p>
-    </div>
-    <div class="card-footer">
-      <a href={`/projects/${slug}`} class="btn btn-outline-primary">
-        <i class="bi bi-camera"></i> Vai alle foto!
-      </a>
+      <div class="badge badge-secondary">Scattate {formatDate(data.pubDate)}</div>
+      <h6 set:html={data.description} class="card-subtitle text-body-secondary" />
+      <div class="card-actions justify-end">
+        <a href={`/projects/${slug}`} class="btn btn-primary">
+          <i class="bi bi-camera"></i> Vai alle foto!
+        </a>
+      </div>
     </div>
   </div>
 </div>

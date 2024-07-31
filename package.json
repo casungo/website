@@ -3,20 +3,33 @@
   "type": "module",
   "version": "1.1.0",
   "scripts": {
-    "dev": "astro sync && astro dev",
+    "dev": "astro dev",
     "build": "astro sync && astro build --remote",
     "cloudflarePreview": "astro build --remote && wrangler pages dev ./dist --port 9001",
-    "upgradeEverything": "pnpm dlx @astrojs/upgrade && pnpm update"
+    "upgradeEverything": "pnpm dlx @astrojs/upgrade && pnpm up",
+    "check": "astro check"
   },
   "dependencies": {
+    "@astrojs/check": "^0.8.3",
     "@astrojs/cloudflare": "^11.0.1",
-    "@astrojs/db": "0.11.7",
+    "@astrojs/db": "0.12.0",
     "@astrojs/sitemap": "^3.1.6",
-    "@astrojs/svelte": "^5.6.0",
-    "astro": "^4.11.5",
+    "@astrojs/svelte": "^5.7.0",
+    "@astrojs/tailwind": "^5.1.0",
+    "@astrolicious/i18n": "^0.4.3",
+    "@iconify-json/fluent-emoji": "^1.1.18",
+    "@iconify-json/line-md": "^1.1.38",
+    "@iconify-json/material-symbols": "^1.1.85",
+    "astro": "^4.12.3",
+    "astro-icon": "^1.1.0",
+    "daisyui": "^4.12.10",
+    "i18next": "^23.12.2",
     "photoswipe": "^5.4.4",
     "sharp": "^0.33.4",
     "svelte": "^4.2.18",
-    "wrangler": "^3.63.2"
+    "tailwindcss": "^3.4.7",
+    "theme-change": "^2.5.0",
+    "typescript": "^5.5.4",
+    "wrangler": "^3.67.1"
   }
 }

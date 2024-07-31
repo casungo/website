@@ -1,28 +1,46 @@
 ---
 import "@css/styles.css";
 
+import Navbar from "@components/Navbar.astro";
+import Footer from "@components/Footer.astro";
+
+import I18nClient from "@astrolicious/i18n/components/I18nClient.astro";
+import I18nHead from "@astrolicious/i18n/components/I18nHead.astro";
+import { getHtmlAttrs } from "i18n:astro";
+
 const { lang, title, description } = Astro.props;
 ---
 
 <!doctype html>
-<html lang={lang}>
+<html {...getHtmlAttrs()}>
   <head>
+    <script is:inline>
+      // Prevent FART effect.
+      if (localStorage.getItem("theme") === null) {
+        document.documentElement.setAttribute("data-theme", "emerald");
+      } else {
+        document.documentElement.setAttribute("data-theme", localStorage.getItem("theme"));
+      }
+    </script>
+    <script>
+      import { themeChange } from "theme-change";
+      themeChange(); // Initialize theme-change
+    </script>
     <meta charset="UTF-8" />
-    <script src="@js/colorModes.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="../../favicon.ico" type="image/x-icon" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <I18nClient />
+    <I18nHead />
   </head>
   <body>
-    <div class="container">
+    <Navbar />
+    <div class="container mx-auto">
       <slot />
     </div>
+    <Footer />
   </body>
 </html>

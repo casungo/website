@@ -2,10 +2,10 @@
 const { title } = Astro.props;
 ---
 
-<div class="card mb-3 mx-3">
-  <h2 class="card-header">{title}</h2>
+<div class="card m-6 bg-base-300">
   <div class="card-body">
-    <div class="row row-cols-1 row-cols-lg-3 row-cols-md-2 g-4">
+    <h2 class="card-title">{title}</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 m-2">
       <slot />
     </div>
   </div>
