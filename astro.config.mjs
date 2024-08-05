@@ -7,35 +7,30 @@ import icon from "astro-icon";
 import db from "@astrojs/db";
 import i18n from "@astrolicious/i18n";
 
+import auth from "auth-astro";
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://casungo.top",
   prefetch: true,
-  integrations: [
-    icon({
-      include: {
-        "material-symbols": ["translate-rounded", "sunny-rounded"],
-        "fluent-emoji": ["sparkles"],
-        "line-md": ["sunny-filled-loop", "moon-loop"],
-      },
-    }),
-    i18n({
-      defaultLocale: "en",
-      locales: ["en", "it"],
-      client: {
-        data: true,
-        paths: true,
-        translations: true,
-      },
-    }),
-    sitemap(),
-    svelte(),
-    db(),
-    tailwind(),
-  ],
+  integrations: [icon({
+    include: {
+      "material-symbols": ["translate-rounded", "sunny-rounded"],
+      "fluent-emoji": ["sparkles"],
+      "line-md": ["sunny-filled-loop", "moon-loop"]
+    }
+  }), i18n({
+    defaultLocale: "en",
+    locales: ["en", "it"],
+    client: {
+      data: true,
+      paths: true,
+      translations: true
+    }
+  }), sitemap(), svelte(), db(), tailwind(), auth()],
   output: "hybrid",
   adapter: cloudflare({
-    imageService: "compile",
+    imageService: "compile"
   }),
   vite: {
     ssr: {
@@ -48,9 +43,9 @@ export default defineConfig({
         LASTFM_API_KEY: envField.string({
           context: "server",
           access: "secret",
-          optional: false,
-        }),
-      },
-    },
-  },
+          optional: false
+        })
+      }
+    }
+  }
 });

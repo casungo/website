@@ -10,18 +10,21 @@
     "check": "astro check"
   },
   "dependencies": {
-    "@astrojs/check": "^0.8.3",
-    "@astrojs/cloudflare": "^11.0.1",
+    "@astrojs/check": "^0.9.1",
+    "@astrojs/cloudflare": "^11.0.4",
     "@astrojs/db": "0.12.0",
     "@astrojs/sitemap": "^3.1.6",
     "@astrojs/svelte": "^5.7.0",
     "@astrojs/tailwind": "^5.1.0",
     "@astrolicious/i18n": "^0.4.3",
-    "@iconify-json/fluent-emoji": "^1.1.18",
-    "@iconify-json/line-md": "^1.1.38",
-    "@iconify-json/material-symbols": "^1.1.85",
-    "astro": "^4.12.3",
+    "@auth/core": "^0.32.0",
+    "@iconify-json/fluent-emoji": "^1.1.19",
+    "@iconify-json/line-md": "^1.1.39",
+    "@iconify-json/material-symbols": "^1.1.86",
+    "astro": "^4.13.1",
     "astro-icon": "^1.1.0",
+    "auth-astro": "^4.1.2",
+    "chart.js": "^4.4.3",
     "daisyui": "^4.12.10",
     "i18next": "^23.12.2",
     "photoswipe": "^5.4.4",
@@ -30,6 +33,6 @@
     "tailwindcss": "^3.4.7",
     "theme-change": "^2.5.0",
     "typescript": "^5.5.4",
-    "wrangler": "^3.67.1"
+    "wrangler": "^3.68.0"
   }
 }
