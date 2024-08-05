@@ -4,47 +4,45 @@
 
   // State variables
   let totalVolume = 100;
-  let ingredients = {
-    vg: 48.5,
-    pg: 33.5,
-    aroma: 15,
-    nicotina: 3,
-  };
-  let showAdvanced = false;
+  let nicotinaPercentage = 10;
   let chart;
 
-  const defaultValues = { ...ingredients };
-
   // Reactive declaration for results
-  $: results = calculateMix(totalVolume, ingredients);
+  $: results = calculateMix(totalVolume, nicotinaPercentage);
 
-  function calculateMix(volume, { vg, pg, aroma, nicotina }) {
-    const total = vg + pg + aroma + nicotina;
-    const factor = 100 / total;
-    return Object.fromEntries(Object.entries({ vg, pg, aroma, nicotina }).map(([key, value]) => [key, ((volume * value * factor) / 100).toFixed(2)]));
+  function calculateMix(volume, nicotina) {
+    let vg, pg, aroma;
+
+    if (nicotina === 0) {
+      vg = 50;
+      pg = 35;
+      aroma = 15;
+    } else {
+      vg = Math.max(0, 50 - nicotina / 2);
+      pg = Math.max(0, 35 - nicotina / 2);
+      aroma = 15;
+    }
+
+    const factor = volume / 100;
+
+    return {
+      vg: Math.round(vg * factor * 100) / 100,
+      pg: Math.round(pg * factor * 100) / 100,
+      aroma: Math.round(aroma * factor * 100) / 100,
+      nicotina: Math.round(nicotina * factor * 100) / 100,
+    };
   }
 
-  function resetSlider(ingredient) {
-    ingredients[ingredient] = defaultValues[ingredient];
-  }
-
-  function handleInputClick(ingredient) {
-    const newValue = prompt(`Inserisci il nuovo valore per ${ingredient}:`);
+  function handleInputClick(type) {
+    const newValue = prompt(`Inserisci il nuovo valore per ${type}:`);
     if (newValue !== null) {
       const normalizedValue = newValue.replace(",", ".");
       if (!isNaN(normalizedValue)) {
         const floatValue = parseFloat(normalizedValue);
-        const limits = {
-          volume: [10, 300],
-          nicotina: [0, 20],
-          vg: [0, 100],
-          pg: [0, 100],
-          aroma: [0, 100],
-        };
-        if (ingredient === "volume") {
-          totalVolume = Math.min(Math.max(floatValue, ...limits[ingredient]));
-        } else {
-          ingredients[ingredient] = Math.min(Math.max(floatValue, ...limits[ingredient]));
+        if (type === "volume") {
+          totalVolume = Math.min(Math.max(floatValue, 3, 100));
+        } else if (type === "nicotina") {
+          nicotinaPercentage = Math.min(Math.max(floatValue, 0, 20));
         }
       } else {
         alert("Per favore, inserisci un numero valido.");
@@ -95,48 +93,26 @@
           <button type="button" class="text-2xl font-bold underline btn-ghost btn btn-sm p-0" on:click={() => handleInputClick("volume")}>{totalVolume}</button> ml
         </span>
       </label>
-      <input type="range" id="totalVolume" min="10" max="300" bind:value={totalVolume} class="range range-primary" step="10" />
+      <input type="range" id="totalVolume" min="0" max="200" bind:value={totalVolume} class="range range-primary" step="10" />
     </div>
 
     <div class="form-control mt-4">
       <label class="label" for="nicotinaPercentage">
         <span class="label-text">
           Percentuale nicotina:
-          <button type="button" class="text-2xl font-bold underline btn-ghost btn btn-sm p-0" on:click={() => handleInputClick("nicotina")}>{ingredients.nicotina}</button>%
+          <button type="button" class="text-2xl font-bold underline btn-ghost btn btn-sm p-0" on:click={() => handleInputClick("nicotina")}>{nicotinaPercentage}</button>%
         </span>
-        <button class="btn btn-xs" on:click={() => resetSlider("nicotina")}>Reset</button>
       </label>
-      <input type="range" id="nicotinaPercentage" min="0" max="20" bind:value={ingredients.nicotina} class="range" step="0.5" />
+      <input type="range" id="nicotinaPercentage" min="0" max="20" bind:value={nicotinaPercentage} class="range" step="0.5" />
     </div>
-
-    <button class="btn btn-secondary mt-4" on:click={() => (showAdvanced = !showAdvanced)}>
-      {showAdvanced ? "Nascondi Impostazioni Avanzate" : "Mostra Impostazioni Avanzate"}
-    </button>
-
-    {#if showAdvanced}
-      <div class="mt-4 p-4 bg-base-200 rounded-lg">
-        <h3 class="font-bold mb-2">Impostazioni Avanzate</h3>
-        {#each ["vg", "pg", "aroma"] as ingredient}
-          <div class="form-control mt-2">
-            <label class="label" for="{ingredient}Percentage">
-              <span class="label-text">
-                Percentuale {ingredient.toUpperCase()}:
-                <button type="button" class="text-2xl font-bold underline btn-ghost btn btn-sm p-0" on:click={() => handleInputClick(ingredient)}>{ingredients[ingredient]}</button>%
-              </span>
-              <button class="btn btn-xs" on:click={() => resetSlider(ingredient)}>Reset</button>
-            </label>
-            <input type="range" id="{ingredient}Percentage" min="0" max="100" bind:value={ingredients[ingredient]} class="range" step="0.5" />
-          </div>
-        {/each}
-      </div>
-    {/if}
 
     <div class="mt-6 p-4 bg-primary text-primary-content rounded-lg">
       <h3 class="font-bold text-xl mb-2">Risultati:</h3>
       <ul class="text-lg">
-        {#each Object.entries(results) as [ingredient, value]}
-          <li>{ingredient === "vg" ? "Glicerina Vegetale (VG)" : ingredient === "pg" ? "Glicole Propilenico (PG)" : ingredient.charAt(0).toUpperCase() + ingredient.slice(1)}: {value} ml</li>
-        {/each}
+        <li>Glicerina Vegetale (VG): {results.vg} ml</li>
+        <li>Glicole Propilenico (PG): {results.pg} ml</li>
+        <li>Aroma: {results.aroma} ml</li>
+        <li>Nicotina: {results.nicotina} ml</li>
       </ul>
     </div>
 
