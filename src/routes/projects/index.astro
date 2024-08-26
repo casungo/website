@@ -4,11 +4,11 @@ import { getCollection } from "astro:content";
 import Default from "@layouts/Default.astro";
 import ProjectCardPhotos from "@components/ProjectCardPhotos.astro";
 
-const projects = (await getCollection("projects")).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const projects = (await getCollection("projects")).sort((a: { data: { pubDate: number; }; }, b: { data: { pubDate: number; }; }) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
 <Default>
-  <div class="row m-3 row-cols-1 row-cols-md-2 row-cols-lg-3">
-    {projects.map((project) => <ProjectCardPhotos project={project} />)}
+  <div class="row m-3 row-cols-1 row-cols-md-2 row-cols-lg-3 lg:max-2xl:w-2/4 mx-auto">
+    {projects.map((project: any) => <ProjectCardPhotos project={project} />)}
   </div>
 </Default>
