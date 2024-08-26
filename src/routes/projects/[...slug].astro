@@ -30,6 +30,8 @@ function formatDate(date: number | Date) {
   } as const;
   return new Intl.DateTimeFormat("it-IT", options).format(date);
 }
+
+const absoluteImageUrl = new URL(data.heroImage.src, Astro.site).toString();
 ---
 
 <Default>
@@ -39,7 +41,7 @@ function formatDate(date: number | Date) {
       basic: {
         title: data.title,
         type: "website",
-        image: data.heroImage.src,
+        image: absoluteImageUrl,
       },
       optional: {
         description: data.description,
