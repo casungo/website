@@ -1,0 +1,58 @@
+---
+import { t } from "i18n:astro";
+import { Icon } from "astro-icon/components";
+import { getSession } from "auth-astro/server";
+
+const session = await getSession(Astro.request);
+---
+
+<script>
+  const { signIn, signOut } = await import("auth-astro/client");
+  const loginButton = document.querySelector("#login") as HTMLElement;
+  const logoutButton = document.querySelector("#logout") as HTMLElement;
+
+  loginButton.onclick = () => signIn("google");
+  logoutButton.onclick = () => signOut();
+
+  // Check if the user just logged in
+  if (new URLSearchParams(window.location.search).get("auth") === "success") {
+    checkAndCreateUser();
+  }
+
+  async function checkAndCreateUser() {
+    const response = await fetch("/api/check-user", { method: "POST" });
+    const data = await response.json();
+    if (data.success) {
+      console.log("User checked/created:", data.user);
+      // TODO: Update the UI or do something with the user data here
+      // Remove the 'auth' query parameter from the URL
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }
+</script>
+
+{
+  session ? (
+    <>
+      <button id="login" class="hidden">
+        {t("loginWithGoogle")}
+      </button>
+      <button id="logout" class="btn btn-primary btn-md">
+        {t("logout")}
+      </button>
+    </>
+  ) : (
+    <>
+      <button id="login" class="btn btn-primary flex items-center">
+        <div class="text-xl">
+          <Icon name="bxl:google" />
+        </div>
+        <span class="sm:hidden">{t("login")}</span>
+        <span class="hidden sm:inline">{t("loginWithGoogle")}</span>
+      </button>
+      <button id="logout" class="hidden">
+        {t("logout")}
+      </button>
+    </>
+  )
+}

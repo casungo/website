@@ -3,14 +3,15 @@ import { getLocalePath } from "i18n:astro";
 import { Icon } from "astro-icon/components";
 import { t } from "i18n:astro";
 
-import LanguageSelector from "@components/LanguageSelector.astro";
+import LanguageSelector from "@components/navbar/LanguageSelector.astro";
+import ThemeSelector from "@components/navbar/ThemeSelector.svelte";
 
 const homeLink = getLocalePath("/");
 const contact = getLocalePath("/contact");
 ---
 
 <div class="m-2">
-  <div class="navbar bg-primary rounded-box">
+  <div class="navbar bg-base-300 rounded-box">
     <div class="navbar-start">
       <div class="dropdown">
         <div tabindex="0" role="button" class="btn btn-ghost sm:hidden">
@@ -32,6 +33,7 @@ const contact = getLocalePath("/contact");
       </ul>
     </div>
     <div class="navbar-end">
+      <ThemeSelector client:load/>
       <div class="dropdown dropdown-end">
         <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
           <div class="indicator">
@@ -42,15 +44,6 @@ const contact = getLocalePath("/contact");
           <LanguageSelector />
         </ul>
       </div>
-      <select data-choose-theme class="select select-bordered">
-        <option value="emerald">{t("navbar.theme.Emerald")}</option>
-        <option value="retro">{t("navbar.theme.Retro")}</option>
-        <option value="corporate">{t("navbar.theme.Corporate")}</option>
-        <option value="cyberpunk">{t("navbar.theme.Cyberpunk")}</option>
-        <option value="coffee">{t("navbar.theme.Coffee")}</option>
-        <option value="luxury">{t("navbar.theme.Luxury")}</option>
-        <option value="black">{t("navbar.theme.Black")}</option>
-      </select>
     </div>
   </div>
 

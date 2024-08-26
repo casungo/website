@@ -16,9 +16,7 @@ export default defineConfig({
   integrations: [
     icon({
       include: {
-        "material-symbols": ["translate-rounded", "sunny-rounded"],
-        "fluent-emoji": ["sparkles"],
-        "line-md": ["sunny-filled-loop", "moon-loop"],
+        "material-symbols": ["translate-rounded", "sunny-rounded", "arrow-back", "dark-mode-rounded", "light-mode-rounded"],
       },
     }),
     i18n({

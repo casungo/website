@@ -3,7 +3,7 @@ import type { APIRoute } from "astro";
 const robotsTxt = `
 User-agent: *
 Allow: /
-Disallow: /projects/
+Disallow: /projects
 Disallow: /svapo
 
 Sitemap: ${new URL("sitemap-index.xml", import.meta.env.SITE).href}
