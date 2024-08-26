@@ -35,6 +35,7 @@ const { lang, title, description } = Astro.props;
     <title>{title}</title>
     <I18nClient />
     <I18nHead />
+    <slot name="head" />
   </head>
   <body>
     <Navbar />

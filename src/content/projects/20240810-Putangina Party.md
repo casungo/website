@@ -1,6 +1,6 @@
 ---
 title: Putangina Party
-description: Fotografie di <a class="link" href="https://www.instagram.com/casungo/">@casungo</a> e <a class="link" href="https://www.instagram.com/mattus.design/">@mattus.design</a>
+description: Fotografie di @casungo e @mattus.design
 pubDate: 2024-08-10
 credit: Fotografie di <a class="link" href="https://www.instagram.com/casungo/">@casungo</a> e <a class="link" href="https://www.instagram.com/mattus.design/">@mattus.design</a>
 heroImage: "@assets/20240810-Putangina Party/20240810-Putangina Party_hero.jpg"

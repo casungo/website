@@ -6,7 +6,6 @@ import tailwind from "@astrojs/tailwind";
 import icon from "astro-icon";
 import db from "@astrojs/db";
 import i18n from "@astrolicious/i18n";
-
 import auth from "auth-astro";
 
 // https://astro.build/config
