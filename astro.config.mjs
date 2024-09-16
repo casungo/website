@@ -50,12 +50,12 @@ export default defineConfig({
           access: "secret",
           optional: false,
         }),
-        AUTH_GOOGLE_ID: envField.string({
+        GOOGLE_CLIENT_ID: envField.string({
           context: "server",
           access: "secret",
           optional: false,
         }),
-        AUTH_GOOGLE_SECRET: envField.string({
+        GOOGLE_CLIENT_SECRET: envField.string({
           context: "server",
           access: "secret",
           optional: false,

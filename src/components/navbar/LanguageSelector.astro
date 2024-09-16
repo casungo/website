@@ -1,22 +1,24 @@
 ---
-import { switchLocalePath } from "i18n:astro";
-import { getLocale } from "i18n:astro";
+import { switchLocalePath, getLocale, t } from "i18n:astro";
+import type { Locale } from "i18n:astro";
 
 const locale = getLocale();
 
-const enPath = switchLocalePath("en");
-const itPath = switchLocalePath("it");
+const languages: { code: Locale; name: string }[] = [
+  { code: "en", name: "English" },
+  { code: "it", name: "Italiano" },
+];
 ---
 
-<li>
-  <a href={enPath} class={locale === "en" ? "active" : ""}>
-    <div class="badge badge-outline">en</div>
-    English
-  </a>
-</li>
-<li>
-  <a href={itPath} class={locale === "it" ? "active" : ""}>
-    <div class="badge badge-outline">it</div>
-    Italiano
-  </a>
-</li>
+<ul>
+  {
+    languages.map(({ code, name }) => (
+      <li>
+        <a href={switchLocalePath(code)} class={locale === code ? "active" : ""}>
+          <div class="badge badge-outline">{code}</div>
+          {name}
+        </a>
+      </li>
+    ))
+  }
+</ul>

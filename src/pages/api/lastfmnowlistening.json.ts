@@ -178,7 +178,7 @@ export const GET: APIRoute = async () => {
         },
       });
     }
-  } catch (error) {
+  } catch (error: any) {
     return new Response(JSON.stringify({ error: "Failed to fetch data", errorMessage: error.message }), {
       status: 500,
       headers: {
