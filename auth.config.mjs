@@ -1,14 +1,14 @@
 import Google from "@auth/core/providers/google";
 import { defineConfig } from "auth-astro";
-import { AUTH_GOOGLE_ID, AUTH_GOOGLE_SECRET, AUTH_SECRET, AUTH_TRUST_HOST } from "astro:env/server";
+import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, AUTH_SECRET, AUTH_TRUST_HOST } from "astro:env/server";
 
 export const Google_ID_func = () => {
-  const client = AUTH_GOOGLE_ID;
+  const client = GOOGLE_CLIENT_ID;
   return client;
 };
 
 export const Google_Secret_func = () => {
-  const client = AUTH_GOOGLE_SECRET;
+  const client = GOOGLE_CLIENT_SECRET;
   return client;
 };
 
