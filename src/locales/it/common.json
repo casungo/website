@@ -38,10 +38,10 @@
         "desc": "Ho realizzato questo sito web utlizzando Astro, Bootstrap & Cloudflare.",
         "btnText": "Controlla il codice sorgente!"
       },
-      "sedbot": {
-        "title": "@sedbot Telegram bot",
-        "desc": "Ho creato questo bot Telegram per imitare la funzione che sed fornisce nei terminali Unix.",
-        "btnText": "Prova @sedbot"
+      "briefmaker": {
+        "title": "Briefmaker",
+        "desc": "Sperimenta con brief di design generati dall'IA e interazioni in tempo reale con clienti virtuali per migliorare la tua esperienza lavorativa",
+        "btnText": "Vai al sito!"
       },
       "fedora33": {
         "title": "Fedora 33 Wallpaper",

@@ -15,7 +15,20 @@ export default defineConfig({
   integrations: [
     icon({
       include: {
-        "material-symbols": ["translate-rounded", "sunny-rounded", "arrow-back", "dark-mode-rounded", "light-mode-rounded"],
+        "material-symbols": [
+          "translate-rounded",
+          "sunny-rounded",
+          "arrow-back",
+          "dark-mode-rounded",
+          "light-mode-rounded",
+          "send-rounded",
+          "mail-outline-rounded",
+          "image-outline-rounded",
+          "ar-on-you-outline-rounded",
+          "stadia-controller-outline",
+          "edit-document-outline-rounded",
+        ],
+        bxl: ["instagram", "github", "play-store"],
       },
     }),
     i18n({

@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 const { img, title, desc, btnLink, btnIcon, btnText } = Astro.props;
+import { Icon } from "astro-icon/components";
 ---
 
 <div class="card h-full bg-base-200 m-2">
@@ -11,7 +12,7 @@ const { img, title, desc, btnLink, btnIcon, btnText } = Astro.props;
     <p class="card-title">{title}</p>
     <p class="card-text">{desc}</p>
     <div class="card-actions justify-end">
-      <a href={btnLink} class="btn btn-outline text-wrap"><i class={btnIcon}></i> {btnText}</a>
+      <a href={btnLink} class="btn btn-outline text-wrap"><Icon class="text-xl" name={btnIcon} /> {btnText}</a>
     </div>
   </div>
 </div>

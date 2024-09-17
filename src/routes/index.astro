@@ -1,6 +1,7 @@
 ---
 import { getLocalePath } from "i18n:astro";
 import { t, getLocale } from "i18n:astro";
+import { Icon } from "astro-icon/components";
 
 import Default from "@layouts/Default.astro";
 import Projects from "@layouts/Projects.astro";
@@ -18,7 +19,7 @@ import Fedora33 from "@images/Fedora 33 wallpaper.jpg";
 import MetaSpark from "@images/Meta Spark.jpg";
 import Niagara from "@images/Niagara.png";
 import RA from "@images/RA.jpg";
-import Sedbot from "@images/sedbot.jpg";
+import Briefmaker from "@images/briefmaker.png";
 import Webscreenshot from "@images/webscreenshot.png";
 import Astroimg from "@images/astro.jpg";
 
@@ -32,7 +33,7 @@ const currentLocale = getLocale();
   <Card title={t("intro.title")} desc={t("intro.desc")} />
   <Card title={t("contact.title")}>
     <div class="text-center">
-      <a class="btn btn-primary btn-lg" href={contact}><i class="bi bi-envelope"></i> {t("contact.desc")}</a>
+      <a class="btn btn-primary btn-lg" href={contact}><Icon class="text-2xl" name="material-symbols:send-rounded" /> {t("contact.desc")}</a>
       <div class="divider py-3">{t("contact.or")}</div>
       <Socials />
     </div>
@@ -44,16 +45,23 @@ const currentLocale = getLocale();
       desc={t("projects.cards.website.desc")}
       btnLink="https://github.com/casungo/website"
       btnText={t("projects.cards.website.btnText")}
-      btnIcon="bi bi-github"
+      btnIcon="bxl:github"
     />
-    <CardProjects img={Sedbot} title={t("projects.cards.sedbot.title")} desc={t("projects.cards.sedbot.desc")} btnLink="https://t.me/sedbot" btnText={t("projects.cards.sedbot.btnText")} btnIcon="bi bi-telegram" />
+    <CardProjects
+      img={Briefmaker}
+      title={t("projects.cards.briefmaker.title")}
+      desc={t("projects.cards.briefmaker.desc")}
+      btnLink="https://briefmakerapp.com/"
+      btnText={t("projects.cards.briefmaker.btnText")}
+      btnIcon="material-symbols:image-outline-rounded"
+    />
     <CardProjects
       img={Fedora33}
       title={t("projects.cards.fedora33.title")}
       desc={t("projects.cards.fedora33.desc")}
       btnLink="https://pagure.io/design/issue/raw/files/219f997ff4aa506ea4ec4b3f82d380f32e2411027f3d62f8d8b059d55ed3c3b3-dawn.png"
       btnText={t("projects.cards.fedora33.btnText")}
-      btnIcon="bi bi-image"
+      btnIcon="material-symbols:image-outline-rounded"
     />
     <CardProjects
       img={MetaSpark}
@@ -61,7 +69,7 @@ const currentLocale = getLocale();
       desc={t("projects.cards.metaspark.desc")}
       btnLink="https://www.instagram.com/ar/361254755244484"
       btnText={t("projects.cards.metaspark.btnText")}
-      btnIcon="bi bi-instagram"
+      btnIcon="material-symbols:ar-on-you-outline-rounded"
     />
     <CardProjects
       img={RA}
@@ -69,7 +77,7 @@ const currentLocale = getLocale();
       desc={t("projects.cards.rocketassault.desc")}
       btnLink="https://store.steampowered.com/app/880730"
       btnText={t("projects.cards.rocketassault.btnText")}
-      btnIcon="bi bi-controller"
+      btnIcon="material-symbols:stadia-controller-outline"
     />
     <CardProjects
       img={Astroimg}
@@ -77,7 +85,7 @@ const currentLocale = getLocale();
       desc={t("projects.cards.astrostarlight.desc")}
       btnLink="https://docs.astro.build/it"
       btnText={t("projects.cards.astrostarlight.btnText")}
-      btnIcon="bi bi-book"
+      btnIcon="material-symbols:edit-document-outline-rounded"
     />
     <CardProjects
       img={Carsteroids}
@@ -85,7 +93,7 @@ const currentLocale = getLocale();
       desc={t("projects.cards.carsteroids.desc")}
       btnLink="https://store.steampowered.com/app/671470"
       btnText={t("projects.cards.carsteroids.btnText")}
-      btnIcon="bi bi-controller"
+      btnIcon="material-symbols:stadia-controller-outline"
     />
     <CardProjects
       img={Chance}
@@ -93,7 +101,7 @@ const currentLocale = getLocale();
       desc={t("projects.cards.1chance.desc")}
       btnLink="https://apps.apple.com/app/1-chance/id1529736678"
       btnText={t("projects.cards.1chance.btnText")}
-      btnIcon="bi bi-controller"
+      btnIcon="material-symbols:stadia-controller-outline"
     />
     <CardProjects
       img={Niagara}
@@ -101,7 +109,7 @@ const currentLocale = getLocale();
       desc={t("projects.cards.niagara.desc")}
       btnLink="https://play.google.com/store/apps/details?id=bitpit.launcher"
       btnText={t("projects.cards.niagara.btnText")}
-      btnIcon="bi bi-google-play"
+      btnIcon="bxl:play-store"
     />
   </Projects>
 </Default>

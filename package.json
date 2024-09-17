@@ -19,6 +19,7 @@
     "@astrolicious/i18n": "^0.4.3",
     "@auth/core": "^0.32.0",
     "@iconify-json/material-symbols": "^1.2.1",
+    "@iconify-json/bxl": "1.2.0",
     "@iconify/svelte": "^4.0.2",
     "astro": "^4.15.6",
     "astro-icon": "^1.1.1",

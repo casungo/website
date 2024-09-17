@@ -1,6 +1,7 @@
 <script>
   import { writable } from "svelte/store";
   import { t } from "i18n:astro";
+  import Icon from "@iconify/svelte";
 
   const nowPlaying = writable(null);
   const isLoading = writable(false);
@@ -40,7 +41,7 @@
 </script>
 
 <div class="fixed bottom-0 right-0 z-10">
-  <div tabindex="0" role="button" class="btn mb-4 mr-4" on:click={handleButtonClick} on:keydown={handleKeyDown}>Click</div>
+  <div tabindex="0" role="button" class="btn mb-4 mr-4 btn-accent" on:click={handleButtonClick} on:keydown={handleKeyDown}><Icon class="text-2xl" icon="material-symbols:music-cast-rounded" /></div>
   {#if $isDropdownOpen}
     {#if $isLoading}
       <div tabindex="-1" class="dropdown-content absolute bottom-full right-0 transform -translate-y-2 z-10 mr-4 bg-neutral text-neutral-content p-4">

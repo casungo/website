@@ -32,6 +32,9 @@ importers:
       '@auth/core':
         specifier: ^0.32.0
         version: 0.32.0
+      '@iconify-json/bxl':
+        specifier: 1.2.0
+        version: 1.2.0
       '@iconify-json/material-symbols':
         specifier: ^1.2.1
         version: 1.2.1
@@ -789,6 +792,9 @@ packages:
   '@fastify/busboy@2.1.1':
     resolution: {integrity: sha512-vBZP4NlzfOlerQTnba4aqZoMhE/a9HY7HRqoOPaETQcSQuWEIyZMHGfVu6w9wGtGK5fED5qRs2DteVCjOH60sA==}
     engines: {node: '>=14'}
+
+  '@iconify-json/bxl@1.2.0':
+    resolution: {integrity: sha512-qIBKOJClhiHqdHBdlw8SQlrlslP0QbcI2nTQ9UKqAB/60FTfkLyPm+CeRXwg871ypbMTuPMBbLAYMlIL2zLLLQ==}
 
   '@iconify-json/material-symbols@1.2.1':
     resolution: {integrity: sha512-r9yaBzlUmN87aCTSoCNtDCd7R9F0iVDjNPL9QHHhm1WglFJvTUKx9iBC5xcZpP0qN0bg9R5FkM90CndWxEBAnw==}
@@ -4253,6 +4259,10 @@ snapshots:
     optional: true
 
   '@fastify/busboy@2.1.1': {}
+
+  '@iconify-json/bxl@1.2.0':
+    dependencies:
+      '@iconify/types': 2.0.0
 
   '@iconify-json/material-symbols@1.2.1':
     dependencies:
