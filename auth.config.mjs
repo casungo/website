@@ -34,19 +34,6 @@ export default defineConfig({
       clientSecret: Google_Secret,
     }),
   ],
-  callbacks: {
-    async redirect({ url, baseUrl }) {
-      // If the user is signing in and the URL is the base URL (successful login)
-      if (url.startsWith(baseUrl)) {
-        return `${baseUrl}`;
-      }
-      // Allows relative callback URLs
-      if (url.startsWith("/")) return `${baseUrl}${url}`;
-      // Allows callback URLs on the same origin
-      if (new URL(url).origin === baseUrl) return url;
-      return baseUrl;
-    },
-  },
   secret: Auth_Secret,
   trustHost: Auth_TrustHost,
 });

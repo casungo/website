@@ -28,7 +28,7 @@ export default defineConfig({
           "stadia-controller-outline",
           "edit-document-outline-rounded",
         ],
-        bxl: ["instagram", "github", "play-store"],
+        bxl: ["instagram", "github", "play-store", "google"],
       },
     }),
     i18n({
@@ -46,7 +46,7 @@ export default defineConfig({
     tailwind(),
     auth(),
   ],
-  output: "hybrid",
+  output: "server",
   adapter: cloudflare({
     imageService: "compile",
   }),
