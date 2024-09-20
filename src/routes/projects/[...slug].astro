@@ -5,6 +5,8 @@ import Default from "@layouts/Default.astro";
 import { Icon } from "astro-icon/components";
 import { SEO } from "astro-seo";
 
+export const prerender = true;
+
 interface Props {
   entry: CollectionEntry<"projects">;
 }

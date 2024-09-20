@@ -5,6 +5,8 @@ import Default from "@layouts/Default.astro";
 import ProjectCardPhotos from "@components/ProjectCardPhotos.astro";
 
 const projects = (await getCollection("projects")).sort((a: { data: { pubDate: number; }; }, b: { data: { pubDate: number; }; }) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+export const prerender = true;
 ---
 
 <Default>
