@@ -2,60 +2,54 @@
   import { onMount } from "svelte";
   import Chart from "chart.js/auto";
 
-  // State variables
   let totalVolume = 100;
-  let nicotinaPercentage = 10;
+  let nicotinaPercentage = 0;
   let vgPercentage = 50;
   let pgPercentage = 35;
   let aromaPercentage = 15;
   let chart;
   let showAdvancedSettings = false;
+  let showTable = false;
 
-  // Default values
   const defaultValues = {
     totalVolume: 100,
-    nicotinaPercentage: 10,
+    nicotinaPercentage: 0,
     vgPercentage: 50,
     pgPercentage: 35,
     aromaPercentage: 15,
   };
 
-  // Reactive declaration for results
   $: results = calculateMix(totalVolume, nicotinaPercentage, vgPercentage, pgPercentage, aromaPercentage);
 
-  function calculateMix(volume, nicotina, vg, pg, aroma) {
-    const total = vg + pg + aroma + nicotina;
-    const factor = volume / total;
+  const tableVolumes = [80, 90, 100, 110, 120];
 
-    return {
-      vg: Math.round(vg * factor * 100) / 100,
-      pg: Math.round(pg * factor * 100) / 100,
-      aroma: Math.round(aroma * factor * 100) / 100,
-      nicotina: Math.round(nicotina * factor * 100) / 100,
-    };
+  function calculateMix(volume, nicotina, vgPercentage, pgPercentage, aromaPercentage) {
+    const aroma = (aromaPercentage / 100) * volume;
+    const nicotinaVolume = (nicotina / 100) * volume;
+    const remainingVolume = volume - aroma - nicotinaVolume;
+    const totalBasePercentage = vgPercentage + pgPercentage;
+    const vg = (vgPercentage / totalBasePercentage) * remainingVolume;
+    const pg = (pgPercentage / totalBasePercentage) * remainingVolume;
+    return { vg, pg, aroma, nicotina: nicotinaVolume };
   }
 
   function handleInputClick(type) {
-    const newValue = prompt(`Inserisci il nuovo valore per ${type}:`);
-    if (newValue !== null) {
-      const normalizedValue = newValue.replace(",", ".");
-      if (!isNaN(normalizedValue)) {
-        const floatValue = parseFloat(normalizedValue);
-        if (type === "volume") {
-          totalVolume = Math.min(Math.max(floatValue, 3, 100));
-        } else if (type === "nicotina") {
-          nicotinaPercentage = Math.min(Math.max(floatValue, 0, 20));
-        } else if (type === "vg") {
-          vgPercentage = Math.min(Math.max(floatValue, 0, 100));
-        } else if (type === "pg") {
-          pgPercentage = Math.min(Math.max(floatValue, 0, 100));
-        } else if (type === "aroma") {
-          aromaPercentage = Math.min(Math.max(floatValue, 0, 100));
-        }
-        saveToLocalStorage();
+    const input = event.target;
+    const normalizedValue = input.value.replace(",", ".");
+    if (!isNaN(normalizedValue)) {
+      const floatValue = parseFloat(normalizedValue);
+      if (type === "volume") {
+        totalVolume = Math.min(Math.max(floatValue, 3), 1000);
       } else {
-        alert("Per favore, inserisci un numero valido.");
+        const newValue = Math.min(Math.max(floatValue, 0), 100);
+        if (type === "nicotina") nicotinaPercentage = newValue;
+        else if (type === "vg") vgPercentage = newValue;
+        else if (type === "pg") pgPercentage = newValue;
+        else if (type === "aroma") aromaPercentage = newValue;
       }
+      saveToLocalStorage();
+    } else {
+      alert("Per favore, inserisci un numero valido.");
     }
   }
 
@@ -70,11 +64,7 @@
 
   function resetAll() {
     if (confirm("Sei sicuro di voler resettare tutti i valori?")) {
-      totalVolume = defaultValues.totalVolume;
-      nicotinaPercentage = defaultValues.nicotinaPercentage;
-      vgPercentage = defaultValues.vgPercentage;
-      pgPercentage = defaultValues.pgPercentage;
-      aromaPercentage = defaultValues.aromaPercentage;
+      Object.assign({ totalVolume, nicotinaPercentage, vgPercentage, pgPercentage, aromaPercentage }, defaultValues);
       saveToLocalStorage();
     }
   }
@@ -88,6 +78,7 @@
         vgPercentage,
         pgPercentage,
         aromaPercentage,
+        showTable,
       }),
     );
   }
@@ -95,11 +86,8 @@
   function loadFromLocalStorage() {
     const savedSettings = JSON.parse(localStorage.getItem("svapoSettings"));
     if (savedSettings) {
-      totalVolume = savedSettings.totalVolume;
-      nicotinaPercentage = savedSettings.nicotinaPercentage;
-      vgPercentage = savedSettings.vgPercentage;
-      pgPercentage = savedSettings.pgPercentage;
-      aromaPercentage = savedSettings.aromaPercentage;
+      Object.assign({ totalVolume, nicotinaPercentage, vgPercentage, pgPercentage, aromaPercentage }, savedSettings);
+      showTable = savedSettings.showTable || false;
     }
   }
 
@@ -141,15 +129,24 @@
 <div class="card bg-base-300 p-4 md:p-6 lg:p-8">
   <div class="card-body">
     <div class="form-control">
-      <label class="label" for="totalVolume">
-        <span class="label-text text-xl">
-          Volume totale:
-          <button type="button" class="text-2xl font-bold underline btn-ghost btn btn-sm p-0" on:click={() => handleInputClick("volume")}>{totalVolume}</button> ml
-        </span>
-        <button class="btn btn-sm btn-outline" on:click={() => resetSlider("volume")}>Reset</button>
+      <label class="label cursor-pointer">
+        <span class="label-text">Mostra tabella</span>
+        <input type="checkbox" class="toggle toggle-primary" bind:checked={showTable} on:change={saveToLocalStorage} />
       </label>
-      <input type="range" id="totalVolume" min="0" max="200" bind:value={totalVolume} class="range range-primary" step="10" on:change={saveToLocalStorage} />
     </div>
+
+    {#if !showTable}
+      <div class="form-control">
+        <label class="label" for="totalVolume">
+          <span class="label-text text-xl">
+            Volume totale:
+            <button type="button" class="text-2xl font-bold underline btn-ghost btn btn-sm p-0" on:click={() => handleInputClick("volume")}>{totalVolume}</button> ml
+          </span>
+          <button class="btn btn-sm btn-outline" on:click={() => resetSlider("volume")}>Reset</button>
+        </label>
+        <input type="range" id="totalVolume" min="0" max="200" bind:value={totalVolume} class="range range-primary" step="10" on:change={saveToLocalStorage} />
+      </div>
+    {/if}
 
     <div class="form-control mt-4">
       <label class="label" for="nicotinaPercentage">
@@ -195,15 +192,43 @@
       </div>
     {/if}
 
-    <div class="mt-6 p-4 bg-primary text-primary-content rounded-lg">
-      <h3 class="font-bold text-xl mb-2">Risultati:</h3>
-      <ul class="text-lg">
-        <li>Glicerina Vegetale (VG): {results.vg} ml</li>
-        <li>Glicole Propilenico (PG): {results.pg} ml</li>
-        <li>Aroma: {results.aroma} ml</li>
-        <li>Nicotina: {results.nicotina} ml</li>
-      </ul>
-    </div>
+    {#if showTable}
+      <div class="mt-6 overflow-x-auto">
+        <table class="table w-full">
+          <thead>
+            <tr>
+              <th>Volume totale</th>
+              <th>VG</th>
+              <th>PG</th>
+              <th>Aroma</th>
+              <th>Nicotina</th>
+            </tr>
+          </thead>
+          <tbody>
+            {#each tableVolumes as volume}
+              {@const mixResult = calculateMix(volume, nicotinaPercentage, vgPercentage, pgPercentage, aromaPercentage)}
+              <tr>
+                <td>{volume} ml</td>
+                <td>{mixResult.vg.toFixed(2)} ml</td>
+                <td>{mixResult.pg.toFixed(2)} ml</td>
+                <td>{mixResult.aroma.toFixed(2)} ml</td>
+                <td>{mixResult.nicotina.toFixed(2)} ml</td>
+              </tr>
+            {/each}
+          </tbody>
+        </table>
+      </div>
+    {:else}
+      <div class="mt-6 p-4 bg-primary text-primary-content rounded-lg">
+        <h3 class="font-bold text-xl mb-2">Risultati:</h3>
+        <ul class="text-lg">
+          <li>Glicerina Vegetale (VG): {results.vg.toFixed(2)} ml</li>
+          <li>Glicole Propilenico (PG): {results.pg.toFixed(2)} ml</li>
+          <li>Aroma: {results.aroma.toFixed(2)} ml</li>
+          <li>Nicotina: {results.nicotina.toFixed(2)} ml</li>
+        </ul>
+      </div>
+    {/if}
 
     <div class="mt-6 h-64 md:h-96">
       <canvas id="resultChart"></canvas>
