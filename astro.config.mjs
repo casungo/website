@@ -6,7 +6,6 @@ import tailwind from "@astrojs/tailwind";
 import icon from "astro-icon";
 import db from "@astrojs/db";
 import i18n from "@astrolicious/i18n";
-import auth from "auth-astro";
 
 // https://astro.build/config
 export default defineConfig({
@@ -44,7 +43,6 @@ export default defineConfig({
     svelte(),
     db(),
     tailwind(),
-    auth(),
   ],
   output: "server",
   adapter: cloudflare({
@@ -55,35 +53,33 @@ export default defineConfig({
       external: ["buffer", "path", "fs", "os", "crypto", "async_hooks"].map((i) => `node:${i}`),
     },
   },
-  experimental: {
-    env: {
-      schema: {
-        LASTFM_API_KEY: envField.string({
-          context: "server",
-          access: "secret",
-          optional: false,
-        }),
-        GOOGLE_CLIENT_ID: envField.string({
-          context: "server",
-          access: "secret",
-          optional: false,
-        }),
-        GOOGLE_CLIENT_SECRET: envField.string({
-          context: "server",
-          access: "secret",
-          optional: false,
-        }),
-        AUTH_TRUST_HOST: envField.string({
-          context: "server",
-          access: "secret",
-          optional: false,
-        }),
-        AUTH_SECRET: envField.string({
-          context: "server",
-          access: "secret",
-          optional: false,
-        }),
-      },
+  env: {
+    schema: {
+      LASTFM_API_KEY: envField.string({
+        context: "server",
+        access: "secret",
+        optional: false,
+      }),
+      GOOGLE_CLIENT_ID: envField.string({
+        context: "server",
+        access: "secret",
+        optional: false,
+      }),
+      GOOGLE_CLIENT_SECRET: envField.string({
+        context: "server",
+        access: "secret",
+        optional: false,
+      }),
+      AUTH_TRUST_HOST: envField.string({
+        context: "server",
+        access: "secret",
+        optional: false,
+      }),
+      AUTH_SECRET: envField.string({
+        context: "server",
+        access: "secret",
+        optional: false,
+      }),
     },
   },
 });
