@@ -41,30 +41,46 @@
 </script>
 
 <div class="fixed bottom-0 right-0 z-10">
-  <div tabindex="0" role="button" class="btn mb-4 mr-4 btn-accent" on:click={handleButtonClick} on:keydown={handleKeyDown}><Icon class="text-2xl" icon="material-symbols:music-cast-rounded" /></div>
+  <div 
+    tabindex="0" 
+    role="button" 
+    class="btn mb-4 mr-4 btn-accent shadow-lg hover:shadow-xl transition-all duration-200" 
+    on:click={handleButtonClick} 
+    on:keydown={handleKeyDown}
+  >
+    <Icon class="text-2xl" icon="material-symbols:music-cast-rounded" />
+  </div>
   {#if $isDropdownOpen}
     {#if $isLoading}
-      <div tabindex="-1" class="dropdown-content absolute bottom-full right-0 transform -translate-y-2 z-10 mr-4 bg-neutral text-neutral-content p-4">
+      <div tabindex="-1" class="dropdown-content absolute bottom-full right-0 transform -translate-y-2 z-10 mr-4 bg-neutral text-neutral-content p-4 rounded-lg shadow-xl">
         <span class="loading loading-spinner loading-lg"></span>
       </div>
     {:else if $nowPlaying && $nowPlaying.IsUserListeningToSomething}
-      <div tabindex="-1" class="dropdown-content absolute bottom-full right-0 transform -translate-y-2 z-10 bg-neutral text-neutral-content mr-4">
+      <div tabindex="-1" class="dropdown-content absolute bottom-full right-0 transform -translate-y-2 z-10 bg-neutral text-neutral-content mr-4 rounded-lg shadow-xl overflow-hidden">
         <div class="w-96">
-          <div class="card">
-            <div class="card-body">
-              <h2 class="card-title">{t("nowPlaying.title")}</h2>
-              <div class="flex items-center">
-                <figure class="mr-4 w-2/5">
-                  <img src={$nowPlaying.NowPlayingAlbumArt} alt="Album Art" class="" />
+          <div class="card bg-base-100">
+            <div class="card-body p-4">
+              <h2 class="card-title text-lg font-bold mb-2">{t("nowPlaying.title")}</h2>
+              <div class="flex items-center gap-4">
+                <figure class="w-24 h-24 shrink-0">
+                  <img 
+                    src={$nowPlaying.NowPlayingAlbumArt} 
+                    alt="Album Art" 
+                    class="rounded-lg object-cover w-full h-full" 
+                  />
                 </figure>
-                <div class="min-w-0 flex-auto space-y-1 font-semibold">
-                  <b class="text-lg">
-                    <a class="link" href={$nowPlaying.NowPlayingUrl}>
+                <div class="min-w-0 flex-auto space-y-1">
+                  <div class="text-lg font-semibold truncate">
+                    <a 
+                      class="hover:text-primary transition-colors duration-200" 
+                      href={$nowPlaying.NowPlayingUrl}
+                    >
                       {$nowPlaying.NowPlayingName}
                     </a>
-                  </b>
-                  <br />
-                  <b>{$nowPlaying.NowPlayingArtist}</b>
+                  </div>
+                  <div class="text-sm text-neutral-500 truncate">
+                    {$nowPlaying.NowPlayingArtist}
+                  </div>
                 </div>
               </div>
             </div>
@@ -72,8 +88,10 @@
         </div>
       </div>
     {:else}
-      <div tabindex="-1" class="dropdown-content absolute bottom-full right-0 transform -translate-y-2 z-10 bg-neutral text-neutral-content mr-4 w-64">
-        <div class="card-body">{t("nowPlaying.notPlayingSomethingText")}</div>
+      <div tabindex="-1" class="dropdown-content absolute bottom-full right-0 transform -translate-y-2 z-10 bg-neutral text-neutral-content mr-4 w-64 rounded-lg shadow-xl">
+        <div class="card-body p-4 text-sm">
+          {t("nowPlaying.notPlayingSomethingText")}
+        </div>
       </div>
     {/if}
   {/if}
