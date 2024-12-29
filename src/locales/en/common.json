@@ -85,6 +85,7 @@
   },
   "nowPlaying": {
     "title": "Alessandro is listening to",
-    "notPlayingSomethingText": "Normally you should see what I'm listening to on Spotify in real-time here, but now I'm not listening to anything :)"
+    "notPlayingSomethingText": "Normally you should see what I'm listening to on Spotify in real-time here, but now I'm not listening to anything :)",
+    "lastPlayedText": "Last played:"
   }
 }

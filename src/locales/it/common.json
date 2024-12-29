@@ -85,6 +85,7 @@
   },
   "nowPlaying": {
     "title": "Alessandro sta ascoltando a",
-    "notPlayingSomethingText": "Normalmente qua dovresti vedere cosa sto ascoltando su Spotify in tempo reale, ma ora non sto ascoltando a niente :)"
+    "notPlayingSomethingText": "Normalmente qua dovresti vedere cosa sto ascoltando su Spotify in tempo reale, ma ora non sto ascoltando a niente :)",
+    "lastPlayedText": "Ultimo brano riprodotto:"
   }
 }
