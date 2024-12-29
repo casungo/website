@@ -162,6 +162,8 @@ export const GET: APIRoute = async () => {
         NowPlayingAlbumArt: nowPlayingTrack.image[3]["#text"],
         NowPlayingName: nowPlayingTrack.name,
         NowPlayingUrl: nowPlayingTrack.url,
+        LastPlayedName: recentTracks[1]?.name,
+        LastPlayedUrl: recentTracks[1]?.url,
         IsUserListeningToSomething: true,
       };
       return new Response(JSON.stringify(nowPlayingData), {
@@ -171,7 +173,14 @@ export const GET: APIRoute = async () => {
         },
       });
     } else {
-      return new Response(JSON.stringify({ IsUserListeningToSomething: false }), {
+      const lastPlayedTrack = recentTracks[0];
+      const lastPlayedData = {
+        LastPlayedDate: lastPlayedTrack.date["#text"],
+        LastPlayedName: lastPlayedTrack.name,
+        LastPlayedUrl: lastPlayedTrack.url,
+        IsUserListeningToSomething: false,
+      };
+      return new Response(JSON.stringify(lastPlayedData), {
         status: apiResponse.status,
         headers: {
           "Content-Type": "application/json",
