@@ -79,13 +79,32 @@
                     </a>
                   </div>
                   <div class="text-sm text-neutral-500 truncate">
-                    {$nowPlaying.NowPlayingArtist}
+                    <a
+                      class="hover:text-primary transition-colors duration-200"
+                      href={`https://www.last.fm/music/${encodeURIComponent($nowPlaying.NowPlayingArtist)}`}
+                    >
+                      {$nowPlaying.NowPlayingArtist}
+                    </a>
                   </div>
                 </div>
               </div>
+              {#if $nowPlaying.LastPlayedName}
+                <div class="mt-4 border-t border-neutral-700 pt-2">
+                  <p class="text-sm text-neutral-500">{t("nowPlaying.lastPlayedText")}</p>
+                  <div class="text-sm truncate">
+                    <a
+                      class="hover:text-primary transition-colors duration-200"
+                      href={$nowPlaying.LastPlayedUrl}
+                    >{$nowPlaying.LastPlayedName}</a>
+                  </div>
+                </div>
+              {/if}
             </div>
           </div>
         </div>
+        {#if $nowPlaying.IsUserListeningToSomething === false && $nowPlaying.LastPlayedDate}
+          <div class="card-body p-4 text-sm">{t("nowPlaying.lastPlayedText")} {$nowPlaying.LastPlayedDate}</div>
+        {/if}
       </div>
     {:else}
       <div tabindex="-1" class="dropdown-content absolute bottom-full right-0 transform -translate-y-2 z-10 bg-neutral text-neutral-content mr-4 w-64 rounded-lg shadow-xl">
