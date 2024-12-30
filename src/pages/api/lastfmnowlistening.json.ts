@@ -9,6 +9,7 @@ interface LastFmTrack {
   image: { "#text": string; size: string }[];
   name: string;
   url: string;
+  duration?: string;
   date?: { "#text": string };
   "@attr"?: { nowplaying: string };
 }
@@ -41,6 +42,7 @@ export const GET: APIRoute = async () => {
         NowPlayingAlbumArt: currentTrack.image.find(img => img.size === "extralarge")?.["#text"],
         NowPlayingName: currentTrack.name,
         NowPlayingUrl: currentTrack.url,
+        NowPlayingDuration: currentTrack.duration ? parseInt(currentTrack.duration) : null,
         LastPlayedName: previousTrack?.name,
         LastPlayedUrl: previousTrack?.url,
         LastPlayedArt: previousTrack?.image.find(img => img.size === "extralarge")?.["#text"],

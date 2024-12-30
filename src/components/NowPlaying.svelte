@@ -1,5 +1,6 @@
 <script lang="ts">
   import { writable } from "svelte/store";
+  import { onDestroy } from 'svelte';
   import { t } from "i18n:astro";
   import Icon from "@iconify/svelte";
 
@@ -9,6 +10,7 @@
     NowPlayingAlbumArt?: string;
     NowPlayingName?: string;
     NowPlayingUrl?: string;
+    NowPlayingDuration?: number | null;
     LastPlayedName?: string;
     LastPlayedUrl?: string;
     LastPlayedDate?: string;
@@ -19,15 +21,42 @@
   const isLoading = writable(false);
   const isDropdownOpen = writable(false);
 
+  let refreshInterval: NodeJS.Timeout | null = null;
+
+  const calculateRefreshInterval = (duration: number | null) => {
+    if (!duration) return 30000;
+    return Math.max(10000, Math.min(60000, duration / 10));
+  };
+
+  const startAutoRefresh = (duration: number | null) => {
+    if (refreshInterval) clearInterval(refreshInterval);
+    const interval = calculateRefreshInterval(duration);
+    refreshInterval = setInterval(fetchNowPlayingData, interval);
+  };
+
+  const stopAutoRefresh = () => {
+    if (refreshInterval) {
+      clearInterval(refreshInterval);
+      refreshInterval = null;
+    }
+  };
+
   const fetchNowPlayingData = async () => {
     isLoading.set(true);
     try {
       const response = await fetch('/api/lastfmnowlistening.json');
       if (!response.ok) throw new Error(`HTTP error ${response.status}`);
-      nowPlaying.set(await response.json());
+      const data = await response.json();
+      nowPlaying.set(data);
+      if (data.IsUserListeningToSomething) {
+        startAutoRefresh(data.NowPlayingDuration);
+      } else {
+        stopAutoRefresh();
+      }
     } catch (error) {
       console.error("Error fetching now playing data:", error);
       nowPlaying.set({ IsUserListeningToSomething: false });
+      stopAutoRefresh();
     } finally {
       isLoading.set(false);
     }
@@ -36,11 +65,16 @@
   const toggleDropdown = () => {
     if ($isDropdownOpen) {
       isDropdownOpen.set(false);
+      stopAutoRefresh();
     } else {
       fetchNowPlayingData();
       isDropdownOpen.set(true);
     }
   };
+
+  onDestroy(() => {
+    stopAutoRefresh();
+  });
 
   const handleKeyDown = (event: KeyboardEvent) => {
     if (['Enter', ' '].includes(event.key)) toggleDropdown();
