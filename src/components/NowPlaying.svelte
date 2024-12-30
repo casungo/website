@@ -1,6 +1,6 @@
 <script lang="ts">
   import { writable } from "svelte/store";
-  import { onDestroy } from 'svelte';
+  import { onMount, onDestroy } from "svelte";
   import { t } from "i18n:astro";
   import Icon from "@iconify/svelte";
 
@@ -52,7 +52,7 @@
     isLoading.set(true);
     error.set(null);
     try {
-      const response = await fetch('/api/lastfmnowlistening.json');
+      const response = await fetch("/api/lastfmnowlistening.json");
       if (!response.ok) throw new Error(`HTTP error ${response.status}`);
       const data = await response.json();
       nowPlaying.set(data);
@@ -62,7 +62,7 @@
       console.error("Error fetching now playing data:", error);
       if (retryCount < MAX_RETRIES) {
         retryCount++;
-        const retryDelay = Math.min(1000 * (2 ** retryCount), 30000); // Exponential backoff
+        const retryDelay = Math.min(1000 * 2 ** retryCount, 30000); // Exponential backoff
         setTimeout(fetchNowPlayingData, retryDelay);
       } else {
         error.set("Failed to fetch data. Please try again later.");
@@ -93,17 +93,12 @@
   });
 
   const handleKeyDown = (event: KeyboardEvent) => {
-    if (['Enter', ' '].includes(event.key)) toggleDropdown();
+    if (["Enter", " "].includes(event.key)) toggleDropdown();
   };
 </script>
 
 <div class="fixed bottom-0 right-0 z-10">
-  <button
-    class="btn mb-4 mr-4 btn-accent shadow-lg hover:shadow-xl transition-all duration-200 relative"
-    on:click={toggleDropdown}
-    on:keydown={handleKeyDown}
-    disabled={$isLoading}
-  >
+  <button class="btn mb-4 mr-4 btn-accent shadow-lg hover:shadow-xl transition-all duration-200 relative" on:click={toggleDropdown} on:keydown={handleKeyDown} disabled={$isLoading}>
     {#if $isLoading}
       <div class="absolute inset-0 flex items-center justify-center">
         <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
@@ -158,11 +153,7 @@
             <div class="flex items-center gap-4">
               <figure class="w-24 h-24 shrink-0">
                 <a href={$nowPlaying.NowPlayingUrl} target="_blank" rel="noopener noreferrer">
-                  <img
-                    src={$nowPlaying.NowPlayingAlbumArt}
-                    alt="Album Art"
-                    class="rounded-lg object-cover w-full h-full hover:opacity-80 transition-opacity duration-200"
-                  />
+                  <img src={$nowPlaying.NowPlayingAlbumArt} alt="Album Art" class="rounded-lg object-cover w-full h-full hover:opacity-80 transition-opacity duration-200" />
                 </a>
               </figure>
               <div class="min-w-0 flex-auto space-y-1">
@@ -172,8 +163,7 @@
                   </a>
                 </div>
                 <div class="text-sm text-neutral-500 truncate">
-                  <a class="hover:text-primary transition-colors duration-200" 
-                     href={`https://www.last.fm/music/${encodeURIComponent($nowPlaying.NowPlayingArtist || '')}`}>
+                  <a class="hover:text-primary transition-colors duration-200" href={`https://www.last.fm/music/${encodeURIComponent($nowPlaying.NowPlayingArtist || "")}`}>
                     {$nowPlaying.NowPlayingArtist}
                   </a>
                 </div>
@@ -184,11 +174,7 @@
                 <p class="text-sm text-neutral-500 mb-2">{t("nowPlaying.lastPlayedText")}</p>
                 <div class="flex items-center gap-2">
                   {#if $nowPlaying.LastPlayedArt}
-                    <img
-                      src={$nowPlaying.LastPlayedArt}
-                      alt="Last Played Album Art"
-                      class="w-8 h-8 rounded-lg object-cover"
-                    />
+                    <img src={$nowPlaying.LastPlayedArt} alt="Last Played Album Art" class="w-8 h-8 rounded-lg object-cover" />
                   {/if}
                   <div class="text-sm line-clamp-2">
                     <a class="hover:text-primary transition-colors duration-200" href={$nowPlaying.LastPlayedUrl}>
