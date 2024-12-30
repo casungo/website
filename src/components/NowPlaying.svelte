@@ -26,30 +26,28 @@
   const isDropdownOpen = writable(false);
   const error = writable<string | null>(null);
   
-  // Toast notification
   let toastTimeout: NodeJS.Timeout | null = null;
+  let retryCount = 0;
+  let lastFetchTime = 0;
+  let isFetching = false;
+  let refreshInterval: NodeJS.Timeout | null = null;
+
+  const MAX_RETRIES = 3;
+  const CACHE_DURATION = 10000;
+  const DEFAULT_REFRESH_INTERVAL = 30000;
+
   const showToast = (message: string, duration = 5000) => {
     error.set(message);
     if (toastTimeout) clearTimeout(toastTimeout);
     toastTimeout = setTimeout(() => error.set(null), duration);
   };
-  let retryCount = 0;
-  const MAX_RETRIES = 3;
-  let lastFetchTime = 0;
-  const CACHE_DURATION = 10000; // 10 seconds
-  let isFetching = false;
 
-  let refreshInterval: NodeJS.Timeout | null = null;
-
-  const calculateRefreshInterval = (duration: number | null) => {
-    if (!duration) return 30000;
-    return Math.max(10000, Math.min(60000, duration / 10));
-  };
+  const calculateRefreshInterval = (duration: number | null) => 
+    duration ? Math.max(10000, Math.min(60000, duration / 10)) : DEFAULT_REFRESH_INTERVAL;
 
   const startAutoRefresh = (duration: number | null, isListening: boolean) => {
     if (refreshInterval) clearInterval(refreshInterval);
-    const interval = isListening ? calculateRefreshInterval(duration) : 30000;
-    refreshInterval = setInterval(fetchNowPlayingData, interval);
+    refreshInterval = setInterval(fetchNowPlayingData, calculateRefreshInterval(duration));
   };
 
   const stopAutoRefresh = () => {
@@ -65,48 +63,43 @@
     isLoading.set(true);
     error.set(null);
     isFetching = true;
+    
     try {
       const response = await fetch("/api/lastfmnowlistening.json");
       lastFetchTime = Date.now();
       if (!response.ok) throw new Error(`HTTP error ${response.status}`);
+      
       const data = await response.json();
       nowPlaying.set(data);
       startAutoRefresh(data.NowPlayingDuration, data.IsUserListeningToSomething);
-      retryCount = 0; // Reset retry count on success
-    } catch (error: any) {
-      console.error("Error fetching now playing data:", error);
-      if (retryCount < MAX_RETRIES) {
-        retryCount++;
-        const retryDelay = Math.min(1000 * 2 ** retryCount, 30000); // Exponential backoff
-        setTimeout(fetchNowPlayingData, retryDelay);
-      } else {
-        showToast("Failed to fetch data. Please try again later.");
-        nowPlaying.set({ IsUserListeningToSomething: false });
-        stopAutoRefresh();
-      }
+      retryCount = 0;
+    } catch (err: any) {
+      handleFetchError(err);
     } finally {
       isLoading.set(false);
       isFetching = false;
     }
   };
 
-  const toggleDropdown = () => {
-    if ($isDropdownOpen) {
-      isDropdownOpen.set(false);
-      stopAutoRefresh();
+  const handleFetchError = (error: Error) => {
+    console.error("Error fetching now playing data:", error);
+    if (retryCount < MAX_RETRIES) {
+      retryCount++;
+      setTimeout(fetchNowPlayingData, Math.min(1000 * 2 ** retryCount, 30000));
     } else {
-      fetchNowPlayingData();
-      isDropdownOpen.set(true);
+      showToast("Failed to fetch data. Please try again later.");
+      nowPlaying.set({ IsUserListeningToSomething: false });
+      stopAutoRefresh();
     }
   };
 
-  onMount(() => {
-    fetchNowPlayingData();
-  });
-
-  onDestroy(() => {
-    stopAutoRefresh();
-  });
+  const toggleDropdown = () => {
+    isDropdownOpen.update(open => {
+      if (!open) fetchNowPlayingData();
+      else stopAutoRefresh();
+      return !open;
+    });
+  };
 
   const handleKeyDown = (event: KeyboardEvent) => {
     if (["Enter", " "].includes(event.key)) {
@@ -117,6 +110,9 @@
       stopAutoRefresh();
     }
   };
+
+  onMount(() => fetchNowPlayingData());
+  onDestroy(stopAutoRefresh);
 </script>
 
 <div class="fixed bottom-0 right-0 z-10">

@@ -29,34 +29,39 @@ const createResponse = (data: any, status: number) =>
     headers: { "Content-Type": "application/json" },
   });
 
+const getAlbumArt = (images: { "#text": string; size: string }[]) =>
+  images.find(img => img.size === "extralarge")?.["#text"];
+
+const handleNowPlaying = (currentTrack: LastFmTrack, previousTrack: LastFmTrack) => ({
+  NowPlayingArtist: currentTrack.artist["#text"],
+  NowPlayingAlbum: currentTrack.album["#text"],
+  NowPlayingAlbumArt: getAlbumArt(currentTrack.image),
+  NowPlayingName: currentTrack.name,
+  NowPlayingUrl: currentTrack.url,
+  NowPlayingDuration: currentTrack.duration ? parseInt(currentTrack.duration) : null,
+  LastPlayedName: previousTrack?.name,
+  LastPlayedUrl: previousTrack?.url,
+  LastPlayedArt: getAlbumArt(previousTrack?.image),
+  IsUserListeningToSomething: true,
+});
+
+const handleNotPlaying = (currentTrack: LastFmTrack) => ({
+  LastPlayedDate: currentTrack.date?.["#text"],
+  LastPlayedName: currentTrack.name,
+  LastPlayedUrl: currentTrack.url,
+  LastPlayedArt: getAlbumArt(currentTrack.image),
+  IsUserListeningToSomething: false,
+});
+
 export const GET: APIRoute = async () => {
   try {
     const response = await fetch(API_URL);
     const data: LastFmResponse = await response.json();
     const [currentTrack, previousTrack] = data.recenttracks.track;
 
-    if (currentTrack["@attr"]?.nowplaying === "true") {
-      return createResponse({
-        NowPlayingArtist: currentTrack.artist["#text"],
-        NowPlayingAlbum: currentTrack.album["#text"],
-        NowPlayingAlbumArt: currentTrack.image.find(img => img.size === "extralarge")?.["#text"],
-        NowPlayingName: currentTrack.name,
-        NowPlayingUrl: currentTrack.url,
-        NowPlayingDuration: currentTrack.duration ? parseInt(currentTrack.duration) : null,
-        LastPlayedName: previousTrack?.name,
-        LastPlayedUrl: previousTrack?.url,
-        LastPlayedArt: previousTrack?.image.find(img => img.size === "extralarge")?.["#text"],
-        IsUserListeningToSomething: true,
-      }, response.status);
-    }
-
-    return createResponse({
-      LastPlayedDate: currentTrack.date?.["#text"],
-      LastPlayedName: currentTrack.name,
-      LastPlayedUrl: currentTrack.url,
-      LastPlayedArt: currentTrack.image.find(img => img.size === "extralarge")?.["#text"],
-      IsUserListeningToSomething: false,
-    }, response.status);
+    return currentTrack["@attr"]?.nowplaying === "true"
+      ? createResponse(handleNowPlaying(currentTrack, previousTrack), response.status)
+      : createResponse(handleNotPlaying(currentTrack), response.status);
 
   } catch (error: any) {
     console.error("Last.fm API error:", error);
