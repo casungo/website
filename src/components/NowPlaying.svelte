@@ -92,7 +92,7 @@
 
   {#if $isDropdownOpen}
     <div
-      class="dropdown-content absolute bottom-full right-0 transform -translate-y-2 z-10 mr-4 bg-neutral text-neutral-content rounded-lg shadow-xl"
+      class="dropdown-content absolute bottom-full right-0 transform -translate-y-2 z-20 mr-4 bg-neutral text-neutral-content rounded-lg shadow-xl"
       class:w-96={$nowPlaying?.IsUserListeningToSomething}
       class:w-64={!$nowPlaying?.IsUserListeningToSomething}
     >
@@ -107,7 +107,7 @@
                 <div class="skeleton w-full h-full rounded-lg"></div>
               </figure>
               <div class="min-w-0 flex-auto space-y-1">
-                <div class="text-lg font-semibold truncate">
+                <div class="text-lg font-semibold line-clamp-2">
                   <div class="skeleton h-6 w-48"></div>
                 </div>
                 <div class="text-sm text-neutral-500 truncate">
@@ -115,13 +115,13 @@
                 </div>
               </div>
             </div>
-            <div class="mt-4 border-t border-neutral-700 pt-2">
-              <div class="text-sm text-neutral-500">
+            <div class="mt-4 border-t border-neutral-700 pt-4">
+              <div class="text-sm text-neutral-500 mb-2">
                 <div class="skeleton h-4 w-24"></div>
               </div>
-              <div class="flex items-center gap-2 mt-2">
+              <div class="flex items-center gap-2">
                 <div class="skeleton w-8 h-8 rounded-lg"></div>
-                <div class="text-sm truncate">
+                <div class="text-sm line-clamp-2">
                   <div class="skeleton h-4 w-36"></div>
                 </div>
               </div>
@@ -155,8 +155,8 @@
               </div>
             </div>
             {#if $nowPlaying.LastPlayedName}
-              <div class="mt-4 border-t border-neutral-700 pt-2">
-                <p class="text-sm text-neutral-500">{t("nowPlaying.lastPlayedText")}</p>
+              <div class="mt-4 border-t border-neutral-700 pt-4">
+                <p class="text-sm text-neutral-500 mb-2">{t("nowPlaying.lastPlayedText")}</p>
                 <div class="flex items-center gap-2">
                   {#if $nowPlaying.LastPlayedArt}
                     <img
@@ -165,7 +165,7 @@
                       class="w-8 h-8 rounded-lg object-cover"
                     />
                   {/if}
-                  <div class="text-sm truncate">
+                  <div class="text-sm line-clamp-2">
                     <a class="hover:text-primary transition-colors duration-200" href={$nowPlaying.LastPlayedUrl}>
                       {$nowPlaying.LastPlayedName}
                     </a>
