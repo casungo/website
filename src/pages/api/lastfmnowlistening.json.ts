@@ -43,6 +43,7 @@ export const GET: APIRoute = async () => {
         NowPlayingUrl: currentTrack.url,
         LastPlayedName: previousTrack?.name,
         LastPlayedUrl: previousTrack?.url,
+        LastPlayedArt: previousTrack?.image.find(img => img.size === "extralarge")?.["#text"],
         IsUserListeningToSomething: true,
       }, response.status);
     }
@@ -51,6 +52,7 @@ export const GET: APIRoute = async () => {
       LastPlayedDate: currentTrack.date?.["#text"],
       LastPlayedName: currentTrack.name,
       LastPlayedUrl: currentTrack.url,
+      LastPlayedArt: currentTrack.image.find(img => img.size === "extralarge")?.["#text"],
       IsUserListeningToSomething: false,
     }, response.status);
 

@@ -95,10 +95,19 @@
             {#if $nowPlaying.LastPlayedName}
               <div class="mt-4 border-t border-neutral-700 pt-2">
                 <p class="text-sm text-neutral-500">{t("nowPlaying.lastPlayedText")}</p>
-                <div class="text-sm truncate">
-                  <a class="hover:text-primary transition-colors duration-200" href={$nowPlaying.LastPlayedUrl}>
-                    {$nowPlaying.LastPlayedName}
-                  </a>
+                <div class="flex items-center gap-2">
+                  {#if $nowPlaying.LastPlayedArt}
+                    <img
+                      src={$nowPlaying.LastPlayedArt}
+                      alt="Last Played Album Art"
+                      class="w-8 h-8 rounded-lg object-cover"
+                    />
+                  {/if}
+                  <div class="text-sm truncate">
+                    <a class="hover:text-primary transition-colors duration-200" href={$nowPlaying.LastPlayedUrl}>
+                      {$nowPlaying.LastPlayedName}
+                    </a>
+                  </div>
                 </div>
               </div>
             {/if}
