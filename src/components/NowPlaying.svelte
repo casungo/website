@@ -28,9 +28,9 @@
     return Math.max(10000, Math.min(60000, duration / 10));
   };
 
-  const startAutoRefresh = (duration: number | null) => {
+  const startAutoRefresh = (duration: number | null, isListening: boolean) => {
     if (refreshInterval) clearInterval(refreshInterval);
-    const interval = calculateRefreshInterval(duration);
+    const interval = isListening ? calculateRefreshInterval(duration) : 30000;
     refreshInterval = setInterval(fetchNowPlayingData, interval);
   };
 
@@ -48,11 +48,7 @@
       if (!response.ok) throw new Error(`HTTP error ${response.status}`);
       const data = await response.json();
       nowPlaying.set(data);
-      if (data.IsUserListeningToSomething) {
-        startAutoRefresh(data.NowPlayingDuration);
-      } else {
-        stopAutoRefresh();
-      }
+      startAutoRefresh(data.NowPlayingDuration, data.IsUserListeningToSomething);
     } catch (error) {
       console.error("Error fetching now playing data:", error);
       nowPlaying.set({ IsUserListeningToSomething: false });
