@@ -59,9 +59,11 @@ export const GET: APIRoute = async () => {
     }, response.status);
 
   } catch (error: any) {
+    console.error("Last.fm API error:", error);
     return createResponse({ 
-      error: "Failed to fetch data", 
-      errorMessage: error.message 
+      error: "Failed to fetch data",
+      errorMessage: error.message,
+      lastfmError: error instanceof Error ? error.message : "Unknown error"
     }, 500);
   }
 };

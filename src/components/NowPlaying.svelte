@@ -13,13 +13,20 @@
     NowPlayingDuration?: number | null;
     LastPlayedName?: string;
     LastPlayedUrl?: string;
+    LastPlayedArt?: string;
     LastPlayedDate?: string;
     IsUserListeningToSomething: boolean;
+    error?: string;
+    errorMessage?: string;
+    lastfmError?: string;
   }
 
   const nowPlaying = writable<NowPlayingData | null>(null);
   const isLoading = writable(false);
   const isDropdownOpen = writable(false);
+  const error = writable<string | null>(null);
+  let retryCount = 0;
+  const MAX_RETRIES = 3;
 
   let refreshInterval: NodeJS.Timeout | null = null;
 
@@ -43,16 +50,25 @@
 
   const fetchNowPlayingData = async () => {
     isLoading.set(true);
+    error.set(null);
     try {
       const response = await fetch('/api/lastfmnowlistening.json');
       if (!response.ok) throw new Error(`HTTP error ${response.status}`);
       const data = await response.json();
       nowPlaying.set(data);
       startAutoRefresh(data.NowPlayingDuration, data.IsUserListeningToSomething);
-    } catch (error) {
+      retryCount = 0; // Reset retry count on success
+    } catch (error: any) {
       console.error("Error fetching now playing data:", error);
-      nowPlaying.set({ IsUserListeningToSomething: false });
-      stopAutoRefresh();
+      if (retryCount < MAX_RETRIES) {
+        retryCount++;
+        const retryDelay = Math.min(1000 * (2 ** retryCount), 30000); // Exponential backoff
+        setTimeout(fetchNowPlayingData, retryDelay);
+      } else {
+        error.set("Failed to fetch data. Please try again later.");
+        nowPlaying.set({ IsUserListeningToSomething: false });
+        stopAutoRefresh();
+      }
     } finally {
       isLoading.set(false);
     }
@@ -68,6 +84,10 @@
     }
   };
 
+  onMount(() => {
+    fetchNowPlayingData();
+  });
+
   onDestroy(() => {
     stopAutoRefresh();
   });
@@ -79,11 +99,18 @@
 
 <div class="fixed bottom-0 right-0 z-10">
   <button
-    class="btn mb-4 mr-4 btn-accent shadow-lg hover:shadow-xl transition-all duration-200"
+    class="btn mb-4 mr-4 btn-accent shadow-lg hover:shadow-xl transition-all duration-200 relative"
     on:click={toggleDropdown}
     on:keydown={handleKeyDown}
+    disabled={$isLoading}
   >
-    <Icon class="text-2xl" icon="material-symbols:music-cast-rounded" />
+    {#if $isLoading}
+      <div class="absolute inset-0 flex items-center justify-center">
+        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
+      </div>
+    {:else}
+      <Icon class="text-2xl" icon="material-symbols:music-cast-rounded" />
+    {/if}
   </button>
 
   {#if $isDropdownOpen}
