@@ -107,7 +107,7 @@
                 <div class="skeleton w-full h-full rounded-lg"></div>
               </figure>
               <div class="min-w-0 flex-auto space-y-1">
-                <div class="text-lg font-semibold line-clamp-2">
+                <div class="text-lg font-semibold line-clamp-2 break-words">
                   <div class="skeleton h-6 w-48"></div>
                 </div>
                 <div class="text-sm text-neutral-500 truncate">
@@ -134,14 +134,16 @@
             <h2 class="card-title text-lg font-bold mb-2">{t("nowPlaying.title")}</h2>
             <div class="flex items-center gap-4">
               <figure class="w-24 h-24 shrink-0">
-                <img
-                  src={$nowPlaying.NowPlayingAlbumArt}
-                  alt="Album Art"
-                  class="rounded-lg object-cover w-full h-full"
-                />
+                <a href={$nowPlaying.NowPlayingUrl} target="_blank" rel="noopener noreferrer">
+                  <img
+                    src={$nowPlaying.NowPlayingAlbumArt}
+                    alt="Album Art"
+                    class="rounded-lg object-cover w-full h-full hover:opacity-80 transition-opacity duration-200"
+                  />
+                </a>
               </figure>
               <div class="min-w-0 flex-auto space-y-1">
-                <div class="text-lg font-semibold truncate">
+                <div class="text-lg font-semibold line-clamp-2 break-words">
                   <a class="hover:text-primary transition-colors duration-200" href={$nowPlaying.NowPlayingUrl}>
                     {$nowPlaying.NowPlayingName}
                   </a>
