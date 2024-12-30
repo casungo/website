@@ -97,8 +97,36 @@
       class:w-64={!$nowPlaying?.IsUserListeningToSomething}
     >
       {#if $isLoading}
-        <div class="p-4">
-          <span class="loading loading-spinner loading-lg"></span>
+        <div class="card bg-base-100">
+          <div class="card-body p-4">
+            <h2 class="card-title text-lg font-bold mb-2">
+              <div class="skeleton h-6 w-32"></div>
+            </h2>
+            <div class="flex items-center gap-4">
+              <figure class="w-24 h-24 shrink-0">
+                <div class="skeleton w-full h-full rounded-lg"></div>
+              </figure>
+              <div class="min-w-0 flex-auto space-y-1">
+                <div class="text-lg font-semibold truncate">
+                  <div class="skeleton h-6 w-48"></div>
+                </div>
+                <div class="text-sm text-neutral-500 truncate">
+                  <div class="skeleton h-4 w-32"></div>
+                </div>
+              </div>
+            </div>
+            <div class="mt-4 border-t border-neutral-700 pt-2">
+              <div class="text-sm text-neutral-500">
+                <div class="skeleton h-4 w-24"></div>
+              </div>
+              <div class="flex items-center gap-2 mt-2">
+                <div class="skeleton w-8 h-8 rounded-lg"></div>
+                <div class="text-sm truncate">
+                  <div class="skeleton h-4 w-36"></div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       {:else if $nowPlaying?.IsUserListeningToSomething}
         <div class="card bg-base-100">
