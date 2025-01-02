@@ -34,6 +34,11 @@ function formatDate(date: number | Date) {
 }
 
 const absoluteImageUrl = new URL(data.heroImage.src, Astro.site).toString();
+
+// Add this helper function
+function isVertical(photo: any) {
+  return photo.height > photo.width;
+}
 ---
 
 <Default>
@@ -73,12 +78,12 @@ const absoluteImageUrl = new URL(data.heroImage.src, Astro.site).toString();
   </div>
 
   <div class="flex flex-col items-center justify-center mt-4">
-    <div class="pswp-gallery grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4" id="gallery">
+    <div class="pswp-gallery grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 auto-rows-[117px]" id="gallery">
       {
-        photos.map((photo: any, index: string | number) => (
-          <a href={photo.src} data-pswp-width={photo.width} data-pswp-height={photo.height} target="_blank" class="">
-            <div class="block w-44 h-full">
-              <Image src={entry.data.images[index]} alt={entry.data.title} class="rounded-btn" width="176" />
+        photos.map((photo: any, index: number) => (
+          <a href={photo.src} data-pswp-width={photo.width} data-pswp-height={photo.height} target="_blank" class={`${isVertical(photo) ? "row-span-2" : ""}`}>
+            <div class={`block w-44 h-full ${isVertical(photo) ? "h-full" : "aspect-video"}`}>
+              <Image src={entry.data.images[index]} alt={entry.data.title} class="rounded-btn object-cover h-full w-full" width="176" />
             </div>
           </a>
         ))
