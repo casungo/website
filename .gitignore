@@ -25,3 +25,5 @@ pnpm-debug.log*
 .github/
 /.dev.vars
 .aider*
+
+.codegpt
