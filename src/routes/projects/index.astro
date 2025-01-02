@@ -10,7 +10,9 @@ export const prerender = true;
 ---
 
 <Default>
-  <div class="row m-3 row-cols-1 row-cols-md-2 row-cols-lg-3 lg:max-2xl:w-2/4 mx-auto">
-    {projects.map((project: any) => <ProjectCardPhotos project={project} />)}
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {projects.map((project: any) => <ProjectCardPhotos project={project} />)}
+    </div>
   </div>
 </Default>
