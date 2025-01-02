@@ -149,7 +149,4 @@ images:
   - "@assets/20241231-Notte di Capodanno 2025/20241231-Notte di Capodanno 2025_142.jpg"
   - "@assets/20241231-Notte di Capodanno 2025/20241231-Notte di Capodanno 2025_143.jpg"
   - "@assets/20241231-Notte di Capodanno 2025/20241231-Notte di Capodanno 2025_144.jpg"
-  - "@assets/20241231-Notte di Capodanno 2025/20241231-Notte di Capodanno 2025_145.jpg"
-  - "@assets/20241231-Notte di Capodanno 2025/20241231-Notte di Capodanno 2025_146.jpg"
-  - "@assets/20241231-Notte di Capodanno 2025/20241231-Notte di Capodanno 2025_147.jpg"
 ---
