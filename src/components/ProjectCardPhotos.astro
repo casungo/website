@@ -6,7 +6,7 @@ interface Props {
   project: CollectionEntry<"projects">;
 }
 
-const { data, slug } = Astro.props.project;
+const { data, id } = Astro.props.project;
 
 function formatDate(date: number | Date) {
   const options: Intl.DateTimeFormatOptions = {
@@ -29,7 +29,7 @@ function formatDate(date: number | Date) {
       <div class="badge badge-secondary">{formatDate(data.pubDate)}</div>
       <h6 set:html={data.description} class="card-subtitle text-sm text-body-secondary" />
       <div class="card-actions justify-end mt-auto">
-        <a href={`/projects/${slug}`} class="btn btn-primary btn-sm">
+        <a href={`/projects/${id}`} class="btn btn-primary btn-sm">
           <i class="bi bi-camera"></i> Vai alle foto!
         </a>
       </div>

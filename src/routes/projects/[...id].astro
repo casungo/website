@@ -13,8 +13,8 @@ interface Props {
 
 export async function getStaticPaths() {
   const projects = await getCollection("projects");
-  return projects.map((entry: { slug: any }) => ({
-    params: { slug: entry.slug },
+  return projects.map((entry: { id: any }) => ({
+    params: { id: entry.id },
     props: { entry },
   }));
 }
@@ -35,7 +35,6 @@ function formatDate(date: number | Date) {
 
 const absoluteImageUrl = new URL(data.heroImage.src, Astro.site).toString();
 
-// Add this helper function
 function isVertical(photo: any) {
   return photo.height > photo.width;
 }

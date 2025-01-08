@@ -9,7 +9,7 @@ interface Props {
 const { data } = Astro.props.project;
 
 function formatDate(date: number | Date) {
-  const options = {
+  const options: Intl.DateTimeFormatOptions = {
     weekday: "long",
     year: "numeric",
     month: "long",
