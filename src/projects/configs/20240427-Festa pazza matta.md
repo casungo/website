@@ -1,8 +1,7 @@
 ---
 title: Festa pazza matta
-description: Fotografie di @miudi_official_ph
 pubDate: 2024-04-27
-credit: Fotografie di <a class="link" href="https://www.instagram.com/miudi_official_ph/">@miudi_official_ph</a>
+credit: Fotografie, color correction e editing di @miudi_official_ph
 heroImage: "@projects/images/20240427-Festa pazza matta/20240427-Festa pazza matta_hero.jpg"
 images:
   - "@projects/images/20240427-Festa pazza matta/20240427-Festa pazza matta_1.jpg"

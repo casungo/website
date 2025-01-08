@@ -72,6 +72,8 @@ function isVertical(photo: any) {
         </h2>
         <div class="badge badge-secondary">{formatDate(data.pubDate)}</div>
         <p set:html={data.credit} />
+        {data.colorCorrection && <p>{data.colorCorrection}</p>}
+        {data.editing && <p>{data.editing}</p>}
       </div>
     </div>
   </div>

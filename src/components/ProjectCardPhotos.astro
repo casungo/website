@@ -8,6 +8,14 @@ interface Props {
 
 const { data, id } = Astro.props.project;
 
+function linkInstagramUsernames(text: string) {
+  if (!text) return "";
+  // Replace @username with Instagram links
+  return text.replace(/@([a-zA-Z0-9_.]+)/g, (match, username) => {
+    return `<a class="link" href="https://www.instagram.com/${username}" target="_blank">@${username}</a>`;
+  });
+}
+
 function formatDate(date: number | Date) {
   const options: Intl.DateTimeFormatOptions = {
     weekday: "long",
@@ -27,7 +35,9 @@ function formatDate(date: number | Date) {
     <div class="card-body p-4">
       <h5 class="card-title text-lg">{data.title}</h5>
       <div class="badge badge-secondary">{formatDate(data.pubDate)}</div>
-      <h6 set:html={data.description} class="card-subtitle text-sm text-body-secondary" />
+      <p set:html={linkInstagramUsernames(data.credit)} />
+      <p set:html={linkInstagramUsernames(data.colorCorrection)} />
+      <p set:html={linkInstagramUsernames(data.editing)} />
       <div class="card-actions justify-end mt-auto">
         <a href={`/projects/${id}`} class="btn btn-primary btn-sm">
           <i class="bi bi-camera"></i> Vai alle foto!

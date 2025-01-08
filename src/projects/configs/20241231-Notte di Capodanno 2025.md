@@ -1,8 +1,7 @@
 ---
 title: Notte di Capodanno 2025
-description: Fotografie di @miudi_official_ph
 pubDate: 2024-12-31
-credit: Fotografie di <a class="link" href="https://www.instagram.com/miudi_official_ph/">@miudi_official_ph</a>
+credit: Fotografie, color correction e editing di @miudi_official_ph
 heroImage: "@projects/images/20241231-Notte di Capodanno 2025/20241231-Notte di Capodanno 2025_hero.jpg"
 images:
   - "@projects/images/20241231-Notte di Capodanno 2025/20241231-Notte di Capodanno 2025_1.jpg"

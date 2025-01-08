@@ -1,8 +1,7 @@
 ---
 title: No Name Party
-description: Fotografie di @miudi_official_ph
 pubDate: 2024-05-25
-credit: Fotografie di <a class="link" href="https://www.instagram.com/miudi_official_ph/">@miudi_official_ph</a>
+credit: Fotografie, color correction e editing di @miudi_official_ph
 heroImage: "@projects/images/20240525-No Name Party/20240525-No Name Party_hero.jpg"
 images:
   - "@projects/images/20240525-No Name Party/20240525-No Name Party_1.jpg"
