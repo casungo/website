@@ -50,7 +50,7 @@ function isVertical(photo: any) {
         image: absoluteImageUrl,
       },
       optional: {
-        description: data.description,
+        description: data.credit,
       },
       image: {
         alt: data.title,
@@ -82,7 +82,7 @@ function isVertical(photo: any) {
     <div class="pswp-gallery grid grid-cols-1 min-[355px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 auto-rows-[120px]" id="gallery">
       {
         photos.map((photo: any, index: number) => (
-          <a href={photo.src} data-pswp-width={photo.width} data-pswp-height={photo.height} target="_blank" class={`${isVertical(photo) ? "row-span-2" : ""}`}>
+          <a href={photo.src} data-pswp-width={photo.width} data-pswp-height={photo.height} class={`${isVertical(photo) ? "row-span-2" : ""}`}>
             <div class={`block w-44 h-full ${isVertical(photo) ? "h-full" : "aspect-video"}`}>
               <Image src={entry.data.images[index]} alt={entry.data.title} class="rounded-btn object-cover h-full w-full" width="176" />
             </div>

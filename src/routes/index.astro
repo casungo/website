@@ -1,6 +1,6 @@
 ---
 import { getLocalePath } from "i18n:astro";
-import { t, getLocale } from "i18n:astro";
+import { t } from "i18n:astro";
 import { Icon } from "astro-icon/components";
 
 import Default from "@layouts/Default.astro";
@@ -16,7 +16,6 @@ import NowPlaying from "@components/NowPlaying.svelte";
 import Chance from "@images/1Chance.png";
 import Carsteroids from "@images/Carsteroids.jpg";
 import Fedora33 from "@images/Fedora 33 wallpaper.jpg";
-import MetaSpark from "@images/Meta Spark.jpg";
 import Niagara from "@images/Niagara.png";
 import RA from "@images/RA.jpg";
 import Briefmaker from "@images/briefmaker.png";
@@ -24,8 +23,6 @@ import Webscreenshot from "@images/webscreenshot.png";
 import Astroimg from "@images/astro.jpg";
 
 const contact = getLocalePath("/contact");
-
-const currentLocale = getLocale();
 ---
 
 <Default title="Pagina iniziale">

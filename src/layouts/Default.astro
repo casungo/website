@@ -8,7 +8,7 @@ import I18nClient from "@astrolicious/i18n/components/I18nClient.astro";
 import I18nHead from "@astrolicious/i18n/components/I18nHead.astro";
 import { getHtmlAttrs } from "i18n:astro";
 
-const { lang, title, description } = Astro.props;
+const { title, description } = Astro.props;
 ---
 
 <!doctype html>
@@ -24,7 +24,7 @@ const { lang, title, description } = Astro.props;
     </script>
     <script>
       import { themeChange } from "theme-change";
-      themeChange(); // Initialize theme-change
+      themeChange();
     </script>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />

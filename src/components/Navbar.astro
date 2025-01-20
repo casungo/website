@@ -33,7 +33,7 @@ const contact = getLocalePath("/contact");
       </ul>
     </div>
     <div class="navbar-end">
-      <ThemeSelector client:load/>
+      <ThemeSelector client:load />
       <div class="dropdown dropdown-end">
         <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
           <div class="indicator">
@@ -48,7 +48,6 @@ const contact = getLocalePath("/contact");
   </div>
 
   <script>
-    // Ensure theme-change initialization
     import("theme-change").then(({ themeChange }) => {
       themeChange();
     });

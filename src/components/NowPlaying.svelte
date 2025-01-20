@@ -25,7 +25,7 @@
   const isLoading = writable(false);
   const isDropdownOpen = writable(false);
   const error = writable<string | null>(null);
-  
+
   let toastTimeout: NodeJS.Timeout | null = null;
   let retryCount = 0;
   let lastFetchTime = 0;
@@ -42,8 +42,7 @@
     toastTimeout = setTimeout(() => error.set(null), duration);
   };
 
-  const calculateRefreshInterval = (duration: number | null) => 
-    duration ? Math.max(10000, Math.min(60000, duration / 10)) : DEFAULT_REFRESH_INTERVAL;
+  const calculateRefreshInterval = (duration: number | null) => (duration ? Math.max(10000, Math.min(60000, duration / 10)) : DEFAULT_REFRESH_INTERVAL);
 
   const startAutoRefresh = (duration: number | null, isListening: boolean) => {
     if (refreshInterval) clearInterval(refreshInterval);
@@ -59,16 +58,16 @@
 
   const fetchNowPlayingData = async () => {
     if (isFetching || Date.now() - lastFetchTime < CACHE_DURATION) return;
-    
+
     isLoading.set(true);
     error.set(null);
     isFetching = true;
-    
+
     try {
       const response = await fetch("/api/lastfmnowlistening.json");
       lastFetchTime = Date.now();
       if (!response.ok) throw new Error(`HTTP error ${response.status}`);
-      
+
       const data = await response.json();
       nowPlaying.set(data);
       startAutoRefresh(data.NowPlayingDuration, data.IsUserListeningToSomething);
@@ -94,7 +93,7 @@
   };
 
   const toggleDropdown = () => {
-    isDropdownOpen.update(open => {
+    isDropdownOpen.update((open) => {
       if (!open) fetchNowPlayingData();
       else stopAutoRefresh();
       return !open;
@@ -123,10 +122,10 @@
       </div>
     </div>
   {/if}
-  <button 
-    class="btn mb-4 mr-4 btn-accent shadow-lg hover:shadow-xl transition-all duration-200 relative" 
-    on:click={toggleDropdown} 
-    on:keydown={handleKeyDown} 
+  <button
+    class="btn mb-4 mr-4 btn-accent shadow-lg hover:shadow-xl transition-all duration-200 relative"
+    on:click={toggleDropdown}
+    on:keydown={handleKeyDown}
     disabled={$isLoading}
     aria-expanded={$isDropdownOpen}
     aria-controls="now-playing-dropdown"
@@ -155,7 +154,8 @@
         <div class="card bg-base-100">
           <div class="card-body p-4">
             <h2 class="card-title text-lg font-bold mb-2">
-              <div class="skeleton h-6 w-32"></div>
+              <span class="sr-only">Loading...</span>
+              <div class="skeleton h-6 w-32" aria-hidden="true"></div>
             </h2>
             <div class="flex items-center gap-4">
               <figure class="w-24 h-24 shrink-0">
@@ -208,7 +208,7 @@
             </div>
             {#if $nowPlaying.NowPlayingDuration}
               <div class="w-full bg-neutral-700 rounded-full h-1.5 mt-4">
-                <div class="bg-accent h-1.5 rounded-full" style={`width: ${Math.random() * 100}%`} />
+                <div class="bg-accent h-1.5 rounded-full" style={`width: ${Math.random() * 100}%`}></div>
               </div>
             {/if}
             {#if $nowPlaying.LastPlayedName}

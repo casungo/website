@@ -1,4 +1,3 @@
-<!-- src/components/navbar/ThemeSwitcher.svelte -->
 <script>
   import { onMount } from "svelte";
   import Icon from "@iconify/svelte";
