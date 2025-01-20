@@ -8,6 +8,13 @@ interface Props {
 
 const { data } = Astro.props.project;
 
+function linkInstagramUsernames(text: string) {
+  if (!text) return "";
+  return text.replace(/@([a-zA-Z0-9_.]+)/g, (username) => {
+    return `<a class="link" href="https://www.instagram.com/${username}" target="_blank">@${username}</a>`;
+  });
+}
+
 function formatDate(date: number | Date) {
   const options: Intl.DateTimeFormatOptions = {
     weekday: "long",
@@ -15,27 +22,19 @@ function formatDate(date: number | Date) {
     month: "long",
     day: "numeric",
   };
-  return new Intl.DateTimeFormat("it-IT", options).format(date);
+  return new Intl.DateTimeFormat("it-IT", options).format(new Date(date));
 }
 ---
 
-<div class="m-3">
-  <div class="from-indigo-500 h-40 w-full">
-    <figure>
-      <div class="aspect-video">
-        <Image src={data.heroImage} alt={data.title} />
-      </div>
-    </figure>
-    <div class="">
-      {formatDate(data.pubDate)}
-      <br />
-      {data.title}
-    </div>
-  </div>
-</div>
-
-<div class="card m-3">
-  <div class="card-body">
-    <p set:html={data.credit} class="card-text fs-6" />
+<div class="card bg-base-300 shadow h-full">
+  <figure class="aspect-video">
+    <Image src={data.heroImage} alt={data.title} draggable="false" class="rounded-t-box object-cover w-full h-full" />
+  </figure>
+  <div class="card-body p-4">
+    <h5 class="card-title text-lg">{data.title}</h5>
+    <div class="badge badge-secondary">{formatDate(data.pubDate)}</div>
+    <p set:html={linkInstagramUsernames(data.credit)} />
+    <p set:html={linkInstagramUsernames(data.colorCorrection ?? "")} />
+    <p set:html={linkInstagramUsernames(data.editing ?? "")} />
   </div>
 </div>
