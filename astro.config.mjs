@@ -55,7 +55,17 @@ export default defineConfig({
   },
   env: {
     schema: {
-      LASTFM_API_KEY: envField.string({
+      SPOTIFY_CLIENT_ID: envField.string({
+        context: "server",
+        access: "secret",
+        optional: false,
+      }),
+      SPOTIFY_CLIENT_SECRET: envField.string({
+        context: "server",
+        access: "secret",
+        optional: false,
+      }),
+      SPOTIFY_REFRESH_TOKEN: envField.string({
         context: "server",
         access: "secret",
         optional: false,

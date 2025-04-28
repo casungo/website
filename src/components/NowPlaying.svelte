@@ -4,33 +4,40 @@
   import { t } from "i18n:astro";
   import Icon from "@iconify/svelte";
 
+  interface Track {
+    name: string;
+    artist: string;
+    albumArt: string;
+    url: string;
+    playedAt: string;
+  }
+
   interface NowPlayingData {
     NowPlayingArtist?: string;
     NowPlayingAlbum?: string;
     NowPlayingAlbumArt?: string;
     NowPlayingName?: string;
     NowPlayingUrl?: string;
-    NowPlayingDuration?: number | null;
-    LastPlayedName?: string;
-    LastPlayedUrl?: string;
-    LastPlayedArt?: string;
-    LastPlayedDate?: string;
+    NowPlayingDuration?: number;
+    NowPlayingProgress?: number;
+    recentTracks?: Track[];
     IsUserListeningToSomething: boolean;
     error?: string;
     errorMessage?: string;
-    lastfmError?: string;
   }
 
   const nowPlaying = writable<NowPlayingData | null>(null);
   const isLoading = writable(false);
   const isDropdownOpen = writable(false);
   const error = writable<string | null>(null);
+  const progressPercentage = writable(0);
 
   let toastTimeout: NodeJS.Timeout | null = null;
   let retryCount = 0;
   let lastFetchTime = 0;
   let isFetching = false;
   let refreshInterval: NodeJS.Timeout | null = null;
+  let progressInterval: NodeJS.Timeout | null = null;
 
   const MAX_RETRIES = 3;
   const CACHE_DURATION = 10000;
@@ -42,9 +49,56 @@
     toastTimeout = setTimeout(() => error.set(null), duration);
   };
 
+  const formatTime = (ms: number) => {
+    const minutes = Math.floor(ms / 60000);
+    const seconds = Math.floor((ms % 60000) / 1000)
+      .toString()
+      .padStart(2, "0");
+    return `${minutes}:${seconds}`;
+  };
+
+  const formatRelativeTime = (dateString: string) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diff = now.getTime() - date.getTime();
+
+    if (diff < 60000) return "just now";
+    if (diff < 3600000) {
+      const minutes = Math.floor(diff / 60000);
+      return `${minutes}m ago`;
+    }
+    if (diff < 86400000) {
+      const hours = Math.floor(diff / 3600000);
+      return `${hours}h ago`;
+    }
+    return date.toLocaleDateString();
+  };
+
+  const updateProgressBar = (duration: number, progress: number) => {
+    if (progressInterval) clearInterval(progressInterval);
+
+    if (!duration || !progress) {
+      progressPercentage.set(0);
+      return;
+    }
+
+    let currentProgress = progress;
+    progressPercentage.set((currentProgress / duration) * 100);
+
+    progressInterval = setInterval(() => {
+      currentProgress += 1000;
+      if (currentProgress >= duration) {
+        if (progressInterval) clearInterval(progressInterval);
+        setTimeout(fetchNowPlayingData, 2000);
+      } else {
+        progressPercentage.set((currentProgress / duration) * 100);
+      }
+    }, 1000);
+  };
+
   const calculateRefreshInterval = (duration: number | null) => (duration ? Math.max(10000, Math.min(60000, duration / 10)) : DEFAULT_REFRESH_INTERVAL);
 
-  const startAutoRefresh = (duration: number | null, isListening: boolean) => {
+  const startAutoRefresh = (duration: number | null) => {
     if (refreshInterval) clearInterval(refreshInterval);
     refreshInterval = setInterval(fetchNowPlayingData, calculateRefreshInterval(duration));
   };
@@ -53,6 +107,10 @@
     if (refreshInterval) {
       clearInterval(refreshInterval);
       refreshInterval = null;
+    }
+    if (progressInterval) {
+      clearInterval(progressInterval);
+      progressInterval = null;
     }
   };
 
@@ -64,31 +122,31 @@
     isFetching = true;
 
     try {
-      const response = await fetch("/api/lastfmnowlistening.json");
+      const response = await fetch("/api/spotifynowplaying.json");
       lastFetchTime = Date.now();
       if (!response.ok) throw new Error(`HTTP error ${response.status}`);
 
       const data = await response.json();
       nowPlaying.set(data);
-      startAutoRefresh(data.NowPlayingDuration, data.IsUserListeningToSomething);
+
+      if (data.IsUserListeningToSomething && data.NowPlayingDuration && data.NowPlayingProgress) {
+        updateProgressBar(data.NowPlayingDuration, data.NowPlayingProgress);
+      }
+
+      startAutoRefresh(data.NowPlayingDuration);
       retryCount = 0;
     } catch (err: any) {
-      handleFetchError(err);
+      if (retryCount < MAX_RETRIES) {
+        retryCount++;
+        setTimeout(fetchNowPlayingData, Math.min(1000 * 2 ** retryCount, 30000));
+      } else {
+        showToast("Failed to fetch data. Please try again later.");
+        nowPlaying.set({ IsUserListeningToSomething: false });
+        stopAutoRefresh();
+      }
     } finally {
       isLoading.set(false);
       isFetching = false;
-    }
-  };
-
-  const handleFetchError = (error: Error) => {
-    console.error("Error fetching now playing data:", error);
-    if (retryCount < MAX_RETRIES) {
-      retryCount++;
-      setTimeout(fetchNowPlayingData, Math.min(1000 * 2 ** retryCount, 30000));
-    } else {
-      showToast("Failed to fetch data. Please try again later.");
-      nowPlaying.set({ IsUserListeningToSomething: false });
-      stopAutoRefresh();
     }
   };
 
@@ -147,10 +205,10 @@
       role="dialog"
       aria-labelledby="now-playing-title"
       tabindex="-1"
-      class:w-96={$nowPlaying?.IsUserListeningToSomething}
-      class:w-64={!$nowPlaying?.IsUserListeningToSomething}
+      class:w-96={$nowPlaying?.IsUserListeningToSomething || ($nowPlaying?.recentTracks && $nowPlaying.recentTracks.length > 0)}
+      class:w-64={!$nowPlaying?.IsUserListeningToSomething && (!$nowPlaying?.recentTracks || $nowPlaying.recentTracks.length === 0)}
     >
-      {#if $isLoading}
+      {#if $isLoading && !$nowPlaying}
         <div class="card bg-base-100">
           <div class="card-body p-4">
             <h2 class="card-title text-lg font-bold mb-2">
@@ -162,23 +220,8 @@
                 <div class="skeleton w-full h-full rounded-lg"></div>
               </figure>
               <div class="min-w-0 flex-auto space-y-1">
-                <div class="text-lg font-semibold line-clamp-2 break-words">
-                  <div class="skeleton h-6 w-48"></div>
-                </div>
-                <div class="text-sm text-neutral-500 truncate">
-                  <div class="skeleton h-4 w-32"></div>
-                </div>
-              </div>
-            </div>
-            <div class="mt-4 border-t border-neutral-700 pt-4">
-              <div class="text-sm text-neutral-500 mb-2">
-                <div class="skeleton h-4 w-24"></div>
-              </div>
-              <div class="flex items-center gap-2">
-                <div class="skeleton w-8 h-8 rounded-lg"></div>
-                <div class="text-sm line-clamp-2">
-                  <div class="skeleton h-4 w-36"></div>
-                </div>
+                <div class="skeleton h-6 w-48"></div>
+                <div class="skeleton h-4 w-32"></div>
               </div>
             </div>
           </div>
@@ -200,7 +243,7 @@
                   </a>
                 </div>
                 <div class="text-sm text-neutral-500 truncate">
-                  <a class="hover:text-primary transition-colors duration-200" href={`https://www.last.fm/music/${encodeURIComponent($nowPlaying.NowPlayingArtist || "")}`}>
+                  <a class="hover:text-primary transition-colors duration-200" href={`https://open.spotify.com/search/${encodeURIComponent($nowPlaying.NowPlayingArtist || "")}`}>
                     {$nowPlaying.NowPlayingArtist}
                   </a>
                 </div>
@@ -208,32 +251,62 @@
             </div>
             {#if $nowPlaying.NowPlayingDuration}
               <div class="w-full bg-neutral-700 rounded-full h-1.5 mt-4">
-                <div class="bg-accent h-1.5 rounded-full" style={`width: ${Math.random() * 100}%`}></div>
+                <div class="bg-accent h-1.5 rounded-full" style={`width: ${$progressPercentage}%`}></div>
+              </div>
+              <div class="flex justify-between text-xs text-neutral-400 mt-1">
+                <span>{formatTime($nowPlaying.NowPlayingProgress || 0)}</span>
+                <span>{formatTime($nowPlaying.NowPlayingDuration)}</span>
               </div>
             {/if}
-            {#if $nowPlaying.LastPlayedName}
+
+            {#if $nowPlaying.recentTracks && $nowPlaying.recentTracks.length > 0}
               <div class="mt-4 border-t border-neutral-700 pt-4">
-                <p class="text-sm text-neutral-500 mb-2">{t("nowPlaying.lastPlayedText")}</p>
-                <div class="flex items-center gap-2">
-                  {#if $nowPlaying.LastPlayedArt}
-                    <img src={$nowPlaying.LastPlayedArt} alt="Last Played Album Art" class="w-8 h-8 rounded-lg object-cover" />
-                  {/if}
-                  <div class="text-sm line-clamp-2">
-                    <a class="hover:text-primary transition-colors duration-200" href={$nowPlaying.LastPlayedUrl}>
-                      {$nowPlaying.LastPlayedName}
-                    </a>
+                <p class="text-sm text-neutral-500 mb-2">{t("nowPlaying.recentlyPlayedText", "Recently Played")}</p>
+                {#each $nowPlaying.recentTracks.slice(0, 3) as track}
+                  <div class="flex items-center gap-2 mb-2">
+                    <img src={track.albumArt} alt="Album Art" class="w-8 h-8 rounded-lg object-cover" />
+                    <div class="min-w-0">
+                      <div class="text-sm font-medium line-clamp-1">
+                        <a class="hover:text-primary transition-colors duration-200" href={track.url}>
+                          {track.name}
+                        </a>
+                      </div>
+                      <div class="text-xs text-neutral-500 truncate">{track.artist}</div>
+                    </div>
+                    <div class="text-xs text-neutral-400 ml-auto">{formatRelativeTime(track.playedAt)}</div>
                   </div>
-                </div>
+                {/each}
               </div>
             {/if}
           </div>
         </div>
       {:else}
-        <div class="card-body p-4 text-sm">
-          {t("nowPlaying.notPlayingSomethingText")}
-          {#if $nowPlaying?.LastPlayedDate}
-            <div class="mt-2">{t("nowPlaying.lastPlayedText")} {$nowPlaying.LastPlayedDate}</div>
-          {/if}
+        <div class="card bg-base-100">
+          <div class="card-body p-4">
+            <h2 class="card-title text-lg font-bold mb-2">{t("nowPlaying.notPlayingSomethingText", "Not currently playing")}</h2>
+
+            {#if $nowPlaying?.recentTracks && $nowPlaying.recentTracks.length > 0}
+              <div class="mt-2">
+                <p class="text-sm text-neutral-500 mb-2">{t("nowPlaying.recentlyPlayedText", "Recently Played")}</p>
+                {#each $nowPlaying.recentTracks.slice(0, 5) as track}
+                  <div class="flex items-center gap-2 mb-2">
+                    <img src={track.albumArt} alt="Album Art" class="w-8 h-8 rounded-lg object-cover" />
+                    <div class="min-w-0">
+                      <div class="text-sm font-medium line-clamp-1">
+                        <a class="hover:text-primary transition-colors duration-200" href={track.url}>
+                          {track.name}
+                        </a>
+                      </div>
+                      <div class="text-xs text-neutral-500 truncate">{track.artist}</div>
+                    </div>
+                    <div class="text-xs text-neutral-400 ml-auto">{formatRelativeTime(track.playedAt)}</div>
+                  </div>
+                {/each}
+              </div>
+            {:else}
+              <p class="text-sm">{t("nowPlaying.noRecentTracksText", "No recent tracks found")}</p>
+            {/if}
+          </div>
         </div>
       {/if}
     </div>
