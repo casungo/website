@@ -31,6 +31,7 @@
   const isDropdownOpen = writable(false);
   const error = writable<string | null>(null);
   const progressPercentage = writable(0);
+  const currentProgress = writable(0);
 
   let toastTimeout: NodeJS.Timeout | null = null;
   let retryCount = 0;
@@ -79,19 +80,22 @@
 
     if (!duration || !progress) {
       progressPercentage.set(0);
+      currentProgress.set(0);
       return;
     }
 
-    let currentProgress = progress;
-    progressPercentage.set((currentProgress / duration) * 100);
+    let progressMs = progress;
+    progressPercentage.set((progressMs / duration) * 100);
+    currentProgress.set(progressMs);
 
     progressInterval = setInterval(() => {
-      currentProgress += 1000;
-      if (currentProgress >= duration) {
+      progressMs += 1000;
+      if (progressMs >= duration) {
         if (progressInterval) clearInterval(progressInterval);
         setTimeout(fetchNowPlayingData, 2000);
       } else {
-        progressPercentage.set((currentProgress / duration) * 100);
+        progressPercentage.set((progressMs / duration) * 100);
+        currentProgress.set(progressMs);
       }
     }, 1000);
   };
@@ -254,7 +258,7 @@
                 <div class="bg-accent h-1.5 rounded-full" style={`width: ${$progressPercentage}%`}></div>
               </div>
               <div class="flex justify-between text-xs text-neutral-400 mt-1">
-                <span>{formatTime($nowPlaying.NowPlayingProgress || 0)}</span>
+                <span>{formatTime($currentProgress)}</span>
                 <span>{formatTime($nowPlaying.NowPlayingDuration)}</span>
               </div>
             {/if}
