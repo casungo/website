@@ -24,6 +24,9 @@
     IsUserListeningToSomething: boolean;
     error?: string;
     errorMessage?: string;
+    NowPlayingAlbumUrl?: string;
+    NowPlayingArtistUrl?: string;
+    NowPlayingArtistImage?: string;
   }
 
   const nowPlaying = writable<NowPlayingData | null>(null);
@@ -56,23 +59,6 @@
       .toString()
       .padStart(2, "0");
     return `${minutes}:${seconds}`;
-  };
-
-  const formatRelativeTime = (dateString: string) => {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diff = now.getTime() - date.getTime();
-
-    if (diff < 60000) return "just now";
-    if (diff < 3600000) {
-      const minutes = Math.floor(diff / 60000);
-      return `${minutes}m ago`;
-    }
-    if (diff < 86400000) {
-      const hours = Math.floor(diff / 3600000);
-      return `${hours}h ago`;
-    }
-    return date.toLocaleDateString();
   };
 
   const updateProgressBar = (duration: number, progress: number) => {
@@ -236,7 +222,7 @@
             <h2 class="card-title text-lg font-bold mb-2">{t("nowPlaying.title")}</h2>
             <div class="flex items-center gap-4">
               <figure class="w-24 h-24 shrink-0">
-                <a href={$nowPlaying.NowPlayingUrl} target="_blank" rel="noopener noreferrer">
+                <a href={$nowPlaying.NowPlayingAlbumUrl} target="_blank" rel="noopener noreferrer" class="block">
                   <img src={$nowPlaying.NowPlayingAlbumArt} alt="Album Art" class="rounded-lg object-cover w-full h-full hover:opacity-80 transition-opacity duration-200" />
                 </a>
               </figure>
@@ -246,8 +232,16 @@
                     {$nowPlaying.NowPlayingName}
                   </a>
                 </div>
-                <div class="text-sm text-neutral-500 truncate">
-                  <a class="hover:text-primary transition-colors duration-200" href={`https://open.spotify.com/search/${encodeURIComponent($nowPlaying.NowPlayingArtist || "")}`}>
+                <div class="text-sm text-neutral-500">
+                  <a class="hover:text-primary transition-colors duration-200" href={$nowPlaying.NowPlayingAlbumUrl}>
+                    {$nowPlaying.NowPlayingAlbum}
+                  </a>
+                </div>
+                <div class="flex items-center gap-2 text-sm text-neutral-500">
+                  {#if $nowPlaying.NowPlayingArtistImage}
+                    <img src={$nowPlaying.NowPlayingArtistImage} alt="Artist" class="w-5 h-5 rounded-full" />
+                  {/if}
+                  <a class="hover:text-primary transition-colors duration-200" href={$nowPlaying.NowPlayingArtistUrl}>
                     {$nowPlaying.NowPlayingArtist}
                   </a>
                 </div>
@@ -268,16 +262,21 @@
                 <p class="text-sm text-neutral-500 mb-2">{t("nowPlaying.recentlyPlayedText", "Recently Played")}</p>
                 {#each $nowPlaying.recentTracks.slice(0, 3) as track}
                   <div class="flex items-center gap-2 mb-2">
-                    <img src={track.albumArt} alt="Album Art" class="w-8 h-8 rounded-lg object-cover" />
+                    <a href={track.url} class="block shrink-0">
+                      <img src={track.albumArt} alt="Album Art" class="w-8 h-8 rounded-lg object-cover hover:opacity-80 transition-opacity duration-200" />
+                    </a>
                     <div class="min-w-0">
                       <div class="text-sm font-medium line-clamp-1">
                         <a class="hover:text-primary transition-colors duration-200" href={track.url}>
                           {track.name}
                         </a>
                       </div>
-                      <div class="text-xs text-neutral-500 truncate">{track.artist}</div>
+                      <div class="text-xs text-neutral-500 truncate">
+                        <a class="hover:text-primary transition-colors duration-200" href={`https://open.spotify.com/search/${encodeURIComponent(track.artist)}`}>
+                          {track.artist}
+                        </a>
+                      </div>
                     </div>
-                    <div class="text-xs text-neutral-400 ml-auto">{formatRelativeTime(track.playedAt)}</div>
                   </div>
                 {/each}
               </div>
@@ -303,7 +302,6 @@
                       </div>
                       <div class="text-xs text-neutral-500 truncate">{track.artist}</div>
                     </div>
-                    <div class="text-xs text-neutral-400 ml-auto">{formatRelativeTime(track.playedAt)}</div>
                   </div>
                 {/each}
               </div>

@@ -61,6 +61,10 @@ export const GET: APIRoute = async () => {
         JSON.stringify({
           IsUserListeningToSomething: false,
           recentTracks,
+          debug: {
+            currentlyPlayingRaw: currentlyPlayingData,
+            recentlyPlayedRaw: recentlyPlayedData,
+          },
         }),
         { status: 200, headers: { "Content-Type": "application/json" } },
       );
@@ -69,14 +73,20 @@ export const GET: APIRoute = async () => {
     return new Response(
       JSON.stringify({
         NowPlayingArtist: currentlyPlayingData.item.artists.map((artist: { name: any }) => artist.name).join(", "),
+        NowPlayingArtistUrl: currentlyPlayingData.item.artists[0]?.external_urls.spotify,
         NowPlayingAlbum: currentlyPlayingData.item.album.name,
         NowPlayingAlbumArt: currentlyPlayingData.item.album.images[0]?.url,
+        NowPlayingAlbumUrl: currentlyPlayingData.item.album.external_urls.spotify,
         NowPlayingName: currentlyPlayingData.item.name,
         NowPlayingUrl: currentlyPlayingData.item.external_urls.spotify,
         NowPlayingDuration: currentlyPlayingData.item.duration_ms,
         NowPlayingProgress: currentlyPlayingData.progress_ms,
         IsUserListeningToSomething: true,
         recentTracks,
+        debug: {
+          currentlyPlayingRaw: currentlyPlayingData,
+          recentlyPlayedRaw: recentlyPlayedData,
+        },
       }),
       { status: 200, headers: { "Content-Type": "application/json" } },
     );
