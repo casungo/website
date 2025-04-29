@@ -263,8 +263,13 @@
             {#if $nowPlaying.recentTracks && $nowPlaying.recentTracks.length > 0}
               <div class="mt-4 border-t border-neutral-700 pt-4">
                 <p class="text-sm text-neutral-500 mb-2">{t("nowPlaying.recentlyPlayedText", "Recently Played")}</p>
-                {#each $nowPlaying.recentTracks.slice(0, 3) as track}
-                  <div class="flex items-center gap-2 mb-2">
+                {#each $nowPlaying.recentTracks.slice(0, 3) as track, i}
+                  <div
+                    class="flex items-center gap-2 mb-2 transition-all duration-300
+                    {i === 0 ? 'opacity-100 blur-none' : ''}
+                    {i === 1 ? 'opacity-85 blur-[0.5px] saturate-50' : ''}
+                    {i === 2 ? 'opacity-70 blur-[1px] saturate-0' : ''}"
+                  >
                     <a href={track.url} class="block shrink-0">
                       <img src={track.albumArt} alt="Album Art" class="w-8 h-8 rounded-lg object-cover hover:opacity-80 transition-opacity duration-200" />
                     </a>
@@ -297,8 +302,15 @@
             {#if $nowPlaying?.recentTracks && $nowPlaying.recentTracks.length > 0}
               <div class="mt-2">
                 <p class="text-sm text-neutral-500 mb-2">{t("nowPlaying.recentlyPlayedText", "Recently Played")}</p>
-                {#each $nowPlaying.recentTracks.slice(0, 5) as track}
-                  <div class="flex items-center gap-2 mb-2">
+                {#each $nowPlaying.recentTracks.slice(0, 5) as track, index}
+                  <div
+                    class="flex items-center gap-2 mb-2 transition-opacity duration-300
+                    {index === 0 ? 'opacity-100 blur-[0px] saturate-100' : ''}
+                    {index === 1 ? 'opacity-85 blur-[0.25px] saturate-75' : ''}
+                    {index === 2 ? 'opacity-70 blur-[0.5px] saturate-50' : ''}
+                    {index === 3 ? 'opacity-55 blur-[0.75px] saturate-25' : ''}
+                    {index === 4 ? 'opacity-40 blur-[1px] saturate-0' : ''}"
+                  >
                     <img src={track.albumArt} alt="Album Art" class="w-8 h-8 rounded-lg object-cover" />
                     <div class="min-w-0">
                       <div class="text-sm font-medium line-clamp-1">
