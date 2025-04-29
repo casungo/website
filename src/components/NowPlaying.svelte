@@ -279,7 +279,7 @@
                           <a class="hover:text-primary transition-colors duration-200" href={artist.url} target="_blank" rel="noopener noreferrer">
                             {artist.name}
                           </a>
-                          {#if index < track.artists.length - 1}<span class="text-neutral-400">, </span>{/if}
+                          {#if index < track.artists.length - 1}<span class="text-neutral-400">,</span>{/if}
                         {/each}
                       </div>
                     </div>
