@@ -6,14 +6,19 @@
 
   interface Track {
     name: string;
-    artist: string;
+    artists: Artist[]; // Changed from single string
     albumArt: string;
     url: string;
     playedAt: string;
   }
 
+  interface Artist {
+    name: string;
+    url: string;
+  }
+
   interface NowPlayingData {
-    NowPlayingArtist?: string;
+    NowPlayingArtists?: Artist[];
     NowPlayingAlbum?: string;
     NowPlayingAlbumArt?: string;
     NowPlayingName?: string;
@@ -25,8 +30,6 @@
     error?: string;
     errorMessage?: string;
     NowPlayingAlbumUrl?: string;
-    NowPlayingArtistUrl?: string;
-    NowPlayingArtistImage?: string;
   }
 
   const nowPlaying = writable<NowPlayingData | null>(null);
@@ -237,13 +240,13 @@
                     {$nowPlaying.NowPlayingAlbum}
                   </a>
                 </div>
-                <div class="flex items-center gap-2 text-sm text-neutral-500">
-                  {#if $nowPlaying.NowPlayingArtistImage}
-                    <img src={$nowPlaying.NowPlayingArtistImage} alt="Artist" class="w-5 h-5 rounded-full" />
+                <div class="flex flex-wrap items-center gap-x-1 text-sm text-neutral-500">
+                  {#if $nowPlaying.NowPlayingArtists}
+                    {#each $nowPlaying.NowPlayingArtists as artist, index}
+                      <a class="hover:text-primary transition-colors duration-200" href={artist.url} target="_blank" rel="noopener noreferrer">{artist.name}</a>
+                      {#if index < $nowPlaying.NowPlayingArtists.length - 1}<span class="text-neutral-400">,</span>{/if}
+                    {/each}
                   {/if}
-                  <a class="hover:text-primary transition-colors duration-200" href={$nowPlaying.NowPlayingArtistUrl}>
-                    {$nowPlaying.NowPlayingArtist}
-                  </a>
                 </div>
               </div>
             </div>
@@ -272,9 +275,12 @@
                         </a>
                       </div>
                       <div class="text-xs text-neutral-500 truncate">
-                        <a class="hover:text-primary transition-colors duration-200" href={`https://open.spotify.com/search/${encodeURIComponent(track.artist)}`}>
-                          {track.artist}
-                        </a>
+                        {#each track.artists as artist, index}
+                          <a class="hover:text-primary transition-colors duration-200" href={artist.url} target="_blank" rel="noopener noreferrer">
+                            {artist.name}
+                          </a>
+                          {#if index < track.artists.length - 1}<span class="text-neutral-400">, </span>{/if}
+                        {/each}
                       </div>
                     </div>
                   </div>
@@ -300,7 +306,14 @@
                           {track.name}
                         </a>
                       </div>
-                      <div class="text-xs text-neutral-500 truncate">{track.artist}</div>
+                      <div class="text-xs text-neutral-500 truncate">
+                        {#each track.artists as artist, index}
+                          <a class="hover:text-primary transition-colors duration-200" href={artist.url} target="_blank" rel="noopener noreferrer">
+                            {artist.name}
+                          </a>
+                          {#if index < track.artists.length - 1}<span class="text-neutral-400">, </span>{/if}
+                        {/each}
+                      </div>
                     </div>
                   </div>
                 {/each}

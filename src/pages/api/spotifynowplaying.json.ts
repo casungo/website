@@ -50,7 +50,10 @@ export const GET: APIRoute = async () => {
     const recentTracks =
       recentlyPlayedData?.items?.map((item: { track: { name: any; artists: any[]; album: { images: { url: any }[] }; external_urls: { spotify: any } }; played_at: any }) => ({
         name: item.track.name,
-        artist: item.track.artists.map((artist: { name: any }) => artist.name).join(", "),
+        artists: item.track.artists.map((artist: { name: any; external_urls: { spotify: any } }) => ({
+          name: artist.name,
+          url: artist.external_urls.spotify,
+        })),
         albumArt: item.track.album.images[0]?.url,
         url: item.track.external_urls.spotify,
         playedAt: item.played_at,
@@ -72,8 +75,10 @@ export const GET: APIRoute = async () => {
 
     return new Response(
       JSON.stringify({
-        NowPlayingArtist: currentlyPlayingData.item.artists.map((artist: { name: any }) => artist.name).join(", "),
-        NowPlayingArtistUrl: currentlyPlayingData.item.artists[0]?.external_urls.spotify,
+        NowPlayingArtists: currentlyPlayingData.item.artists.map((artist: { name: any; external_urls: { spotify: any } }) => ({
+          name: artist.name,
+          url: artist.external_urls.spotify,
+        })),
         NowPlayingAlbum: currentlyPlayingData.item.album.name,
         NowPlayingAlbumArt: currentlyPlayingData.item.album.images[0]?.url,
         NowPlayingAlbumUrl: currentlyPlayingData.item.album.external_urls.spotify,
