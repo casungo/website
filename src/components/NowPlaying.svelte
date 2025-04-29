@@ -188,7 +188,7 @@
     </div>
   {/if}
   <button
-    class="btn mb-4 mr-4 btn-accent shadow-lg hover:shadow-xl transition-all duration-200 relative"
+    class="btn mb-4 mr-4 btn-accent shadow-lg hover:shadow-xl transition-all duration-200 relative {$nowPlaying?.IsUserListeningToSomething ? 'dancing' : ''}"
     on:click={toggleDropdown}
     on:keydown={handleKeyDown}
     disabled={$isLoading}
@@ -353,3 +353,22 @@
     </div>
   {/if}
 </div>
+
+<style>
+  @keyframes dance {
+    0%,
+    100% {
+      transform: translateY(0) rotate(0);
+    }
+    33% {
+      transform: translateY(-3px) rotate(-1deg);
+    }
+    66% {
+      transform: translateY(2px) rotate(1deg);
+    }
+  }
+
+  .dancing {
+    animation: dance 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+</style>
