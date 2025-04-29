@@ -45,6 +45,8 @@
   let isFetching = false;
   let refreshInterval: NodeJS.Timeout | null = null;
   let progressInterval: NodeJS.Timeout | null = null;
+  let animationFrameId: number | null = null;
+  let lastUpdateTime = 0;
 
   const MAX_RETRIES = 3;
   const CACHE_DURATION = 10000;
@@ -66,6 +68,7 @@
 
   const updateProgressBar = (duration: number, progress: number) => {
     if (progressInterval) clearInterval(progressInterval);
+    if (animationFrameId) cancelAnimationFrame(animationFrameId);
 
     if (!duration || !progress) {
       progressPercentage.set(0);
@@ -74,19 +77,26 @@
     }
 
     let progressMs = progress;
-    progressPercentage.set((progressMs / duration) * 100);
-    currentProgress.set(progressMs);
+    lastUpdateTime = performance.now();
 
-    progressInterval = setInterval(() => {
-      progressMs += 1000;
+    const animate = (currentTime: number) => {
+      const deltaTime = currentTime - lastUpdateTime;
+      lastUpdateTime = currentTime;
+
+      progressMs += deltaTime;
       if (progressMs >= duration) {
-        if (progressInterval) clearInterval(progressInterval);
+        progressPercentage.set(100);
+        currentProgress.set(duration);
         setTimeout(fetchNowPlayingData, 2000);
-      } else {
-        progressPercentage.set((progressMs / duration) * 100);
-        currentProgress.set(progressMs);
+        return;
       }
-    }, 1000);
+
+      progressPercentage.set((progressMs / duration) * 100);
+      currentProgress.set(progressMs);
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    animationFrameId = requestAnimationFrame(animate);
   };
 
   const calculateRefreshInterval = (duration: number | null) => (duration ? Math.max(10000, Math.min(60000, duration / 10)) : DEFAULT_REFRESH_INTERVAL);
@@ -104,6 +114,10 @@
     if (progressInterval) {
       clearInterval(progressInterval);
       progressInterval = null;
+    }
+    if (animationFrameId) {
+      cancelAnimationFrame(animationFrameId);
+      animationFrameId = null;
     }
   };
 
