@@ -2,7 +2,7 @@ import { defineConfig, envField } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 import cloudflare from "@astrojs/cloudflare";
 import svelte from "@astrojs/svelte";
-import tailwind from "@astrojs/tailwind";
+import tailwindcss from "@tailwindcss/vite";
 import icon from "astro-icon";
 import db from "@astrojs/db";
 import i18n from "@astrolicious/i18n";
@@ -42,7 +42,6 @@ export default defineConfig({
     sitemap(),
     svelte(),
     db(),
-    tailwind(),
   ],
   output: "server",
   adapter: cloudflare({
@@ -52,6 +51,7 @@ export default defineConfig({
     ssr: {
       external: ["buffer", "path", "fs", "os", "crypto", "async_hooks"].map((i) => `node:${i}`),
     },
+    plugins: [tailwindcss()],
   },
   env: {
     schema: {

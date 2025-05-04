@@ -11,28 +11,35 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
-    "@astrojs/cloudflare": "^12.2.0",
+    "@astrojs/cloudflare": "^12.5.2",
     "@astrojs/db": "0.14.6",
-    "@astrojs/sitemap": "^3.2.1",
-    "@astrojs/svelte": "^7.0.4",
-    "@astrojs/tailwind": "^5.1.5",
+    "@astrojs/sitemap": "^3.3.1",
+    "@astrojs/svelte": "^7.0.13",
     "@astrolicious/i18n": "^0.6.1",
     "@iconify-json/bxl": "1.2.0",
-    "@iconify-json/material-symbols": "^1.2.12",
-    "@iconify/svelte": "^4.2.0",
-    "astro": "^5.1.8",
+    "@iconify-json/material-symbols": "^1.2.20",
+    "@iconify/svelte": "^5.0.0",
+    "@tailwindcss/vite": "^4.1.5",
+    "astro": "^5.7.10",
     "astro-icon": "^1.1.5",
     "astro-seo": "^0.8.4",
-    "daisyui": "^4.12.23",
-    "i18next": "^23.16.8",
+    "daisyui": "^5.0.35",
+    "i18next": "^25.0.2",
     "photoswipe": "^5.4.4",
-    "prettier": "^3.4.2",
+    "prettier": "^3.5.3",
     "prettier-plugin-astro": "^0.14.1",
-    "sharp": "^0.33.5",
-    "svelte": "^5.19.0",
-    "tailwindcss": "^3.4.17",
+    "sharp": "^0.34.1",
+    "svelte": "^5.28.2",
+    "tailwindcss": "^4.1.5",
     "theme-change": "^2.5.0",
-    "typescript": "^5.7.3",
-    "wrangler": "^3.103.2"
+    "typescript": "^5.8.3",
+    "wrangler": "^4.14.1"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp",
+      "workerd"
+    ]
   }
 }

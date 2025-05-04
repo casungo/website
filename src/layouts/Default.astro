@@ -15,12 +15,9 @@ const { title, description } = Astro.props;
 <html {...getHtmlAttrs()}>
   <head>
     <script is:inline>
-      // Prevent FART effect.
       if (localStorage.getItem("theme") === null) {
-        document.documentElement.setAttribute("data-theme", "emerald");
-      } else {
-        document.documentElement.setAttribute("data-theme", localStorage.getItem("theme"));
-      }
+        document.documentElement.setAttribute("data-theme", "light");
+      } else document.documentElement.setAttribute("data-theme", localStorage.getItem("theme"));
     </script>
     <script>
       import { themeChange } from "theme-change";
