@@ -27,7 +27,10 @@
       "emailPlaceholder": "Inserisci indirizzo email",
       "message": "Messaggio",
       "messagePlaceholder": "Inserisci il tuo messaggio",
-      "send": "Invia"
+      "send": "Invia",
+      "success": "Messaggio inviato con successo!",
+      "error": "Errore nell'invio del messaggio. Riprova.",
+      "requiredFields": "Compila tutti i campi obbligatori."
     }
   },
   "projects": {

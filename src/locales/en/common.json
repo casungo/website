@@ -27,7 +27,10 @@
       "emailPlaceholder": "Enter email address",
       "message": "Message",
       "messagePlaceholder": "Enter your message",
-      "send": "Send"
+      "send": "Send",
+      "success": "Message sent successfully!",
+      "error": "Error sending message. Please try again.",
+      "requiredFields": "Please fill in all required fields."
     }
   },
   "projects": {

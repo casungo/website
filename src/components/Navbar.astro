@@ -1,41 +1,22 @@
 ---
 import { getLocalePath } from "i18n:astro";
 import { Icon } from "astro-icon/components";
-import { t } from "i18n:astro";
 
 import LanguageSelector from "@components/navbar/LanguageSelector.astro";
 import ThemeSelector from "@components/navbar/ThemeSelector.svelte";
 
 const homeLink = getLocalePath("/");
-const contact = getLocalePath("/contact");
 ---
 
 <div class="m-2">
-  <div class="navbar bg-base-300 rounded-box">
+  <div class="navbar bg-base-100 rounded-box">
     <div class="navbar-start">
-      <div class="dropdown">
-        <div tabindex="0" role="button" class="btn btn-ghost sm:hidden">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"></path>
-          </svg>
-        </div>
-        <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-          <li><a href={homeLink}>{t("navbar.home")}</a></li>
-          <li><a href={contact}><i class="bi bi-envelope"></i> {t("navbar.contact")}</a></li>
-        </ul>
-      </div>
       <a class="btn btn-ghost text-xl" href={homeLink}>casungo</a>
-    </div>
-    <div class="navbar-center hidden sm:flex">
-      <ul class="menu menu-horizontal px-1">
-        <li><a href={homeLink}>{t("navbar.home")}</a></li>
-        <li><a href={contact}><i class="bi bi-envelope"></i> {t("navbar.contact")}</a></li>
-      </ul>
     </div>
     <div class="navbar-end">
       <ThemeSelector client:load />
       <div class="dropdown dropdown-end">
-        <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+        <div tabindex="0" role="button" class="btn btn-ghost">
           <div class="indicator">
             <Icon name="material-symbols:translate-rounded" />
           </div>
@@ -46,10 +27,4 @@ const contact = getLocalePath("/contact");
       </div>
     </div>
   </div>
-
-  <script>
-    import("theme-change").then(({ themeChange }) => {
-      themeChange();
-    });
-  </script>
 </div>

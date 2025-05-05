@@ -2,15 +2,16 @@
 export const prerender = false;
 
 import { t } from "i18n:astro";
-
 import Default from "@layouts/Default.astro";
-
 import Card from "@components/Card.astro";
-
 import Alert from "@components/Alert.svelte";
 import NowPlaying from "@components/NowPlaying.svelte";
 
-import { db, ContactForm } from "astro:db";
+// Initialize form state
+let formError: string | null = null;
+let formSuccess = false;
+
+// Handle form submission
 if (Astro.request.method === "POST") {
   const formData = await Astro.request.formData();
   const name = formData.get("name");
@@ -18,9 +19,37 @@ if (Astro.request.method === "POST") {
   const special = formData.get("special");
   const message = formData.get("message");
   const from = Astro.currentLocale;
-  if (!special) {
-    if (typeof name === "string" && typeof email === "string" && typeof message === "string" && typeof from === "string") {
-      await db.insert(ContactForm).values({ name, email, message, from });
+
+  // Validate required fields
+  if (!name || !email || !message) {
+    formError = t("contact.form.requiredFields");
+  } else if (!special) {
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: "7e134170-8361-4dbd-a3ab-9b093bb70dca",
+          name,
+          email,
+          message,
+          from,
+          timestamp: new Date().toISOString(),
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        formError = data.message || t("contact.form.error");
+      } else {
+        formSuccess = true;
+      }
+    } catch (error) {
+      formError = t("contact.form.error");
     }
   }
 }
@@ -39,48 +68,56 @@ if (Astro.request.method === "POST") {
   }
 </script>
 
-<Default title="Pagina iniziale">
+<Default title={t("contact.title")}>
   <Alert client:load />
 
   <Card title={t("contact.desc")}>
-    <form method="POST">
-      <div class="flex flex-wrap">
-        <div class="w-full sm:w-1/2">
-          <div class="m-2">
-            <label class="form-control w-full">
-              <div class="label">
-                <span class="label-text">{t("contact.form.name")}</span>
-              </div>
-              <input type="text" name="name" placeholder={t("contact.form.namePlaceholder")} class="input input-bordered w-full" />
-            </label>
-          </div>
+    {
+      formSuccess && (
+        <div class="alert alert-success mb-4">
+          <span>{t("contact.form.success")}</span>
         </div>
-        <div class="w-full sm:w-1/2">
-          <div class="m-2">
-            <label class="form-control w-full">
-              <div class="label">
-                <span class="label-text">{t("contact.form.email")}</span>
-              </div>
-              <input type="email" name="email" placeholder={t("contact.form.emailPlaceholder")} class="input input-bordered w-full" />
-            </label>
-          </div>
+      )
+    }
+    {
+      formError && (
+        <div class="alert alert-error mb-4">
+          <span>{formError}</span>
         </div>
-        <label for="special" class="sr-only">
-          <input id="special" name="special" class="hidden" />
-        </label>
-        <div class="w-full">
-          <div class="m-2">
-            <label class="form-control w-full">
-              <div class="label">
-                <span class="label-text">{t("contact.form.message")}</span>
-              </div>
-              <textarea name="message" placeholder={t("contact.form.messagePlaceholder")} class="textarea textarea-bordered w-full"></textarea>
-            </label>
-          </div>
+      )
+    }
+    <form method="POST" class="space-y-4">
+      <div class="flex flex-wrap -mx-2">
+        <div class="w-full sm:w-1/2 px-2">
+          <label class="form-control w-full">
+            <div class="label">
+              <span class="label-text">{t("contact.form.name")}</span>
+            </div>
+            <input type="text" name="name" required placeholder={t("contact.form.namePlaceholder")} class="input input-bordered w-full" />
+          </label>
+        </div>
+        <div class="w-full sm:w-1/2 px-2">
+          <label class="form-control w-full">
+            <div class="label">
+              <span class="label-text">{t("contact.form.email")}</span>
+            </div>
+            <input type="email" name="email" required placeholder={t("contact.form.emailPlaceholder")} class="input input-bordered w-full" />
+          </label>
+        </div>
+        <input type="text" name="special" class="hidden" tabindex="-1" autocomplete="off" />
+        <div class="w-full px-2">
+          <label class="form-control w-full">
+            <div class="label">
+              <span class="label-text">{t("contact.form.message")}</span>
+            </div>
+            <textarea name="message" required placeholder={t("contact.form.messagePlaceholder")} class="textarea textarea-bordered w-full min-h-[150px]"></textarea>
+          </label>
         </div>
       </div>
-      <div class="text-center my-2">
-        <button type="submit" class="btn btn-primary btn-lg">{t("contact.form.send")}</button>
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary btn-lg">
+          {t("contact.form.send")}
+        </button>
       </div>
     </form>
   </Card>

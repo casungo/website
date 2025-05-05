@@ -34,9 +34,9 @@ const { title, description } = Astro.props;
     <I18nHead />
     <slot name="head" />
   </head>
-  <body>
+  <body class="bg-base-200">
     <Navbar />
-    <div class="container mx-auto">
+    <div class="container">
       <slot />
     </div>
     <Footer />
