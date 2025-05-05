@@ -7,10 +7,6 @@ import Card from "@components/Card.astro";
 import Alert from "@components/Alert.svelte";
 import NowPlaying from "@components/NowPlaying.svelte";
 
-// Initialize form state
-let formError: string | null = null;
-let formSuccess = false;
-
 // Handle form submission
 if (Astro.request.method === "POST") {
   const formData = await Astro.request.formData();
@@ -20,10 +16,7 @@ if (Astro.request.method === "POST") {
   const message = formData.get("message");
   const from = Astro.currentLocale;
 
-  // Validate required fields
-  if (!name || !email || !message) {
-    formError = t("contact.form.requiredFields");
-  } else if (!special) {
+  if (!special) {
     try {
       const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
@@ -41,18 +34,22 @@ if (Astro.request.method === "POST") {
         }),
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        formError = data.message || t("contact.form.error");
+      if (response.ok) {
+        // Redirect to the same page with a success query parameter
+        return Astro.redirect(`${Astro.url.pathname}?status=success`, 303);
       } else {
-        formSuccess = true;
+        return Astro.redirect(`${Astro.url.pathname}?status=error`, 303);
       }
     } catch (error) {
-      formError = t("contact.form.error");
+      return Astro.redirect(`${Astro.url.pathname}?status=error`, 303);
     }
   }
 }
+
+// Get status from URL parameters for showing success/error message
+const status = Astro.url.searchParams.get("status");
+const formSuccess = status === "success";
+const formError = status === "error" ? t("contact.form.error") : null;
 ---
 
 <script>
@@ -86,7 +83,7 @@ if (Astro.request.method === "POST") {
         </div>
       )
     }
-    <form method="POST" class="space-y-4">
+    <form method="POST" action="">
       <div class="flex flex-wrap -mx-2">
         <div class="w-full sm:w-1/2 px-2">
           <label class="form-control w-full">
