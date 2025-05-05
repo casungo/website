@@ -2,7 +2,7 @@
 import { getCollection, type CollectionEntry } from "astro:content";
 
 import Default from "@layouts/Default.astro";
-import ProjectCardPhotos from "@components/ProjectCardPhotos.astro";
+import ProjectCardPhotos from "@components/projects/ProjectCardPhotos.astro";
 
 const projects = (await getCollection("projects")).sort((a: CollectionEntry<"projects">, b: CollectionEntry<"projects">) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
