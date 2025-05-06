@@ -11,6 +11,13 @@ interface Props {
   entry: CollectionEntry<"projects">;
 }
 
+function linkInstagramUsernames(text: string) {
+  if (!text) return "";
+  return text.replace(/@([a-zA-Z0-9_.]+)/g, (match, username) => {
+    return `<a class="link" href="https://www.instagram.com/${username}" target="_blank">@${username}</a>`;
+  });
+}
+
 export async function getStaticPaths() {
   const projects = await getCollection("projects");
   return projects.map((entry: { id: any }) => ({
@@ -60,7 +67,7 @@ function isVertical(photo: any) {
 
   <a href="/projects" class="btn btn-neutral text-xl"><Icon name="material-symbols:arrow-back" /> Altri Progetti</a>
   <div class="flex flex-col items-center justify-center m-4">
-    <div class="card bg-base-100 w-4/6 shadow-xl">
+    <div class="card card-border border-base-300 m-6 bg-base-100">
       <figure>
         <div class="aspect-video">
           <Image src={data.heroImage} alt={data.title} />
@@ -71,9 +78,9 @@ function isVertical(photo: any) {
           {data.title}
         </h2>
         <div class="badge badge-secondary">{formatDate(data.pubDate)}</div>
-        <p set:html={data.credit} />
-        {data.colorCorrection && <p>{data.colorCorrection}</p>}
-        {data.editing && <p>{data.editing}</p>}
+        <p set:html={linkInstagramUsernames(data.credit)} />
+        <p set:html={linkInstagramUsernames(data.colorCorrection ?? "")} />
+        <p set:html={linkInstagramUsernames(data.editing ?? "")} />
       </div>
     </div>
   </div>
