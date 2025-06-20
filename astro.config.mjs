@@ -11,6 +11,9 @@ import i18n from "@astrolicious/i18n";
 export default defineConfig({
   site: "https://casungo.top",
   prefetch: true,
+  experimental: {
+    liveContentCollections: true,
+  },
   integrations: [
     icon({
       include: {

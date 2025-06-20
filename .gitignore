@@ -26,4 +26,4 @@ pnpm-debug.log*
 /.dev.vars
 .aider*
 
-.codegpt
+repomix-output.xml
