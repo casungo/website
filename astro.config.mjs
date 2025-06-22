@@ -4,7 +4,6 @@ import cloudflare from "@astrojs/cloudflare";
 import svelte from "@astrojs/svelte";
 import tailwindcss from "@tailwindcss/vite";
 import icon from "astro-icon";
-import db from "@astrojs/db";
 import i18n from "@astrolicious/i18n";
 
 // https://astro.build/config
@@ -44,7 +43,6 @@ export default defineConfig({
     }),
     sitemap(),
     svelte(),
-    db(),
   ],
   output: "server",
   adapter: cloudflare({
