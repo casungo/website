@@ -8,6 +8,7 @@ interface Artist {
 }
 
 interface NowPlayingData {
+  IsUserListeningToSomething: boolean;
   NowPlayingArtists?: Artist[];
   NowPlayingAlbum?: string;
   NowPlayingAlbumArt?: string;
@@ -16,7 +17,6 @@ interface NowPlayingData {
   NowPlayingUrl?: string;
   NowPlayingDuration?: number;
   NowPlayingProgress?: number;
-  IsUserListeningToSomething: boolean;
   recentTracks?: {
     name: string;
     artists: Artist[];
@@ -36,8 +36,20 @@ class SpotifyLoaderError extends Error {
   }
 }
 
-// Helper functions (moved from the old API route)
-async function getAccessToken() {
+// In-memory cache for the Spotify access token
+let tokenCache: {
+  accessToken: string | null;
+  expiresAt: number;
+} = {
+  accessToken: null,
+  expiresAt: 0,
+};
+
+async function getAccessToken(): Promise<string> {
+  if (tokenCache.accessToken && Date.now() < tokenCache.expiresAt) {
+    return tokenCache.accessToken!;
+  }
+
   const authorization = Buffer.from(`${SPOTIFY_CLIENT_ID}:${SPOTIFY_CLIENT_SECRET}`).toString("base64");
   const response = await fetch("https://accounts.spotify.com/api/token", {
     method: "POST",
@@ -49,11 +61,19 @@ async function getAccessToken() {
     const errorData = await response.text();
     throw new Error(`Failed to refresh Spotify token: ${response.status} ${errorData}`);
   }
+
   const data = await response.json();
-  return data.access_token;
+  // Spotify tokens expire in 3600s. Set expiry to 59 minutes from now.
+  const expiresIn = (data.expires_in - 60) * 1000;
+  tokenCache = {
+    accessToken: data.access_token,
+    expiresAt: Date.now() + expiresIn,
+  };
+
+  return tokenCache.accessToken!;
 }
 
-async function fetchSpotifyData(url: RequestInfo | URL, accessToken: any) {
+async function fetchSpotifyData(url: RequestInfo | URL, accessToken: string) {
   const response = await fetch(url, { headers: { Authorization: `Bearer ${accessToken}` } });
   if (response.status === 204) return null; // No content, e.g., not currently playing
   if (!response.ok) throw new Error(`Spotify API error: ${response.status} for URL ${url}`);
@@ -102,7 +122,15 @@ export function spotifyLoader(): LiveLoader<NowPlayingData, { id: "now-playing" 
             }
           : { IsUserListeningToSomething: false, recentTracks };
 
-        return { id: "now-playing", data };
+        return {
+          id: "now-playing",
+          data,
+          cacheHint: {
+            // Suggest caching this highly dynamic response for 10 seconds.
+            // This enables CDN and browser caching via the API route.
+            maxAge: 10,
+          },
+        };
       } catch (error: any) {
         console.error("Spotify Loader Error:", error);
         return { error: new SpotifyLoaderError(`Failed to fetch Spotify data: ${error.message}`, error) };

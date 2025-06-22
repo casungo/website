@@ -4,8 +4,7 @@ import { getLiveEntry } from "astro:content";
 export const prerender = false;
 
 export const GET: APIRoute = async () => {
-  // Use the new Live Collection API to get the data
-  const { entry, error } = await getLiveEntry("spotify", "now-playing");
+  const { entry, error, cacheHint } = await getLiveEntry("spotify", "now-playing");
 
   if (error) {
     console.error("Error fetching from 'spotify' live collection:", error.message);
@@ -20,9 +19,27 @@ export const GET: APIRoute = async () => {
     );
   }
 
+  const headers = new Headers({
+    "Content-Type": "application/json",
+  });
+
+  // Use the cacheHint from the loader to set response headers for CDN and browser caching
+  if (cacheHint?.maxAge) {
+    headers.set("Cache-Control", `public, s-maxage=${cacheHint.maxAge}, max-age=${cacheHint.maxAge}`);
+  }
+
   // The loader provides the full data structure, ready to be sent to the client.
+  if (!entry) {
+    return new Response(
+      JSON.stringify({
+        error: "No entry data returned from Spotify loader",
+        IsUserListeningToSomething: false,
+      }),
+      { status: 500, headers: { "Content-Type": "application/json" } },
+    );
+  }
   return new Response(JSON.stringify(entry.data), {
     status: 200,
-    headers: { "Content-Type": "application/json" },
+    headers: headers,
   });
 };
