@@ -19,16 +19,18 @@ const homeLink = getRelativeLocaleUrl(lang, "/");
     </div>
     <div class="navbar-end">
       <ThemeSelector client:load />
-      <div class="dropdown dropdown-end">
-        <div tabindex="0" role="button" class="btn btn-ghost">
-          <div class="indicator">
-            <Icon name="material-symbols:translate-rounded" />
+      {Astro.url.pathname.startsWith("/projects") ? null : (
+        <div class="dropdown dropdown-end">
+          <div tabindex="0" role="button" class="btn btn-ghost">
+            <div class="indicator">
+              <Icon name="material-symbols:translate-rounded" />
+            </div>
           </div>
+          <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+            <LanguageSelector />
+          </ul>
         </div>
-        <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-          <LanguageSelector />
-        </ul>
-      </div>
+      )}
     </div>
   </div>
 </div>
