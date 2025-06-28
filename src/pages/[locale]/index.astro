@@ -29,10 +29,7 @@ const t = useTranslations(lang);
 const translations = ui[lang];
 const defaultTranslations = ui[defaultLang];
 
-let contact = getRelativeLocaleUrl(lang, "contact");
-if (lang === 'en') {
-  contact = '/en/contact';
-}
+const contact = lang === defaultLang ? "/en/contact" : getRelativeLocaleUrl(lang, "contact");
 ---
 
 <Default title="Pagina iniziale">
