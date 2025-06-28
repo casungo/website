@@ -1,8 +1,18 @@
 <script lang="ts">
   import { writable } from "svelte/store";
   import { onMount, onDestroy } from "svelte";
-  import { t } from "i18n:astro";
   import Icon from "@iconify/svelte";
+
+    export let translations: Record<string, any>;
+  export let defaultTranslations: Record<string, any>;
+
+  function getNestedValue(obj: any, path: string): string | undefined {
+    return path.split(".").reduce((acc, part) => acc && acc[part], obj);
+  }
+
+  function t(key: string): string {
+    return getNestedValue(translations, key) ?? getNestedValue(defaultTranslations, key) ?? key;
+  }
 
   interface Artist {
     name: string;

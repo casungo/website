@@ -1,6 +1,4 @@
 ---
-import { getLocalePath } from "i18n:astro";
-import { t } from "i18n:astro";
 import { Icon } from "astro-icon/components";
 
 import Default from "@layouts/Default.astro";
@@ -10,7 +8,6 @@ import Card from "@components/Card.astro";
 import Socials from "@components/Socials.astro";
 import CardProjects from "@components/CardProjects.astro";
 
-import Alert from "@components/Alert.svelte";
 import NowPlaying from "@components/NowPlaying.svelte";
 
 import Chance from "@images/1Chance.png";
@@ -22,7 +19,20 @@ import Briefmaker from "@images/briefmaker.png";
 import Webscreenshot from "@images/webscreenshot.png";
 import Astroimg from "@images/astro.jpg";
 
-const contact = getLocalePath("/contact");
+import { useTranslations, type UiLang } from "@i18n/utils";
+import { getRelativeLocaleUrl } from "astro:i18n";
+
+import { ui, defaultLang } from "@i18n/ui";
+
+const lang = (Astro.currentLocale || 'en') as UiLang;
+const t = useTranslations(lang);
+const translations = ui[lang];
+const defaultTranslations = ui[defaultLang];
+
+let contact = getRelativeLocaleUrl(lang, "contact");
+if (lang === 'en') {
+  contact = '/en/contact';
+}
 ---
 
 <Default title="Pagina iniziale">
@@ -102,4 +112,4 @@ const contact = getLocalePath("/contact");
     />
   </Projects>
 </Default>
-<NowPlaying client:idle />
+<NowPlaying client:idle {translations} {defaultTranslations} />

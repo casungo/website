@@ -1,18 +1,16 @@
 ---
 import "@styles/styles.css";
-
+import { useTranslations } from "@i18n/utils";
 import Navbar from "@components/Navbar.astro";
 import Footer from "@components/Footer.astro";
 
-import I18nClient from "@astrolicious/i18n/components/I18nClient.astro";
-import I18nHead from "@astrolicious/i18n/components/I18nHead.astro";
-import { getHtmlAttrs } from "i18n:astro";
-
 const { title, description } = Astro.props;
+const lang = Astro.currentLocale as "en" | "it" | undefined;
+const t = useTranslations(lang);
 ---
 
 <!doctype html>
-<html {...getHtmlAttrs()}>
+<html lang={lang || 'en'}>
   <head>
     <script is:inline>
       if (localStorage.getItem("theme") === null) {
@@ -30,8 +28,6 @@ const { title, description } = Astro.props;
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
-    <I18nClient />
-    <I18nHead />
     <slot name="head" />
   </head>
   <body class="bg-base-200">

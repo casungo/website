@@ -1,20 +1,24 @@
 ---
-import { switchLocalePath, getLocale } from "i18n:astro";
-import type { Locale } from "i18n:astro";
+import { useTranslations, type UiLang } from "@i18n/utils";
+import { getRelativeLocaleUrl } from "astro:i18n";
 
-const locale = getLocale();
+const lang = (Astro.currentLocale || 'en') as UiLang;
+const t = useTranslations(lang);
 
-const languages: { code: Locale; name: string }[] = [
+const languages = [
   { code: "en", name: "English" },
   { code: "it", name: "Italiano" },
 ];
+
+// Remove the current locale from the pathname
+const currentPath = Astro.url.pathname.replace(`/${lang}`, "");
 ---
 
 <ul>
   {
     languages.map(({ code, name }) => (
       <li>
-        <a href={switchLocalePath(code)} class={locale === code ? "active" : ""}>
+        <a href={getRelativeLocaleUrl(code, currentPath)} class={lang === code ? "active" : ""}>
           <div class="badge badge-outline">{code}</div>
           {name}
         </a>

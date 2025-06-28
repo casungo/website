@@ -1,5 +1,8 @@
 ---
-import { t } from "i18n:astro";
+import { useTranslations, type UiLang } from "@i18n/utils";
+
+const lang = (Astro.currentLocale || 'en') as UiLang;
+const t = useTranslations(lang);
 ---
 
 <div class="m-2">

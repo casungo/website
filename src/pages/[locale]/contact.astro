@@ -1,10 +1,15 @@
 ---
 export const prerender = false;
 
-import { t } from "i18n:astro";
+import { useTranslations, type UiLang } from "@i18n/utils";
+import { ui, defaultLang } from "@i18n/ui";
+
+const lang = (Astro.currentLocale || 'en') as UiLang;
+const t = useTranslations(lang);
+const translations = ui[lang];
+const defaultTranslations = ui[defaultLang];
 import Default from "@layouts/Default.astro";
 import Card from "@components/Card.astro";
-import Alert from "@components/Alert.svelte";
 import NowPlaying from "@components/NowPlaying.svelte";
 
 // Handle form submission
@@ -118,5 +123,5 @@ const formError = status === "error" ? t("contact.form.error") : null;
       </div>
     </form>
   </Card>
-  <NowPlaying client:idle />
+  <NowPlaying client:idle {translations} {defaultTranslations} />
 </Default>

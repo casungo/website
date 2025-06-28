@@ -4,7 +4,6 @@ import cloudflare from "@astrojs/cloudflare";
 import svelte from "@astrojs/svelte";
 import tailwindcss from "@tailwindcss/vite";
 import icon from "astro-icon";
-import i18n from "@astrolicious/i18n";
 
 // https://astro.build/config
 export default defineConfig({
@@ -12,6 +11,10 @@ export default defineConfig({
   prefetch: true,
   experimental: {
     liveContentCollections: true,
+  },
+  i18n: {
+    defaultLocale: "en",
+    locales: ["en", "it"],
   },
   integrations: [
     icon({
@@ -30,15 +33,6 @@ export default defineConfig({
           "edit-document-outline-rounded",
         ],
         bxl: ["instagram", "github", "play-store", "google"],
-      },
-    }),
-    i18n({
-      defaultLocale: "en",
-      locales: ["en", "it"],
-      client: {
-        data: true,
-        paths: true,
-        translations: true,
       },
     }),
     sitemap(),

@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "cloudflarePreview": "astro build && wrangler dev --port 9001",
+    "cfPreview": "astro build && wrangler dev --port 9001",
+    "cfDeploy": "astro build && wrangler deploy",
     "upgradeEverything": "pnpm dlx @astrojs/upgrade && pnpm up",
     "check": "astro check"
   },
@@ -14,7 +15,7 @@
     "@astrojs/cloudflare": "^12.6.0",
     "@astrojs/sitemap": "^3.4.1",
     "@astrojs/svelte": "^7.1.0",
-    "@astrolicious/i18n": "^0.6.1",
+    "@google/gemini-cli": "^0.1.4",
     "@iconify-json/bxl": "1.2.0",
     "@iconify-json/material-symbols": "^1.2.27",
     "@iconify/svelte": "^5.0.0",
@@ -23,7 +24,6 @@
     "astro-icon": "^1.1.5",
     "astro-seo": "^0.8.4",
     "daisyui": "^5.0.43",
-    "i18next": "^25.2.1",
     "photoswipe": "^5.4.4",
     "prettier": "^3.5.3",
     "prettier-plugin-astro": "^0.14.1",
