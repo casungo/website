@@ -13,7 +13,7 @@ interface Props {
 
 function linkInstagramUsernames(text: string) {
   if (!text) return "";
-  return text.replace(/@([a-zA-Z0-9_.]+)/g, (match, username) => {
+  return text.replace(/@([a-zA-Z0-9_.]+)/g, (_, username) => {
     return `<a class="link" href="https://www.instagram.com/${username}" target="_blank">@${username}</a>`;
   });
 }

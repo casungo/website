@@ -1,9 +1,9 @@
 ---
-import { useTranslations, type UiLang } from "@i18n/utils";
+import type { UiLang } from "@i18n/utils";
 import { getRelativeLocaleUrl } from "astro:i18n";
 
 const lang = (Astro.currentLocale || 'en') as UiLang;
-const t = useTranslations(lang);
+
 import { Icon } from "astro-icon/components";
 
 import LanguageSelector from "@components/navbar/LanguageSelector.astro";
