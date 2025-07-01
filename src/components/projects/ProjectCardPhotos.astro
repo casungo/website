@@ -1,7 +1,5 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import { Image } from "astro:assets";
-
 interface Props {
   project: CollectionEntry<"projects">;
 }
@@ -24,12 +22,15 @@ function formatDate(date: number | Date) {
   };
   return new Intl.DateTimeFormat("it-IT", options).format(new Date(date));
 }
+
+const heroImageName = data.heroImage.split('/').pop();
+const r2HeroImageSrc = `/api/images/${id}/${heroImageName}`;
 ---
 
 <div class="h-full">
   <div class="card bg-base-300 shadow h-full">
     <figure class="aspect-video">
-      <Image src={data.heroImage} alt={data.title} draggable="false" class="rounded-t-box object-cover w-full h-full" />
+      <img src={r2HeroImageSrc} alt={data.title} draggable="false" class="rounded-t-box object-cover w-full h-full" loading="lazy" />
     </figure>
     <div class="card-body p-4">
       <h5 class="card-title text-lg">{data.title}</h5>
