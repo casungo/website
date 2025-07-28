@@ -1,5 +1,6 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content";
+import { Image } from "astro:assets";
 import Default from "@layouts/Default.astro";
 import { Icon } from "astro-icon/components";
 import { SEO } from "astro-seo";
@@ -27,22 +28,7 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { data } = entry;
-
-// Transform local image paths to R2 API URLs
-const r2Images = data.images.map((imagePath: string) => {
-  const parts = imagePath.split('/');
-  const projectName = parts[parts.length - 2]; // e.g., "20250426-Loop events"
-  const imageName = parts[parts.length - 1]; // e.g., "20250426-Loop events_1.jpg"
-  return `/api/images/${projectName}/${imageName}`;
-});
-
-const r2HeroImage = (() => {
-  const parts = data.heroImage.split('/');
-  const projectName = parts[parts.length - 2];
-  const imageName = parts[parts.length - 1];
-  return `/api/images/${projectName}/${imageName}`;
-})();
-
+const photos = data.images;
 
 function formatDate(date: number | Date) {
   const options = {
@@ -54,7 +40,11 @@ function formatDate(date: number | Date) {
   return new Intl.DateTimeFormat("it-IT", options).format(date);
 }
 
-const absoluteImageUrl = new URL(r2HeroImage, Astro.site).toString();
+const absoluteImageUrl = new URL(data.heroImage.src, Astro.site).toString();
+
+function isVertical(photo: any) {
+  return photo.height > photo.width;
+}
 ---
 
 <Default>
@@ -80,7 +70,7 @@ const absoluteImageUrl = new URL(r2HeroImage, Astro.site).toString();
     <div class="card card-border border-base-300 m-6 bg-base-100">
       <figure>
         <div class="aspect-video">
-          <img src={r2HeroImage} alt={data.title} class="rounded-t-box object-cover w-full h-full" loading="lazy" />
+          <Image src={data.heroImage} alt={data.title} />
         </div>
       </figure>
       <div class="card-body">
@@ -98,10 +88,10 @@ const absoluteImageUrl = new URL(r2HeroImage, Astro.site).toString();
   <div class="flex flex-col items-center justify-center mt-4">
     <div class="pswp-gallery grid grid-cols-1 min-[355px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 auto-rows-[120px]" id="gallery">
       {
-        r2Images.map((imageSrc: string) => (
-          <a href={imageSrc}>
-            <div class="block w-44 h-full aspect-video">
-              <img src={imageSrc} alt={data.title} class="rounded-btn object-cover h-full w-full" width="176" loading="lazy" />
+        photos.map((photo: any, index: number) => (
+          <a href={photo.src} data-pswp-width={photo.width} data-pswp-height={photo.height} class={`${isVertical(photo) ? "row-span-2" : ""}`}>
+            <div class={`block w-44 h-full ${isVertical(photo) ? "h-full" : "aspect-video"}`}>
+              <Image src={entry.data.images[index]} alt={entry.data.title} class="rounded-btn object-cover h-full w-full" width="176" />
             </div>
           </a>
         ))
