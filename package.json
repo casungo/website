@@ -3,7 +3,8 @@
   "type": "module",
   "version": "1.1.0",
   "scripts": {
-    "dev": "astro dev",
+    "dev": "wrangler dev --port 4321",
+    "dev:astro": "astro dev",
     "build": "astro build",
     "cfPreview": "astro build && wrangler dev --port 9001",
     "cfDeploy": "astro build && wrangler deploy",
@@ -13,32 +14,24 @@
   "dependencies": {
     "@astrojs/check": "^0.9.4",
     "@astrojs/cloudflare": "^12.6.0",
-    "@astrojs/sitemap": "^3.4.1",
+    "@astrojs/sitemap": "^3.4.2",
     "@astrojs/svelte": "^7.1.0",
-    "@google/gemini-cli": "^0.1.4",
     "@iconify-json/bxl": "1.2.0",
-    "@iconify-json/material-symbols": "^1.2.27",
-    "@iconify/svelte": "^5.0.0",
-    "@tailwindcss/vite": "^4.1.10",
-    "astro": "^5.10.0",
+    "@iconify-json/material-symbols": "^1.2.30",
+    "@iconify/svelte": "^5.0.1",
+    "@tailwindcss/vite": "^4.1.11",
+    "astro": "^5.12.4",
     "astro-icon": "^1.1.5",
     "astro-seo": "^0.8.4",
-    "daisyui": "^5.0.43",
+    "daisyui": "^5.0.49",
     "photoswipe": "^5.4.4",
-    "prettier": "^3.5.3",
+    "prettier": "^3.6.2",
     "prettier-plugin-astro": "^0.14.1",
-    "sharp": "^0.34.2",
-    "svelte": "^5.34.7",
-    "tailwindcss": "^4.1.10",
+    "sharp": "^0.34.3",
+    "svelte": "^5.37.1",
+    "tailwindcss": "^4.1.11",
     "theme-change": "^2.5.0",
     "typescript": "^5.8.3",
-    "wrangler": "^4.20.5"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild",
-      "sharp",
-      "workerd"
-    ]
+    "wrangler": "^4.26.0"
   }
 }
