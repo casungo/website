@@ -7,7 +7,7 @@ interface Props {
 }
 
 const { data, id } = Astro.props.project;
-const heroImageUrl = getImageUrl(data.heroImage.src);
+const heroImageUrl = getImageUrl(data.heroImage);
 
 function linkInstagramUsernames(text: string) {
   if (!text) return "";

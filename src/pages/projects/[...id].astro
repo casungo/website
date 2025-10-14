@@ -40,7 +40,7 @@ function formatDate(date: number | Date) {
   return new Intl.DateTimeFormat("it-IT", options).format(date);
 }
 
-const absoluteImageUrl = new URL(getImageUrl(data.heroImage.src), Astro.site).toString();
+const absoluteImageUrl = new URL(getImageUrl(data.heroImage), Astro.site).toString();
 const photoUrls = getImageUrls(data.images.map((img) => img.src));
 
 function isVertical(photo: any) {
@@ -71,7 +71,7 @@ function isVertical(photo: any) {
     <div class="card card-border border-base-300 m-6 bg-base-100">
       <figure>
         <div class="aspect-video">
-          <img src={getImageUrl(data.heroImage.src)} alt={data.title} class="w-full h-full object-cover" />
+          <img src={getImageUrl(data.heroImage)} alt={data.title} class="w-full h-full object-cover" />
         </div>
       </figure>
       <div class="card-body">

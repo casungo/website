@@ -21,6 +21,35 @@ export function getImageUrl(imagePath: string): string {
     }
   }
 
+  // Handle any _astro processed paths by extracting the original filename
+  if (cleanPath.includes("_astro/")) {
+    // Extract the original filename from the processed path
+    // Example: _astro/20240525-No Name Party_hero.Drs1c_6P.jpg
+    // becomes: 20240525-No Name Party/20240525-No Name Party_hero.jpg
+    const astroMatch = cleanPath.match(/_astro\/(.+?)\.[A-Za-z0-9_]+\.(jpg|jpeg|png|webp|gif|avif)$/);
+    if (astroMatch) {
+      const originalFilename = astroMatch[1];
+      const extension = astroMatch[2];
+      
+      // Try to find the original folder by matching the project name
+      const projectFolderMatch = originalFilename.match(/^(.+?)_hero/);
+      if (projectFolderMatch) {
+        const projectFolder = projectFolderMatch[1];
+        cleanPath = `${projectFolder}/${originalFilename}.${extension}`;
+      } else {
+        // Fallback: try to match any project folder pattern
+        const folderMatch = originalFilename.match(/^(.+?)_\d+$/);
+        if (folderMatch) {
+          const projectFolder = folderMatch[1];
+          cleanPath = `${projectFolder}/${originalFilename}.${extension}`;
+        }
+      }
+    }
+  }
+
+  // Ensure we don't have double slashes in the path
+  cleanPath = cleanPath.replace(/\/+/g, '/');
+
   // Always use the API endpoint that accesses the R2 binding
   return `/api/images/${cleanPath}`;
 }
