@@ -1,6 +1,6 @@
 export async function GET({ params, locals }: { params: { path: string[] }; locals: any }) {
   const { path } = params;
-  const imagePath = `projects/images/${path.join("/")}`;
+  const imagePath = path.join("/");
 
   try {
     // Check if R2 binding is available
