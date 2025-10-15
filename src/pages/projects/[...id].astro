@@ -41,9 +41,14 @@ function formatDate(date: number | Date) {
 }
 
 const absoluteImageUrl = new URL(getImageUrl(data.heroImage), Astro.site).toString();
-const photoUrls = getImageUrls(data.images.map((img) => img.src));
+const photoUrls = getImageUrls(data.images.map((img) => (typeof img === "string" ? img : img.src)));
 
 function isVertical(photo: any) {
+  // Handle both string and object formats
+  if (typeof photo === "string") {
+    // For string format, we can't determine orientation, default to false
+    return false;
+  }
   return photo.height > photo.width;
 }
 ---
@@ -90,7 +95,7 @@ function isVertical(photo: any) {
     <div class="pswp-gallery grid grid-cols-1 min-[355px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 auto-rows-[120px]" id="gallery">
       {
         photos.map((photo: any, index: number) => (
-          <a href={photoUrls[index]} data-pswp-width={photo.width} data-pswp-height={photo.height} class={`${isVertical(photo) ? "row-span-2" : ""}`}>
+          <a href={photoUrls[index]} data-pswp-width={typeof photo === "string" ? 1200 : photo.width} data-pswp-height={typeof photo === "string" ? 800 : photo.height} class={`${isVertical(photo) ? "row-span-2" : ""}`}>
             <div class={`block w-44 h-full ${isVertical(photo) ? "h-full" : "aspect-video"}`}>
               <img src={photoUrls[index]} alt={entry.data.title} class="rounded-btn object-cover h-full w-full" />
             </div>

@@ -12,11 +12,14 @@ const projects = defineCollection({
       editing: z.string().optional(),
       heroImage: z.string(),
       images: z.array(
-        z.object({
-          src: z.string(),
-          width: z.number(),
-          height: z.number(),
-        }),
+        z.union([
+          z.string(), // Allow simple string paths for backward compatibility
+          z.object({
+            src: z.string(),
+            width: z.number(),
+            height: z.number(),
+          }),
+        ]),
       ),
     }),
 });
