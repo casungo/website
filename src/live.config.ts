@@ -3,7 +3,7 @@ import { spotifyLoader } from "./loaders/spotify";
 
 const spotify = defineLiveCollection({
   type: "live",
-  loader: spotifyLoader(),
+  loader: spotifyLoader() as any,
 });
 
 export const collections = { spotify };

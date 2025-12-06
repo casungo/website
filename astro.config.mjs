@@ -65,6 +65,11 @@ export default defineConfig({
         access: "secret",
         optional: false,
       }),
+      WEB3FORMS_ACCESS_KEY: envField.string({
+        context: "server",
+        access: "secret",
+        optional: true, // Make optional for local development
+      }),
     },
   },
 });

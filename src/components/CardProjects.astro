@@ -6,13 +6,16 @@ import { Icon } from "astro-icon/components";
 
 <div class="card h-full card-border border-base-300 bg-base-300 m-2">
   <figure>
-    <Image src={img} class="card-img-top aspect-video" draggable="false" alt={title} />
+    <Image src={img} class="card-img-top aspect-video" draggable="false" alt={title} widths={[400, 800, 1200]} sizes="(max-width: 400px) 400px, (max-width: 800px) 800px, 1200px" loading="lazy" decoding="async" />
   </figure>
   <div class="card-body">
     <p class="card-title">{title}</p>
     <p class="card-text">{desc}</p>
     <div class="card-actions justify-end">
-      <a href={btnLink} class="btn btn-outline text-wrap"><Icon class="text-xl" name={btnIcon} /> {btnText}</a>
+      <a href={btnLink} class="btn btn-outline text-wrap" rel="noopener noreferrer">
+        <Icon class="text-xl" name={btnIcon} />
+        {btnText}
+      </a>
     </div>
   </div>
 </div>

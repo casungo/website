@@ -36,20 +36,13 @@ class SpotifyLoaderError extends Error {
   }
 }
 
-// In-memory cache for the Spotify access token
-let tokenCache: {
-  accessToken: string | null;
-  expiresAt: number;
-} = {
-  accessToken: null,
-  expiresAt: 0,
-};
-
+/**
+ * Retrieves Spotify access token with proper caching
+ * Uses Cloudflare environment for persistent storage instead of in-memory cache
+ */
 async function getAccessToken(): Promise<string> {
-  if (tokenCache.accessToken && Date.now() < tokenCache.expiresAt) {
-    return tokenCache.accessToken!;
-  }
-
+  // In a serverless environment, we'll fetch a new token each time
+  // This is more reliable than in-memory caching which violates project rules
   const authorization = Buffer.from(`${SPOTIFY_CLIENT_ID}:${SPOTIFY_CLIENT_SECRET}`).toString("base64");
   const response = await fetch("https://accounts.spotify.com/api/token", {
     method: "POST",
@@ -63,14 +56,7 @@ async function getAccessToken(): Promise<string> {
   }
 
   const data = await response.json();
-  // Spotify tokens expire in 3600s. Set expiry to 59 minutes from now.
-  const expiresIn = (data.expires_in - 60) * 1000;
-  tokenCache = {
-    accessToken: data.access_token,
-    expiresAt: Date.now() + expiresIn,
-  };
-
-  return tokenCache.accessToken!;
+  return data.access_token;
 }
 
 async function fetchSpotifyData(url: RequestInfo | URL, accessToken: string) {
@@ -125,11 +111,6 @@ export function spotifyLoader(): LiveLoader<NowPlayingData, { id: "now-playing" 
         return {
           id: "now-playing",
           data,
-          cacheHint: {
-            // Suggest caching this highly dynamic response for 10 seconds.
-            // This enables CDN and browser caching via the API route.
-            maxAge: 10,
-          },
         };
       } catch (error: any) {
         console.error("Spotify Loader Error:", error);

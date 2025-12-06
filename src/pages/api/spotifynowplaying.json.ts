@@ -7,7 +7,7 @@ export const GET: APIRoute = async () => {
   const { entry, error, cacheHint } = await getLiveEntry("spotify", "now-playing");
 
   if (error) {
-    console.error("Error fetching from 'spotify' live collection:", error.message);
+    console.error("Error fetching from 'spotify' live collection:", (error as Error).message);
     const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
     return new Response(
       JSON.stringify({
@@ -24,8 +24,10 @@ export const GET: APIRoute = async () => {
   });
 
   // Use the cacheHint from the loader to set response headers for CDN and browser caching
-  if (cacheHint?.maxAge) {
-    headers.set("Cache-Control", `public, s-maxage=${cacheHint.maxAge}, max-age=${cacheHint.maxAge}`);
+  // Type assertion to handle potential type mismatch with CacheHint interface
+  const cacheHintAny = cacheHint as any;
+  if (cacheHintAny?.maxAge) {
+    headers.set("Cache-Control", `public, s-maxage=${cacheHintAny.maxAge}, max-age=${cacheHintAny.maxAge}`);
   }
 
   // The loader provides the full data structure, ready to be sent to the client.
