@@ -4,6 +4,7 @@ import { Image } from "astro:assets";
 import Default from "@layouts/Default.astro";
 import { Icon } from "astro-icon/components";
 import { SEO } from "astro-seo";
+import { getCdnUrl } from "@lib/cdn-utils";
 
 export const prerender = true;
 
@@ -40,10 +41,12 @@ function formatDate(date: number | Date) {
   return new Intl.DateTimeFormat("it-IT", options).format(date);
 }
 
-const absoluteImageUrl = new URL(data.heroImage.src, Astro.site).toString();
+const absoluteImageUrl = getCdnUrl(data.heroImage);
 
+// Since we're now using CDN URLs, we'll assume all images are horizontal for layout
+// In a real implementation, you might want to store dimensions separately or fetch them
 function isVertical(photo: any) {
-  return photo.height > photo.width;
+  return false; // Default to horizontal layout
 }
 ---
 
@@ -70,7 +73,7 @@ function isVertical(photo: any) {
     <div class="card card-border border-base-300 m-6 bg-base-100">
       <figure>
         <div class="aspect-video">
-          <Image src={data.heroImage} alt={data.title} />
+          <img src={getCdnUrl(data.heroImage)} alt={data.title} class="w-full h-full object-cover" />
         </div>
       </figure>
       <div class="card-body">
@@ -88,10 +91,10 @@ function isVertical(photo: any) {
   <div class="flex flex-col items-center justify-center mt-4">
     <div class="pswp-gallery grid grid-cols-1 min-[355px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 auto-rows-[120px]" id="gallery">
       {
-        photos.map((photo: any, index: number) => (
-          <a href={photo.src} data-pswp-width={photo.width} data-pswp-height={photo.height} class={`${isVertical(photo) ? "row-span-2" : ""}`}>
+        photos.map((photo: string, index: number) => (
+          <a href={getCdnUrl(photo)} data-pswp-width="1200" data-pswp-height="800" class={`${isVertical(photo) ? "row-span-2" : ""}`}>
             <div class={`block w-44 h-full ${isVertical(photo) ? "h-full" : "aspect-video"}`}>
-              <Image src={entry.data.images[index]} alt={entry.data.title} class="rounded-btn object-cover h-full w-full" width="176" />
+              <img src={getCdnUrl(entry.data.images[index])} alt={entry.data.title} class="rounded-btn object-cover h-full w-full" width="176" />
             </div>
           </a>
         ))
