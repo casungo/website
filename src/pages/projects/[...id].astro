@@ -43,10 +43,29 @@ function formatDate(date: number | Date) {
 
 const absoluteImageUrl = getCdnUrl(data.heroImage);
 
-// Since we're now using CDN URLs, we'll assume all images are horizontal for layout
-// In a real implementation, you might want to store dimensions separately or fetch them
-function isVertical(photo: any) {
-  return false; // Default to horizontal layout
+// Pre-calculate image data for the gallery
+import { getImage } from "astro:assets";
+
+const galleryImages = await Promise.all(
+  photos.map(async (photo) => {
+    const url = getCdnUrl(photo);
+    // Infer dimensions for PhotoSwipe (full resolution)
+    const fullImageInfo = await getImage({
+      src: url,
+      inferSize: true,
+    });
+
+    return {
+      src: url,
+      width: fullImageInfo.attributes.width,
+      height: fullImageInfo.attributes.height,
+      aspectRatio: fullImageInfo.attributes.width / fullImageInfo.attributes.height,
+    };
+  }),
+);
+
+function isVertical(width: number, height: number) {
+  return height > width;
 }
 ---
 
@@ -73,7 +92,7 @@ function isVertical(photo: any) {
     <div class="card card-border border-base-300 m-6 bg-base-100">
       <figure>
         <div class="aspect-video">
-          <img src={getCdnUrl(data.heroImage)} alt={data.title} class="w-full h-full object-cover" />
+          <Image src={absoluteImageUrl} alt={data.title} width={1280} height={720} class="w-full h-full object-cover" />
         </div>
       </figure>
       <div class="card-body">
@@ -91,10 +110,10 @@ function isVertical(photo: any) {
   <div class="flex flex-col items-center justify-center mt-4">
     <div class="pswp-gallery grid grid-cols-1 min-[355px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 auto-rows-[120px]" id="gallery">
       {
-        photos.map((photo: string, index: number) => (
-          <a href={getCdnUrl(photo)} data-pswp-width="1200" data-pswp-height="800" class={`${isVertical(photo) ? "row-span-2" : ""}`}>
-            <div class={`block w-44 h-full ${isVertical(photo) ? "h-full" : "aspect-video"}`}>
-              <img src={getCdnUrl(entry.data.images[index])} alt={entry.data.title} class="rounded-btn object-cover h-full w-full" width="176" />
+        galleryImages.map((image) => (
+          <a href={image.src} data-pswp-width={image.width} data-pswp-height={image.height} class={`${isVertical(image.width, image.height) ? "row-span-2" : ""}`} target="_blank">
+            <div class={`block w-44 h-full ${isVertical(image.width, image.height) ? "h-full" : "aspect-video"}`}>
+              <Image src={image.src} alt={data.title} width={400} height={Math.round(400 * (image.height / image.width))} class="rounded-btn object-cover h-full w-full" />
             </div>
           </a>
         ))
