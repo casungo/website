@@ -18,13 +18,16 @@ import RA from "@images/RA.jpg";
 import Briefmaker from "@images/briefmaker.png";
 import Webscreenshot from "@images/webscreenshot.png";
 import Astroimg from "@images/astro.jpg";
+import BeRealImg from "@images/bereal.png";
+import Excel2MdImg from "@images/excel2md.png";
+import SplitMediaImg from "@images/splitmedia.png";
 
 import { useTranslations, type UiLang } from "@i18n/utils";
 import { getRelativeLocaleUrl } from "astro:i18n";
 
 import { ui, defaultLang } from "@i18n/ui";
 
-const lang = (Astro.currentLocale || 'en') as UiLang;
+const lang = (Astro.currentLocale || "en") as UiLang;
 const t = useTranslations(lang);
 const translations = ui[lang];
 const defaultTranslations = ui[defaultLang];
@@ -42,6 +45,40 @@ const contact = lang === defaultLang ? "/en/contact" : getRelativeLocaleUrl(lang
       <Socials />
     </div>
   </Card>
+  <Projects title={t("apps.title")}>
+    <CardProjects
+      img={BeRealImg}
+      title={t("apps.cards.bereal.title")}
+      desc={t("apps.cards.bereal.desc")}
+      btnLink="https://berealgdprviewer.eu"
+      btnText={t("apps.cards.bereal.btnText")}
+      btnIcon="material-symbols:open-in-new-rounded"
+    />
+    <CardProjects
+      img={Excel2MdImg}
+      title={t("apps.cards.excel2md.title")}
+      desc={t("apps.cards.excel2md.desc")}
+      btnLink="https://exceltomarkdown.app"
+      btnText={t("apps.cards.excel2md.btnText")}
+      btnIcon="material-symbols:table-chart-outline"
+    />
+    <CardProjects
+      img={SplitMediaImg}
+      title={t("apps.cards.splitmedia.title")}
+      desc={t("apps.cards.splitmedia.desc")}
+      btnLink="https://splityourmedia.top"
+      btnText={t("apps.cards.splitmedia.btnText")}
+      btnIcon="material-symbols:call-split"
+    />
+    <CardProjects
+      img={Briefmaker}
+      title={t("apps.cards.briefmaker.title")}
+      desc={t("apps.cards.briefmaker.desc")}
+      btnLink="https://briefmakerapp.com/"
+      btnText={t("apps.cards.briefmaker.btnText")}
+      btnIcon="material-symbols:image-outline-rounded"
+    />
+  </Projects>
   <Projects title={t("projects.title")}>
     <CardProjects
       img={Webscreenshot}
@@ -50,14 +87,6 @@ const contact = lang === defaultLang ? "/en/contact" : getRelativeLocaleUrl(lang
       btnLink="https://github.com/casungo/website"
       btnText={t("projects.cards.website.btnText")}
       btnIcon="bxl:github"
-    />
-    <CardProjects
-      img={Briefmaker}
-      title={t("projects.cards.briefmaker.title")}
-      desc={t("projects.cards.briefmaker.desc")}
-      btnLink="https://briefmakerapp.com/"
-      btnText={t("projects.cards.briefmaker.btnText")}
-      btnIcon="material-symbols:image-outline-rounded"
     />
     <CardProjects
       img={Fedora33}

@@ -9,13 +9,17 @@ export const GET: APIRoute = async () => {
   if (error) {
     console.error("Error fetching from 'spotify' live collection:", error.message);
     const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
+    
     return new Response(
       JSON.stringify({
         error: "Failed to fetch data from Spotify loader",
-        errorMessage: errorMessage,
+        errorMessage,
         IsUserListeningToSomething: false,
       }),
-      { status: 500, headers: { "Content-Type": "application/json" } },
+      { 
+        status: 500, 
+        headers: { "Content-Type": "application/json" } 
+      }
     );
   }
 
@@ -23,23 +27,30 @@ export const GET: APIRoute = async () => {
     "Content-Type": "application/json",
   });
 
-  // Use the cacheHint from the loader to set response headers for CDN and browser caching
-  if (cacheHint?.maxAge) {
-    headers.set("Cache-Control", `public, s-maxage=${cacheHint.maxAge}, max-age=${cacheHint.maxAge}`);
+  // Use the cacheHint from the loader to set response headers
+  if (cacheHint?.lastModified) {
+    headers.set("Last-Modified", cacheHint.lastModified.toUTCString());
   }
+  
+  // Set a default short cache control for real-time updates
+  // Re-validate frequently as songs change often
+  headers.set("Cache-Control", "public, max-age=15, s-maxage=30, stale-while-revalidate=10");
 
-  // The loader provides the full data structure, ready to be sent to the client.
   if (!entry) {
     return new Response(
       JSON.stringify({
         error: "No entry data returned from Spotify loader",
         IsUserListeningToSomething: false,
       }),
-      { status: 500, headers: { "Content-Type": "application/json" } },
+      { 
+        status: 500, 
+        headers: { "Content-Type": "application/json" } 
+      }
     );
   }
+
   return new Response(JSON.stringify(entry.data), {
     status: 200,
-    headers: headers,
+    headers,
   });
 };

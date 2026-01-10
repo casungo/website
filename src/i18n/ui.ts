@@ -42,6 +42,31 @@ export const ui = {
         requiredFields: "Please fill in all required fields.",
       },
     },
+    apps: {
+      title: "Apps & Tools",
+      cards: {
+        bereal: {
+          title: "BeReal GDPR Explorer",
+          desc: "A privacy-focused tool to explore and analyze your BeReal GDPR data export. View your posts, memories, and friends.",
+          btnText: "Go to website",
+        },
+        excel2md: {
+          title: "Excel to Markdown",
+          desc: "Easily convert your Excel spreadsheets, Google Sheets, and CSV files into clean, formatted Markdown tables.",
+          btnText: "Convert Table",
+        },
+        splitmedia: {
+          title: "Split Your Media",
+          desc: "Media splitting that actually works. Your files are processed locally and never leave your computer. Fast, secure, and 100% private.",
+          btnText: "Split Files",
+        },
+        briefmaker: {
+          title: "Briefmaker",
+          desc: "Experience AI-powered design briefs and real-time virtual client interactions to enhance your expertise",
+          btnText: "Go to the site!",
+        },
+      },
+    },
     projects: {
       title: "My Projects",
       cards: {
@@ -50,20 +75,10 @@ export const ui = {
           desc: "I created this website using Astro, Bootstrap & Cloudflare.",
           btnText: "Check out the source code!",
         },
-        briefmaker: {
-          title: "Briefmaker",
-          desc: "Experience AI-powered design briefs and real-time virtual client interactions to enhance your expertise",
-          btnText: "Go to the site!",
-        },
         fedora33: {
           title: "Fedora 33 Wallpaper",
           desc: "I contributed to the development of the default Fedora 33 wallpaper that is shown on every machine with a fresh installation of the operating system!",
           btnText: "View the wallpaper!",
-        },
-        metaspark: {
-          title: "Instagram Filter",
-          desc: "I created some Instagram filters with Meta Spark. So far my most successful filter has 860K+ impressions and 540K+ opens with 14K+ shares.",
-          btnText: "Try my filter!",
         },
         rocketassault: {
           title: "Rocket Assault",
@@ -138,6 +153,31 @@ export const ui = {
         requiredFields: "Compila tutti i campi obbligatori.",
       },
     },
+    apps: {
+      title: "App e Strumenti",
+      cards: {
+        bereal: {
+          title: "BeReal GDPR Explorer",
+          desc: "Uno strumento incentrato sulla privacy per esplorare e analizzare l'esportazione dei tuoi dati BeReal. Visualizza i tuoi post, ricordi e amici.",
+          btnText: "Vai al sito web",
+        },
+        excel2md: {
+          title: "Excel to Markdown",
+          desc: "Converti facilmente i tuoi fogli di calcolo Excel, Google Sheets e file CSV in tabelle Markdown pulite e formattate.",
+          btnText: "Converti Tabella",
+        },
+        splitmedia: {
+          title: "Split Your Media",
+          desc: "Divisione dei media che funziona davvero. I tuoi file vengono elaborati localmente e non lasciano mai il tuo computer. Veloce, sicuro e privato al 100%.",
+          btnText: "Dividi File",
+        },
+        briefmaker: {
+          title: "Briefmaker",
+          desc: "Sperimenta con brief di design generati dall'IA e interazioni in tempo reale con clienti virtuali per migliorare la tua esperienza lavorativa",
+          btnText: "Vai al sito!",
+        },
+      },
+    },
     projects: {
       title: "I miei progetti",
       cards: {
@@ -146,20 +186,11 @@ export const ui = {
           desc: "Ho realizzato questo sito web utlizzando Astro, Bootstrap & Cloudflare.",
           btnText: "Controlla il codice sorgente!",
         },
-        briefmaker: {
-          title: "Briefmaker",
-          desc: "Sperimenta con brief di design generati dall'IA e interazioni in tempo reale con clienti virtuali per migliorare la tua esperienza lavorativa",
-          btnText: "Vai al sito!",
-        },
+
         fedora33: {
           title: "Fedora 33 Wallpaper",
           desc: "Ho contribuito allo sviluppo dello sfondo predefinito di Fedora 33 che viene mostrato su ogni macchina con una nuova installazione del sistema operativo!",
           btnText: "Visualizza lo sfondo!",
-        },
-        metaspark: {
-          title: "Filtro Instagram",
-          desc: "Ho realizzato alcuni filtri Instagram con Meta Spark. Finora il mio filtro più riuscito ha 860K+ impressioni e 540K+ aperture con 14K+ condivisioni.",
-          btnText: "Prova il mio filtro!",
         },
         rocketassault: {
           title: "Rocket Assault",
