@@ -12,6 +12,9 @@ export default defineConfig({
   experimental: {
     liveContentCollections: true,
   },
+  image: {
+    domains: ["cdn.casungo.top"],
+  },
   i18n: {
     defaultLocale: "en",
     locales: ["en", "it"],
