@@ -1,4 +1,3 @@
-import type { LiveLoader } from "astro/loaders";
 import { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REFRESH_TOKEN } from "astro:env/server";
 
 // Data structure expected by the frontend Svelte component
@@ -24,6 +23,7 @@ interface NowPlayingData {
     url: string;
     playedAt: string;
   }[];
+  [key: string]: unknown;
 }
 
 class SpotifyLoaderError extends Error {
@@ -85,11 +85,11 @@ async function fetchSpotifyData(url: RequestInfo | URL, accessToken: string) {
 }
 
 // The Live Loader definition
-export function spotifyLoader(): LiveLoader<NowPlayingData, { id: "now-playing" }, never, SpotifyLoaderError> {
+export function spotifyLoader() {
   return {
     name: "spotify-loader",
     loadCollection: async () => ({ entries: [] }), // Not used for this singleton data source
-    loadEntry: async ({ filter }) => {
+    loadEntry: async ({ filter }: { filter: { id: string } }) => {
       if (filter.id !== "now-playing") {
         return { error: new SpotifyLoaderError('Invalid entry ID. Use "now-playing".') };
       }
@@ -130,9 +130,8 @@ export function spotifyLoader(): LiveLoader<NowPlayingData, { id: "now-playing" 
           id: "now-playing",
           data,
           cacheHint: {
-            // Suggest caching this highly dynamic response for 10 seconds.
-            // This enables CDN and browser caching via the API route.
-            maxAge: 10,
+            // maxAge is not supported in this version of Astro's CacheHint (only tags and lastModified)
+            // We can leave this empty or remove it.
           },
         };
       } catch (error: any) {

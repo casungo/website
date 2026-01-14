@@ -1,10 +1,9 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content";
-import { Image } from "astro:assets";
 import Default from "@layouts/Default.astro";
 import { Icon } from "astro-icon/components";
 import { SEO } from "astro-seo";
-import { getCdnUrl } from "@lib/cdn-utils";
+import { getCdnUrl, getThumbUrl } from "@lib/cdn-utils";
 
 export const prerender = true;
 
@@ -48,18 +47,23 @@ import { getImage } from "astro:assets";
 
 const galleryImages = await Promise.all(
   photos.map(async (photo) => {
+    // We still need dimensions to control the layout (Masonry)
+    // We can use the full URL to fetch metadata via Astro's getImage (which does a fetch/probe)
+    // OR we could skip this if we accept a fixed grid. But let's try to preserve the layout.
+    // The "inferSize" usage creates a probe reference.
     const url = getCdnUrl(photo);
-    // Infer dimensions for PhotoSwipe (full resolution)
     const fullImageInfo = await getImage({
       src: url,
       inferSize: true,
     });
 
     return {
-      src: url,
+      // Use our new secure proxy for the thumbnail src
+      src: getThumbUrl(photo, 400),
+      // Keep original dimensions for layout and PhotoSwipe
+      originalSrc: url,
       width: fullImageInfo.attributes.width,
       height: fullImageInfo.attributes.height,
-      aspectRatio: fullImageInfo.attributes.width / fullImageInfo.attributes.height,
     };
   }),
 );
@@ -92,7 +96,8 @@ function isVertical(width: number, height: number) {
     <div class="card card-border border-base-300 m-6 bg-base-100">
       <figure>
         <div class="aspect-video">
-          <Image src={absoluteImageUrl} alt={data.title} width={1280} height={720} class="w-full h-full object-cover" />
+           <!-- Use secure proxy for hero image (1280px) and disable Astro optimization -->
+          <img src={getThumbUrl(data.heroImage, 1280)} alt={data.title} width={1280} height={720} class="w-full h-full object-cover" loading="lazy" decoding="async" />
         </div>
       </figure>
       <div class="card-body">
@@ -111,9 +116,10 @@ function isVertical(width: number, height: number) {
     <div class="pswp-gallery grid grid-cols-1 min-[355px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 auto-rows-[120px]" id="gallery">
       {
         galleryImages.map((image) => (
-          <a href={image.src} data-pswp-width={image.width} data-pswp-height={image.height} class={`${isVertical(image.width, image.height) ? "row-span-2" : ""}`} target="_blank">
+          <a href={image.originalSrc} data-pswp-width={image.width} data-pswp-height={image.height} class={`${isVertical(image.width, image.height) ? "row-span-2" : ""}`} target="_blank">
             <div class={`block w-44 h-full ${isVertical(image.width, image.height) ? "h-full" : "aspect-video"}`}>
-              <Image src={image.src} alt={data.title} width={400} height={Math.round(400 * (image.height / image.width))} class="rounded-btn object-cover h-full w-full" />
+               <!-- Use secure proxy src, unoptimized to prevent double-processing -->
+              <img src={image.src} alt={data.title} width={400} height={Math.round(400 * (image.height / image.width))} class="rounded-btn object-cover h-full w-full" loading="lazy" decoding="async" />
             </div>
           </a>
         ))

@@ -12,28 +12,30 @@
     "screenshots": "node scripts/screenshots.js"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.6",
     "@astrojs/cloudflare": "^12.6.12",
     "@astrojs/sitemap": "^3.6.1",
     "@astrojs/svelte": "^7.2.5",
-    "@iconify-json/bxl": "1.2.0",
-    "@iconify-json/material-symbols": "^1.2.51",
     "@iconify/svelte": "^5.2.1",
-    "@tailwindcss/vite": "^4.1.18",
-    "astro": "^5.16.8",
+    "astro": "^5.16.9",
     "astro-icon": "^1.1.5",
-    "astro-seo": "^0.8.4",
-    "biome": "^0.3.3",
+    "astro-seo": "^1.1.0",
     "daisyui": "^5.5.14",
     "photoswipe": "^5.4.4",
+    "sharp": "^0.34.5",
+    "svelte": "^5.46.3",
+    "theme-change": "^2.5.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.6",
+    "@iconify-json/bxl": "1.2.0",
+    "@iconify-json/material-symbols": "^1.2.51",
+    "@tailwindcss/vite": "^4.1.18",
+    "biome": "^0.3.3",
     "prettier": "^3.7.4",
     "prettier-plugin-astro": "^0.14.1",
-    "sharp": "^0.34.5",
-    "svelte": "^5.46.1",
     "tailwindcss": "^4.1.18",
-    "theme-change": "^2.5.0",
     "typescript": "^5.9.3",
-    "wrangler": "^4.58.0"
+    "wrangler": "^4.59.1"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
