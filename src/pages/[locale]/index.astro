@@ -33,6 +33,12 @@ const translations = ui[lang];
 const defaultTranslations = ui[defaultLang];
 
 const contact = lang === defaultLang ? "/en/contact" : getRelativeLocaleUrl(lang, "contact");
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return Object.keys(ui).map((locale) => ({ params: { locale } }));
+}
 ---
 
 <Default title="Pagina iniziale">
