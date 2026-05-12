@@ -1,4 +1,4 @@
-import { defineConfig, envField } from "astro/config";
+import { defineConfig, envField, sessionDrivers } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 import cloudflare from "@astrojs/cloudflare";
 import svelte from "@astrojs/svelte";
@@ -41,6 +41,9 @@ export default defineConfig({
     svelte(),
   ],
   output: "server",
+  session: {
+    driver: sessionDrivers.lruCache(),
+  },
   adapter: cloudflare({
     imageService: "cloudflare",
     prerenderEnvironment: "node",
