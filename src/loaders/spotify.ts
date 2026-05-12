@@ -26,10 +26,50 @@ interface NowPlayingData {
   [key: string]: unknown;
 }
 
+interface SpotifyImage {
+  url: string;
+}
+
+interface SpotifyArtist {
+  name: string;
+  external_urls: {
+    spotify: string;
+  };
+}
+
+interface SpotifyTrack {
+  name: string;
+  artists: SpotifyArtist[];
+  album: {
+    name: string;
+    images: SpotifyImage[];
+    external_urls: {
+      spotify: string;
+    };
+  };
+  external_urls: {
+    spotify: string;
+  };
+  duration_ms: number;
+}
+
+interface CurrentlyPlayingResponse {
+  is_playing?: boolean;
+  item?: SpotifyTrack;
+  progress_ms?: number;
+}
+
+interface RecentlyPlayedResponse {
+  items?: {
+    track: SpotifyTrack;
+    played_at: string;
+  }[];
+}
+
 class SpotifyLoaderError extends Error {
   constructor(
     message: string,
-    public cause?: any,
+    public cause?: unknown,
   ) {
     super(message);
     this.name = "SpotifyLoaderError";
@@ -66,7 +106,7 @@ async function getAccessToken(): Promise<string> {
     throw new Error(`Failed to refresh Spotify token: ${response.status} ${errorData}`);
   }
 
-  const data = await response.json();
+  const data = (await response.json()) as { access_token: string; expires_in: number };
   // Spotify tokens expire in 3600s. Set expiry to 59 minutes from now.
   const expiresIn = (data.expires_in - 60) * 1000;
   tokenCache = {
@@ -77,11 +117,11 @@ async function getAccessToken(): Promise<string> {
   return tokenCache.accessToken!;
 }
 
-async function fetchSpotifyData(url: RequestInfo | URL, accessToken: string) {
+async function fetchSpotifyData<T>(url: RequestInfo | URL, accessToken: string): Promise<T | null> {
   const response = await fetch(url, { headers: { Authorization: `Bearer ${accessToken}` } });
   if (response.status === 204) return null; // No content, e.g., not currently playing
   if (!response.ok) throw new Error(`Spotify API error: ${response.status} for URL ${url}`);
-  return response.json();
+  return (await response.json()) as T;
 }
 
 // The Live Loader definition
@@ -97,31 +137,31 @@ export function spotifyLoader() {
       try {
         const accessToken = await getAccessToken();
         const [currentlyPlayingData, recentlyPlayedData] = await Promise.all([
-          fetchSpotifyData("https://api.spotify.com/v1/me/player/currently-playing", accessToken),
-          fetchSpotifyData("https://api.spotify.com/v1/me/player/recently-played?limit=5", accessToken),
+          fetchSpotifyData<CurrentlyPlayingResponse>("https://api.spotify.com/v1/me/player/currently-playing", accessToken),
+          fetchSpotifyData<RecentlyPlayedResponse>("https://api.spotify.com/v1/me/player/recently-played?limit=5", accessToken),
         ]);
 
-        const isPlaying = currentlyPlayingData?.is_playing && currentlyPlayingData?.item;
+        const currentTrack = currentlyPlayingData?.is_playing ? currentlyPlayingData.item : undefined;
         const recentTracks =
-          recentlyPlayedData?.items?.map((item: any) => ({
+          recentlyPlayedData?.items?.map((item) => ({
             name: item.track.name,
-            artists: item.track.artists.map((artist: any) => ({ name: artist.name, url: artist.external_urls.spotify })),
+            artists: item.track.artists.map((artist) => ({ name: artist.name, url: artist.external_urls.spotify })),
             albumArt: item.track.album.images[0]?.url,
             url: item.track.external_urls.spotify,
             playedAt: item.played_at,
           })) || [];
 
-        const data: NowPlayingData = isPlaying
+        const data: NowPlayingData = currentTrack
           ? {
               IsUserListeningToSomething: true,
-              NowPlayingArtists: currentlyPlayingData.item.artists.map((artist: any) => ({ name: artist.name, url: artist.external_urls.spotify })),
-              NowPlayingAlbum: currentlyPlayingData.item.album.name,
-              NowPlayingAlbumArt: currentlyPlayingData.item.album.images[0]?.url,
-              NowPlayingAlbumUrl: currentlyPlayingData.item.album.external_urls.spotify,
-              NowPlayingName: currentlyPlayingData.item.name,
-              NowPlayingUrl: currentlyPlayingData.item.external_urls.spotify,
-              NowPlayingDuration: currentlyPlayingData.item.duration_ms,
-              NowPlayingProgress: currentlyPlayingData.progress_ms,
+              NowPlayingArtists: currentTrack.artists.map((artist) => ({ name: artist.name, url: artist.external_urls.spotify })),
+              NowPlayingAlbum: currentTrack.album.name,
+              NowPlayingAlbumArt: currentTrack.album.images[0]?.url,
+              NowPlayingAlbumUrl: currentTrack.album.external_urls.spotify,
+              NowPlayingName: currentTrack.name,
+              NowPlayingUrl: currentTrack.external_urls.spotify,
+              NowPlayingDuration: currentTrack.duration_ms,
+              NowPlayingProgress: currentlyPlayingData?.progress_ms,
               recentTracks,
             }
           : { IsUserListeningToSomething: false, recentTracks };
@@ -134,9 +174,10 @@ export function spotifyLoader() {
             // We can leave this empty or remove it.
           },
         };
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error("Spotify Loader Error:", error);
-        return { error: new SpotifyLoaderError(`Failed to fetch Spotify data: ${error.message}`, error) };
+        const message = error instanceof Error ? error.message : "Unknown error";
+        return { error: new SpotifyLoaderError(`Failed to fetch Spotify data: ${message}`, error) };
       }
     },
   };

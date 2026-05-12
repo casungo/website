@@ -25,7 +25,6 @@ export default defineConfig({
           "arrow-back",
           "dark-mode-rounded",
           "light-mode-rounded",
-          "send-rounded",
           "mail-outline-rounded",
           "image-outline-rounded",
           "ar-on-you-outline-rounded",

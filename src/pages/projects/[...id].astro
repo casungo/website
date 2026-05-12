@@ -20,7 +20,7 @@ function linkInstagramUsernames(text: string) {
 
 export async function getStaticPaths() {
   const projects = await getCollection("projects");
-  return projects.map((entry: { id: any }) => ({
+  return projects.map((entry) => ({
     params: { id: entry.id },
     props: { entry },
   }));

@@ -1,7 +1,9 @@
 <script lang="ts">
   import { onMount, onDestroy } from "svelte";
-  import { fly } from "svelte/transition";
+  import * as transition from "svelte/transition";
   import Icon from "@iconify/svelte";
+
+  const fly = transition.fly;
 
   // --- Interfaces ---
   interface Artist {
@@ -33,8 +35,8 @@
 
   // --- Props ---
   let { translations, defaultTranslations } = $props<{
-    translations: Record<string, any>;
-    defaultTranslations: Record<string, any>;
+    translations: Record<string, unknown>;
+    defaultTranslations: Record<string, unknown>;
   }>();
 
   // --- State ---
@@ -58,8 +60,16 @@
   let lastProgressUpdateTime = 0;
 
   // --- Helpers ---
-  function getNestedValue(obj: any, path: string): string | undefined {
-    return path.split(".").reduce((acc, part) => acc && acc[part], obj);
+  function getNestedValue(obj: unknown, path: string): string | undefined {
+    const value = path.split(".").reduce<unknown>((acc, part) => {
+      if (acc && typeof acc === "object" && part in acc) {
+        return (acc as Record<string, unknown>)[part];
+      }
+
+      return undefined;
+    }, obj);
+
+    return typeof value === "string" ? value : undefined;
   }
 
   function t(key: string): string {
@@ -133,7 +143,7 @@
       } else {
         stopProgressAnimation();
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
       showToast("Failed to fetch Spotify data.");
       nowPlaying = { IsUserListeningToSomething: false };

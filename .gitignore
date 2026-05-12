@@ -22,7 +22,9 @@ pnpm-debug.log*
 
 .wrangler/
 .vscode/
-.github/
+.github/*
+!.github/workflows/
+!.github/workflows/*.yml
 /.dev.vars
 .aider*
 

@@ -79,7 +79,7 @@ import { useTranslations, type UiLang } from "@i18n/utils";
 | --------------------------- | ------------------------- | --------------------------------- |
 | Components (Astro & Svelte) | PascalCase                | `Card.astro`, `NowPlaying.svelte` |
 | Layouts                     | PascalCase                | `Default.astro`                   |
-| Pages/routes                | kebab-case or `[dynamic]` | `contact.astro`, `[locale]/`      |
+| Pages/routes                | kebab-case or `[dynamic]` | `index.astro`, `[locale]/`        |
 | Utility files               | kebab-case                | `cdn-utils.ts`                    |
 | Directories                 | kebab-case                | `navbar/`, `loaders/`             |
 | Content files               | `YYYYMMDD-Title.md`       | `20250426-Loop events.md`         |
