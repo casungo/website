@@ -72,13 +72,13 @@
 }
 
 .navbar-brand {
-  font-family: "Poppins"
+  font-family: "Poppins";
 }
 
 .card-img-top {
-  object-fit: cover
+  object-fit: cover;
 }
 
 .img-cover {
-  object-fit: fill
+  object-fit: fill;
 }

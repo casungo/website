@@ -227,5 +227,5 @@ export const ui = {
       notPlayingSomethingText: "Normalmente qua dovresti vedere cosa sto ascoltando su Spotify in tempo reale, ma ora non sto ascoltando niente :)",
       lastPlayedText: "Ultimi brani riprodotti",
     },
-    },
-} as const; 
+  },
+} as const;

@@ -3,15 +3,12 @@ import sitemap from "@astrojs/sitemap";
 import cloudflare from "@astrojs/cloudflare";
 import svelte from "@astrojs/svelte";
 import tailwindcss from "@tailwindcss/vite";
-import icon from "astro-icon";
+import icon from "astro-iconset";
 
 // https://astro.build/config
 export default defineConfig({
   site: "https://casungo.top",
   prefetch: true,
-  experimental: {
-    liveContentCollections: true,
-  },
   image: {
     domains: ["cdn.casungo.top"],
   },
@@ -47,10 +44,11 @@ export default defineConfig({
   output: "server",
   adapter: cloudflare({
     imageService: "cloudflare",
+    prerenderEnvironment: "node",
   }),
   vite: {
     ssr: {
-      external: ["buffer", "path", "fs", "os", "crypto", "async_hooks"].map((i) => `node:${i}`),
+      external: [],
     },
     plugins: [tailwindcss()],
   },

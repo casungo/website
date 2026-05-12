@@ -1,4 +1,3 @@
-
 import type { APIRoute } from "astro";
 
 export const GET: APIRoute = async ({ params }) => {
@@ -26,34 +25,33 @@ export const GET: APIRoute = async ({ params }) => {
 
   // 3. Fetch from Cloudflare with Resizing Options
   // Using the Cloudflare specific 'cf' property in the init object
-  
+
   // Note: We strip headers to avoid passing irrelevant ones, but forward necessary ones if needed.
   // For a simple resize proxy, a fresh request is usually robust.
-  
+
   try {
-     const response = await fetch(imageUrl, {
-       cf: {
-         image: {
-           width: parsedWidth,
-           // Let Cloudflare calculate height to maintain aspect ratio
-           fit: "scale-down",
-           format: "webp" // Enforce webp or auto
-         }
-       }
-     } as any); // Cast to any because 'cf' is not in standard RequestInit type
+    const response = await fetch(imageUrl, {
+      cf: {
+        image: {
+          width: parsedWidth,
+          // Let Cloudflare calculate height to maintain aspect ratio
+          fit: "scale-down",
+          format: "webp", // Enforce webp or auto
+        },
+      },
+    } as any); // Cast to any because 'cf' is not in standard RequestInit type
 
-     // Create a new response to pass back to the client
-     // We should forward the Content-Type header from the upstream response
-     const contentType = response.headers.get("Content-Type");
+    // Create a new response to pass back to the client
+    // We should forward the Content-Type header from the upstream response
+    const contentType = response.headers.get("Content-Type");
 
-     return new Response(response.body, {
-       status: response.status,
-       headers: {
-         "Content-Type": contentType || "image/jpeg",
-         "Cache-Control": "public, max-age=31536000, immutable" // Cache aggressively
-       }
-     });
-
+    return new Response(response.body, {
+      status: response.status,
+      headers: {
+        "Content-Type": contentType || "image/jpeg",
+        "Cache-Control": "public, max-age=31536000, immutable", // Cache aggressively
+      },
+    });
   } catch (e) {
     console.error("Image proxy error:", e);
     return new Response("Internal Server Error", { status: 500 });

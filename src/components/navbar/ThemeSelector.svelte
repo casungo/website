@@ -1,8 +1,8 @@
-<script>
+<script lang="ts">
   import { onMount } from "svelte";
   import Icon from "@iconify/svelte";
 
-  let theme;
+  let theme = $state<string>();
 
   function getPreferredColorScheme() {
     if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
@@ -11,7 +11,7 @@
     return "light";
   }
 
-  function setTheme(newTheme) {
+  function setTheme(newTheme: string) {
     theme = newTheme;
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
@@ -31,7 +31,7 @@
 
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
-    const handleChange = (e) => {
+    const handleChange = (e: MediaQueryListEvent) => {
       if (!localStorage.getItem("theme")) {
         setTheme(e.matches ? "dark" : "light");
       }
@@ -45,7 +45,7 @@
   });
 </script>
 
-<button class="btn btn-ghost" on:click={toggleTheme}>
+<button class="btn btn-ghost" onclick={toggleTheme}>
   {#if theme === "light"}
     <Icon icon="material-symbols:dark-mode-rounded" class="w-5 h-5" />
   {:else}
