@@ -3,11 +3,6 @@ import { getLiveEntry } from "astro:content";
 
 export const prerender = false;
 
-const fallbackNowPlayingData = {
-  IsUserListeningToSomething: false,
-  recentTracks: [],
-};
-
 export const GET: APIRoute = async () => {
   const { entry, error, cacheHint } = await getLiveEntry("spotify", "now-playing");
 
@@ -27,21 +22,35 @@ export const GET: APIRoute = async () => {
   if (error) {
     console.error("Error fetching from 'spotify' live collection:", error.message);
     headers.set("Cache-Control", "no-store");
+    const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
 
-    return new Response(JSON.stringify(fallbackNowPlayingData), {
-      status: 200,
-      headers,
-    });
+    return new Response(
+      JSON.stringify({
+        error: "Failed to fetch data from Spotify loader",
+        errorMessage,
+        IsUserListeningToSomething: false,
+      }),
+      {
+        status: 500,
+        headers,
+      },
+    );
   }
 
   if (!entry) {
     console.error("No entry data returned from Spotify loader");
     headers.set("Cache-Control", "no-store");
 
-    return new Response(JSON.stringify(fallbackNowPlayingData), {
-      status: 200,
-      headers,
-    });
+    return new Response(
+      JSON.stringify({
+        error: "No entry data returned from Spotify loader",
+        IsUserListeningToSomething: false,
+      }),
+      {
+        status: 500,
+        headers,
+      },
+    );
   }
 
   return new Response(JSON.stringify(entry.data), {
