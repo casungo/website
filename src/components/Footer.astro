@@ -1,14 +1,17 @@
 ---
 import { useTranslations, type UiLang } from "@i18n/utils";
 
-const lang = (Astro.currentLocale || 'en') as UiLang;
+const lang = (Astro.currentLocale || "en") as UiLang;
 const t = useTranslations(lang);
+const howMadeLink = `/${lang}/how-this-site-is-made`;
 ---
 
 <div class="m-2">
   <footer class="footer footer-center bg-base-300 text-base-content p-4 rounded-box">
     <aside>
-      <p>{t("footer.text")}</p>
+      <p>
+        {t("footer.madeWith")} <a class="link link-hover" href={howMadeLink}>{t("footer.stack")}</a>
+      </p>
       <a href="https://astro.build"><img src="https://astro.badg.es/v2/built-with-astro/tiny.svg" alt="Built with Astro" width="120" height="20" /></a>
     </aside>
   </footer>

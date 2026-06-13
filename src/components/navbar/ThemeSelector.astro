@@ -1,0 +1,31 @@
+---
+import { Icon } from "astro-iconset/components";
+---
+
+<button class="btn btn-ghost" type="button" aria-label="Toggle theme" data-theme-toggle>
+  <span data-theme-icon="light">
+    <Icon name="material-symbols:dark-mode-rounded" class="w-5 h-5" />
+  </span>
+  <span data-theme-icon="dark" class="hidden">
+    <Icon name="material-symbols:light-mode-rounded" class="w-5 h-5" />
+  </span>
+</button>
+
+<script is:inline>
+  const themeToggle = document.querySelector("[data-theme-toggle]");
+  const lightIcon = document.querySelector('[data-theme-icon="light"]');
+  const darkIcon = document.querySelector('[data-theme-icon="dark"]');
+
+  const getPreferredTheme = () => (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  const getCurrentTheme = () => document.documentElement.getAttribute("data-theme") || localStorage.getItem("theme") || getPreferredTheme();
+
+  const setTheme = (theme) => {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+    lightIcon?.classList.toggle("hidden", theme !== "light");
+    darkIcon?.classList.toggle("hidden", theme !== "dark");
+  };
+
+  setTheme(getCurrentTheme());
+  themeToggle?.addEventListener("click", () => setTheme(getCurrentTheme() === "light" ? "dark" : "light"));
+</script>

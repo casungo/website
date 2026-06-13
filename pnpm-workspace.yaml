@@ -1,0 +1,12 @@
+packages:
+  - .
+
+overrides:
+  "@iconify/tools": 5.0.5
+  "@iconify/utils": 3.1.0
+
+allowBuilds:
+  core-js: true
+  esbuild: true
+  sharp: true
+  workerd: true

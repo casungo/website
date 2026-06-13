@@ -3,7 +3,7 @@ export const languages = {
   it: "Italian",
 };
 
-export const defaultLang = "en";
+export const defaultLang = "it";
 
 export const ui = {
   en: {
@@ -68,47 +68,55 @@ export const ui = {
       },
     },
     projects: {
-      title: "My Projects",
+      title: "Apps, Tools & Projects",
       cards: {
-        website: {
-          title: "This website",
-          desc: "I created this website using Astro, Bootstrap & Cloudflare.",
-          btnText: "Check out the source code!",
+        relationSync: {
+          title: "Relation Sync for Obsidian",
+          desc: "An Obsidian plugin that automates bidirectional YAML frontmatter relationships, with customizable relation pairs and bulk sync tools.",
+          btnText: "View on GitHub",
+        },
+        sedbot: {
+          title: "SedBot",
+          desc: "A Telegram bot for POSIX sed-style text transformations in chats, designed to run on Cloudflare Workers.",
+          btnText: "View on GitHub",
+        },
+        osservaprezziCarburantiHa: {
+          title: "Osservaprezzi Carburanti for Home Assistant",
+          desc: "A Home Assistant integration that retrieves Italian fuel prices from the MIMIT Osservaprezzi service and creates automatic sensors.",
+          btnText: "View on GitHub",
         },
         fedora33: {
           title: "Fedora 33 Wallpaper",
           desc: "I contributed to the development of the default Fedora 33 wallpaper that is shown on every machine with a fresh installation of the operating system!",
           btnText: "View the wallpaper!",
         },
-        rocketassault: {
-          title: "Rocket Assault",
-          desc: "I translated more than 600 words for this game. The game feels like Rocket League and speedrunning combined, really challenging.",
-          btnText: "Buy Rocket Assault!",
-        },
-        astrostarlight: {
-          title: "Astro and starlight",
-          desc: "I'm actively translating the documentation for Astro, the framework I'm currently using to build this site, and Starlight, a tool for creating a documentation site for any product, leveraging the power of Astro.",
-          btnText: "Read the documentation",
-        },
-        carsteroids: {
-          title: "Carsteroids",
-          desc: "I translated more than 3,500 words for this game. A really well-made top-down shooter.",
-          btnText: "Play CARSTEROIDS!",
-        },
-        "1chance": {
-          title: "1 Chance",
-          desc: "I translated more than 440 words for this game. Try it, it's free!",
-          btnText: "Play 1 Chance!",
-        },
-        niagara: {
-          title: "Niagara Launcher",
-          desc: "I translated more than 4,500 words for this app. I use this launcher daily and recommend it to everyone.",
-          btnText: "Try Niagara Launcher",
-        },
       },
     },
     footer: {
-      text: "This site is powered by Astro, Bootstrap & Cloudflare.",
+      madeWith: "Made with",
+      stack: "Astro, daisyUI & Cloudflare",
+    },
+    howMade: {
+      title: "How this site is made",
+      description: "A short technical overview of the tools, architecture, and deployment behind this website.",
+      sections: {
+        stack: {
+          title: "Stack",
+          body: "The site is built with Astro for routing and rendering, Svelte for interactive components, Tailwind CSS with daisyUI for styling, and Cloudflare Workers for deployment.",
+        },
+        content: {
+          title: "Content and routing",
+          body: "Astro handles file-based routes, localized pages, project content, and server-rendered endpoints. Reusable layouts and components keep the page structure consistent across the site.",
+        },
+        styling: {
+          title: "Styling",
+          body: "The interface uses Tailwind CSS utilities and daisyUI themes, with light and dark modes controlled client-side so the preferred theme loads before the page renders.",
+        },
+        deployment: {
+          title: "Deployment",
+          body: "The production build targets Cloudflare Workers through the Astro Cloudflare adapter, with Cloudflare Image Resizing used for optimized project images.",
+        },
+      },
     },
     nowPlaying: {
       title: "Alessandro is listening to",
@@ -179,12 +187,22 @@ export const ui = {
       },
     },
     projects: {
-      title: "I miei progetti",
+      title: "App, strumenti e progetti",
       cards: {
-        website: {
-          title: "Questo sito web",
-          desc: "Ho realizzato questo sito web utlizzando Astro, Bootstrap & Cloudflare.",
-          btnText: "Controlla il codice sorgente!",
+        relationSync: {
+          title: "Relation Sync for Obsidian",
+          desc: "Un plugin per Obsidian che automatizza le relazioni bidirezionali nel frontmatter YAML, con coppie personalizzabili e strumenti di sincronizzazione in massa.",
+          btnText: "Apri su GitHub",
+        },
+        sedbot: {
+          title: "SedBot",
+          desc: "Un bot Telegram per trasformazioni testuali in stile POSIX sed nelle chat, progettato per funzionare su Cloudflare Workers.",
+          btnText: "Apri su GitHub",
+        },
+        osservaprezziCarburantiHa: {
+          title: "Osservaprezzi Carburanti for Home Assistant",
+          desc: "Un'integrazione per Home Assistant che recupera i prezzi italiani dei carburanti dal servizio Osservaprezzi del MIMIT e crea sensori automatici.",
+          btnText: "Apri su GitHub",
         },
 
         fedora33: {
@@ -192,35 +210,33 @@ export const ui = {
           desc: "Ho contribuito allo sviluppo dello sfondo predefinito di Fedora 33 che viene mostrato su ogni macchina con una nuova installazione del sistema operativo!",
           btnText: "Visualizza lo sfondo!",
         },
-        rocketassault: {
-          title: "Rocket Assault",
-          desc: "Ho tradotto più di 600 parole per questo gioco. Il gioco si sente come Rocket League e speedrunning combinati, davvero impegnativo.",
-          btnText: "Acquista Rocket Assault!",
-        },
-        astrostarlight: {
-          title: "Astro e starlight",
-          desc: "Sto attivamente traducendo la documentazione di Astro, framework che sto utilizzando in questo momento per costruire questo sito e Starlight, uno strumento che per creare un sito per la documentazione per qualsiasi prodotto, sfruttando la potenza di Astro.",
-          btnText: "Leggi la documentazione",
-        },
-        carsteroids: {
-          title: "Carsteroids",
-          desc: "Ho tradotto più di 3.500 parole per questo gioco. Un shooter dall'alto davvero ben fatto.",
-          btnText: "Gioca a CARSTEROIDS!",
-        },
-        "1chance": {
-          title: "1 Chance",
-          desc: "Ho tradotto più di 440 parole per questo gioco. Provalo, è gratuito!",
-          btnText: "Gioca a 1 Chance!",
-        },
-        niagara: {
-          title: "Niagara Launcher",
-          desc: "Ho tradotto più di 4.500 parole per questa app. Uso questo launcher quotidianamente e lo consiglio a tutti.",
-          btnText: "Prova Niagara Launcher",
-        },
       },
     },
     footer: {
-      text: "Questo sito è alimentato da Astro, Bootstrap & Cloudflare.",
+      madeWith: "Made with",
+      stack: "Astro, daisyUI & Cloudflare",
+    },
+    howMade: {
+      title: "Come è fatto questo sito",
+      description: "Una breve panoramica tecnica degli strumenti, dell'architettura e del deploy dietro questo sito.",
+      sections: {
+        stack: {
+          title: "Stack",
+          body: "Il sito è costruito con Astro per routing e rendering, Svelte per i componenti interattivi, Tailwind CSS con daisyUI per lo stile e Cloudflare Workers per il deploy.",
+        },
+        content: {
+          title: "Contenuti e routing",
+          body: "Astro gestisce route basate sui file, pagine localizzate, contenuti dei progetti ed endpoint server-rendered. Layout e componenti riutilizzabili mantengono coerente la struttura delle pagine.",
+        },
+        styling: {
+          title: "Stile",
+          body: "L'interfaccia usa utility Tailwind CSS e temi daisyUI, con modalità chiara e scura controllate lato client così il tema preferito viene caricato prima del rendering della pagina.",
+        },
+        deployment: {
+          title: "Deploy",
+          body: "La build di produzione usa Cloudflare Workers tramite l'adapter Cloudflare di Astro, con Cloudflare Image Resizing per ottimizzare le immagini dei progetti.",
+        },
+      },
     },
     nowPlaying: {
       title: "Alessandro sta ascoltando a",

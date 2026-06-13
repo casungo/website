@@ -14,7 +14,7 @@ const lang = Astro.currentLocale as "en" | "it" | undefined;
   <head>
     <script is:inline>
       if (localStorage.getItem("theme") === null) {
-        document.documentElement.setAttribute("data-theme", "light");
+        document.documentElement.setAttribute("data-theme", window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
       } else document.documentElement.setAttribute("data-theme", localStorage.getItem("theme"));
     </script>
     <script>

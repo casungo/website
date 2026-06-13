@@ -1,4 +1,5 @@
 import { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REFRESH_TOKEN } from "astro:env/server";
+import type { LiveLoader } from "astro/loaders";
 
 // Data structure expected by the frontend Svelte component
 interface Artist {
@@ -38,6 +39,7 @@ interface SpotifyArtist {
 }
 
 interface SpotifyTrack {
+  type?: string;
   name: string;
   artists: SpotifyArtist[];
   album: {
@@ -55,7 +57,7 @@ interface SpotifyTrack {
 
 interface CurrentlyPlayingResponse {
   is_playing?: boolean;
-  item?: SpotifyTrack;
+  item?: SpotifyTrack | null;
   progress_ms?: number;
 }
 
@@ -124,46 +126,72 @@ async function fetchSpotifyData<T>(url: RequestInfo | URL, accessToken: string):
   return (await response.json()) as T;
 }
 
+function isSpotifyTrack(item: SpotifyTrack | null | undefined): item is SpotifyTrack {
+  return Boolean(item?.name && Array.isArray(item.artists) && item.album && item.external_urls?.spotify);
+}
+
+function mapTrack(track: SpotifyTrack) {
+  return {
+    name: track.name,
+    artists: track.artists.map((artist) => ({ name: artist.name, url: artist.external_urls.spotify })),
+    albumArt: track.album.images[0]?.url ?? "",
+    url: track.external_urls.spotify,
+  };
+}
+
 // The Live Loader definition
-export function spotifyLoader() {
+export function spotifyLoader(): LiveLoader<NowPlayingData, { id: string }, never, SpotifyLoaderError> {
   return {
     name: "spotify-loader",
     loadCollection: async () => ({ entries: [] }), // Not used for this singleton data source
-    loadEntry: async ({ filter }: { filter: { id: string } }) => {
+    loadEntry: async ({ filter }) => {
       if (filter.id !== "now-playing") {
         return { error: new SpotifyLoaderError('Invalid entry ID. Use "now-playing".') };
       }
 
       try {
         const accessToken = await getAccessToken();
-        const [currentlyPlayingData, recentlyPlayedData] = await Promise.all([
-          fetchSpotifyData<CurrentlyPlayingResponse>("https://api.spotify.com/v1/me/player/currently-playing", accessToken),
+        const [currentlyPlayingResult, recentlyPlayedResult] = await Promise.allSettled([
+          fetchSpotifyData<CurrentlyPlayingResponse>("https://api.spotify.com/v1/me/player/currently-playing?additional_types=track", accessToken),
           fetchSpotifyData<RecentlyPlayedResponse>("https://api.spotify.com/v1/me/player/recently-played?limit=5", accessToken),
         ]);
 
-        const currentTrack = currentlyPlayingData?.is_playing ? currentlyPlayingData.item : undefined;
+        if (currentlyPlayingResult.status === "rejected") {
+          throw currentlyPlayingResult.reason;
+        }
+
+        if (recentlyPlayedResult.status === "rejected") {
+          console.error("Spotify recently played fetch failed:", recentlyPlayedResult.reason);
+        }
+
+        const currentlyPlayingData = currentlyPlayingResult.value;
+        const recentlyPlayedData = recentlyPlayedResult.status === "fulfilled" ? recentlyPlayedResult.value : null;
+        const currentTrack = currentlyPlayingData?.is_playing && isSpotifyTrack(currentlyPlayingData.item) ? currentlyPlayingData.item : undefined;
         const recentTracks =
-          recentlyPlayedData?.items?.map((item) => ({
-            name: item.track.name,
-            artists: item.track.artists.map((artist) => ({ name: artist.name, url: artist.external_urls.spotify })),
-            albumArt: item.track.album.images[0]?.url,
-            url: item.track.external_urls.spotify,
-            playedAt: item.played_at,
-          })) || [];
+          recentlyPlayedData?.items
+            ?.filter((item) => isSpotifyTrack(item.track))
+            .map((item) => ({
+              ...mapTrack(item.track),
+              playedAt: item.played_at,
+            })) || [];
 
         const data: NowPlayingData = currentTrack
-          ? {
-              IsUserListeningToSomething: true,
-              NowPlayingArtists: currentTrack.artists.map((artist) => ({ name: artist.name, url: artist.external_urls.spotify })),
-              NowPlayingAlbum: currentTrack.album.name,
-              NowPlayingAlbumArt: currentTrack.album.images[0]?.url,
-              NowPlayingAlbumUrl: currentTrack.album.external_urls.spotify,
-              NowPlayingName: currentTrack.name,
-              NowPlayingUrl: currentTrack.external_urls.spotify,
-              NowPlayingDuration: currentTrack.duration_ms,
-              NowPlayingProgress: currentlyPlayingData?.progress_ms,
-              recentTracks,
-            }
+          ? (() => {
+              const mappedCurrentTrack = mapTrack(currentTrack);
+
+              return {
+                IsUserListeningToSomething: true,
+                NowPlayingArtists: mappedCurrentTrack.artists,
+                NowPlayingAlbum: currentTrack.album.name,
+                NowPlayingAlbumArt: mappedCurrentTrack.albumArt,
+                NowPlayingAlbumUrl: currentTrack.album.external_urls.spotify,
+                NowPlayingName: mappedCurrentTrack.name,
+                NowPlayingUrl: mappedCurrentTrack.url,
+                NowPlayingDuration: currentTrack.duration_ms,
+                NowPlayingProgress: currentlyPlayingData?.progress_ms ?? 0,
+                recentTracks,
+              };
+            })()
           : { IsUserListeningToSomething: false, recentTracks };
 
         return {

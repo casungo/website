@@ -1,4 +1,4 @@
-import { defineConfig, envField, sessionDrivers } from "astro/config";
+import { defineConfig, envField } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 import cloudflare from "@astrojs/cloudflare";
 import svelte from "@astrojs/svelte";
@@ -13,7 +13,7 @@ export default defineConfig({
     domains: ["cdn.casungo.top"],
   },
   i18n: {
-    defaultLocale: "en",
+    defaultLocale: "it",
     locales: ["en", "it"],
   },
   integrations: [
@@ -41,17 +41,10 @@ export default defineConfig({
     svelte(),
   ],
   output: "server",
-  session: {
-    driver: sessionDrivers.lruCache(),
-  },
   adapter: cloudflare({
     imageService: "cloudflare",
-    prerenderEnvironment: "node",
   }),
   vite: {
-    ssr: {
-      external: [],
-    },
     plugins: [tailwindcss()],
   },
   env: {

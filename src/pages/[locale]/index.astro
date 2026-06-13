@@ -8,14 +8,11 @@ import CardProjects from "@components/CardProjects.astro";
 
 import NowPlaying from "@components/NowPlaying.svelte";
 
-import Chance from "@images/1Chance.png";
-import Carsteroids from "@images/Carsteroids.jpg";
 import Fedora33 from "@images/Fedora 33 wallpaper.jpg";
-import Niagara from "@images/Niagara.png";
-import RA from "@images/RA.jpg";
 import Briefmaker from "@images/briefmaker.png";
-import Webscreenshot from "@images/webscreenshot.png";
-import Astroimg from "@images/astro.jpg";
+import OsservaprezziCarburantiHa from "@images/osservaprezzi-carburanti-ha.jpg";
+import RelationSync from "@images/relation-sync.png";
+import Sedbot from "@images/sedbot.jpg";
 import BeRealImg from "@images/bereal.png";
 import Excel2MdImg from "@images/excel2md.png";
 import SplitMediaImg from "@images/splitmedia.png";
@@ -24,7 +21,7 @@ import { useTranslations, type UiLang } from "@i18n/utils";
 
 import { ui, defaultLang } from "@i18n/ui";
 
-const lang = (Astro.currentLocale || "en") as UiLang;
+const lang = (Astro.currentLocale || defaultLang) as UiLang;
 const t = useTranslations(lang);
 const translations = ui[lang];
 const defaultTranslations = ui[defaultLang];
@@ -44,7 +41,15 @@ export function getStaticPaths() {
       <Socials />
     </div>
   </Card>
-  <Projects title={t("apps.title")}>
+  <Projects title={t("projects.title")}>
+    <CardProjects
+      img={OsservaprezziCarburantiHa}
+      title={t("projects.cards.osservaprezziCarburantiHa.title")}
+      desc={t("projects.cards.osservaprezziCarburantiHa.desc")}
+      btnLink="https://github.com/casungo/osservaprezzi-carburanti-ha"
+      btnText={t("projects.cards.osservaprezziCarburantiHa.btnText")}
+      btnIcon="bxl:github"
+    />
     <CardProjects
       img={BeRealImg}
       title={t("apps.cards.bereal.title")}
@@ -52,6 +57,14 @@ export function getStaticPaths() {
       btnLink="https://berealgdprviewer.eu"
       btnText={t("apps.cards.bereal.btnText")}
       btnIcon="material-symbols:open-in-new-rounded"
+    />
+    <CardProjects
+      img={Briefmaker}
+      title={t("apps.cards.briefmaker.title")}
+      desc={t("apps.cards.briefmaker.desc")}
+      btnLink="https://briefmakerapp.com/"
+      btnText={t("apps.cards.briefmaker.btnText")}
+      btnIcon="material-symbols:image-outline-rounded"
     />
     <CardProjects
       img={Excel2MdImg}
@@ -70,21 +83,19 @@ export function getStaticPaths() {
       btnIcon="material-symbols:call-split"
     />
     <CardProjects
-      img={Briefmaker}
-      title={t("apps.cards.briefmaker.title")}
-      desc={t("apps.cards.briefmaker.desc")}
-      btnLink="https://briefmakerapp.com/"
-      btnText={t("apps.cards.briefmaker.btnText")}
-      btnIcon="material-symbols:image-outline-rounded"
+      img={Sedbot}
+      title={t("projects.cards.sedbot.title")}
+      desc={t("projects.cards.sedbot.desc")}
+      btnLink="https://github.com/casungo/sedbot"
+      btnText={t("projects.cards.sedbot.btnText")}
+      btnIcon="bxl:github"
     />
-  </Projects>
-  <Projects title={t("projects.title")}>
     <CardProjects
-      img={Webscreenshot}
-      title={t("projects.cards.website.title")}
-      desc={t("projects.cards.website.desc")}
-      btnLink="https://github.com/casungo/website"
-      btnText={t("projects.cards.website.btnText")}
+      img={RelationSync}
+      title={t("projects.cards.relationSync.title")}
+      desc={t("projects.cards.relationSync.desc")}
+      btnLink="https://github.com/casungo/relation-sync-plugin"
+      btnText={t("projects.cards.relationSync.btnText")}
       btnIcon="bxl:github"
     />
     <CardProjects
@@ -94,46 +105,6 @@ export function getStaticPaths() {
       btnLink="https://pagure.io/design/issue/raw/files/219f997ff4aa506ea4ec4b3f82d380f32e2411027f3d62f8d8b059d55ed3c3b3-dawn.png"
       btnText={t("projects.cards.fedora33.btnText")}
       btnIcon="material-symbols:image-outline-rounded"
-    />
-    <CardProjects
-      img={RA}
-      title={t("projects.cards.rocketassault.title")}
-      desc={t("projects.cards.rocketassault.desc")}
-      btnLink="https://store.steampowered.com/app/880730"
-      btnText={t("projects.cards.rocketassault.btnText")}
-      btnIcon="material-symbols:stadia-controller-outline"
-    />
-    <CardProjects
-      img={Astroimg}
-      title={t("projects.cards.astrostarlight.title")}
-      desc={t("projects.cards.astrostarlight.desc")}
-      btnLink="https://docs.astro.build/it"
-      btnText={t("projects.cards.astrostarlight.btnText")}
-      btnIcon="material-symbols:edit-document-outline-rounded"
-    />
-    <CardProjects
-      img={Carsteroids}
-      title={t("projects.cards.carsteroids.title")}
-      desc={t("projects.cards.carsteroids.desc")}
-      btnLink="https://store.steampowered.com/app/671470"
-      btnText={t("projects.cards.carsteroids.btnText")}
-      btnIcon="material-symbols:stadia-controller-outline"
-    />
-    <CardProjects
-      img={Chance}
-      title={t("projects.cards.1chance.title")}
-      desc={t("projects.cards.1chance.desc")}
-      btnLink="https://apps.apple.com/app/1-chance/id1529736678"
-      btnText={t("projects.cards.1chance.btnText")}
-      btnIcon="material-symbols:stadia-controller-outline"
-    />
-    <CardProjects
-      img={Niagara}
-      title={t("projects.cards.niagara.title")}
-      desc={t("projects.cards.niagara.desc")}
-      btnLink="https://play.google.com/store/apps/details?id=bitpit.launcher"
-      btnText={t("projects.cards.niagara.btnText")}
-      btnIcon="bxl:play-store"
     />
   </Projects>
 </Default>
