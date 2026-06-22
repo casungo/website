@@ -1,9 +1,10 @@
 ---
+import { Icon } from "astro-iconset/components";
 import { type CollectionEntry, getCollection } from "astro:content";
 import Default from "@layouts/Default.astro";
-import { Icon } from "astro-iconset/components";
-import { SEO } from "astro-seo";
+import imageDimensions from "@projects/image-dimensions.json";
 import { getCdnUrl, getThumbUrl } from "@lib/cdn-utils";
+import { SEO } from "astro-seo";
 
 export const prerender = true;
 
@@ -42,31 +43,15 @@ function formatDate(date: number | Date) {
 
 const absoluteImageUrl = getCdnUrl(data.heroImage);
 
-// Pre-calculate image data for the gallery
-import { getImage } from "astro:assets";
-
-const galleryImages = await Promise.all(
-  photos.map(async (photo) => {
-    // We still need dimensions to control the layout (Masonry)
-    // We can use the full URL to fetch metadata via Astro's getImage (which does a fetch/probe)
-    // OR we could skip this if we accept a fixed grid. But let's try to preserve the layout.
-    // The "inferSize" usage creates a probe reference.
-    const url = getCdnUrl(photo);
-    const fullImageInfo = await getImage({
-      src: url,
-      inferSize: true,
-    });
-
-    return {
-      // Use our new secure proxy for the thumbnail src
-      src: getThumbUrl(photo, 400),
-      // Keep original dimensions for layout and PhotoSwipe
-      originalSrc: url,
-      width: fullImageInfo.attributes.width,
-      height: fullImageInfo.attributes.height,
-    };
-  }),
-);
+const galleryImages = photos.map((photo) => {
+  const dimensions = imageDimensions[photo as keyof typeof imageDimensions];
+  if (!dimensions) throw new Error(`Missing image dimensions: run pnpm images:dimensions`);
+  return {
+    src: getThumbUrl(photo, 400),
+    originalSrc: getCdnUrl(photo),
+    ...dimensions,
+  };
+});
 
 function isVertical(width: number, height: number) {
   return height > width;
