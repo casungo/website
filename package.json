@@ -8,6 +8,7 @@
     "build": "astro build",
     "cfPreview": "astro build && wrangler dev --port 9001",
     "cfDeploy": "astro build && wrangler deploy",
+    "images:dimensions": "node scripts/image-dimensions.mjs",
     "upgradeEverything": "pnpm dlx @astrojs/upgrade && pnpm up",
     "check": "astro check"
   },
