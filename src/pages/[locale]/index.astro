@@ -15,6 +15,7 @@ import RelationSync from "@images/relation-sync.png";
 import Sedbot from "@images/sedbot.jpg";
 import BeRealImg from "@images/bereal.png";
 import Excel2MdImg from "@images/excel2md.png";
+import P7mReaderImg from "@images/p7mreader.png";
 import SplitMediaImg from "@images/splitmedia.png";
 
 import { useTranslations, type UiLang } from "@i18n/utils";
@@ -75,6 +76,14 @@ export function getStaticPaths() {
       btnIcon="material-symbols:table-chart-outline"
     />
     <CardProjects
+      img={P7mReaderImg}
+      title={t("apps.cards.p7mreader.title")}
+      desc={t("apps.cards.p7mreader.desc")}
+      btnLink="https://p7mreader.eu"
+      btnText={t("apps.cards.p7mreader.btnText")}
+      btnIcon="material-symbols:open-in-new-rounded"
+    />
+    <CardProjects
       img={SplitMediaImg}
       title={t("apps.cards.splitmedia.title")}
       desc={t("apps.cards.splitmedia.desc")}
@@ -82,14 +91,7 @@ export function getStaticPaths() {
       btnText={t("apps.cards.splitmedia.btnText")}
       btnIcon="material-symbols:call-split"
     />
-    <CardProjects
-      img={Sedbot}
-      title={t("projects.cards.sedbot.title")}
-      desc={t("projects.cards.sedbot.desc")}
-      btnLink="https://github.com/casungo/sedbot"
-      btnText={t("projects.cards.sedbot.btnText")}
-      btnIcon="bxl:github"
-    />
+    <CardProjects img={Sedbot} title={t("projects.cards.sedbot.title")} desc={t("projects.cards.sedbot.desc")} btnLink="https://github.com/casungo/sedbot" btnText={t("projects.cards.sedbot.btnText")} btnIcon="bxl:github" />
     <CardProjects
       img={RelationSync}
       title={t("projects.cards.relationSync.title")}

@@ -55,6 +55,11 @@ export const ui = {
           desc: "Easily convert your Excel spreadsheets, Google Sheets, and CSV files into clean, formatted Markdown tables.",
           btnText: "Convert Table",
         },
+        p7mreader: {
+          title: "P7M Reader",
+          desc: "Open and extract P7M files locally in your browser. No upload and no account: your document stays on your device.",
+          btnText: "Open P7M Reader",
+        },
         splitmedia: {
           title: "Split Your Media",
           desc: "Media splitting that actually works. Your files are processed locally and never leave your computer. Fast, secure, and 100% private.",
@@ -173,6 +178,11 @@ export const ui = {
           title: "Excel to Markdown",
           desc: "Converti facilmente i tuoi fogli di calcolo Excel, Google Sheets e file CSV in tabelle Markdown pulite e formattate.",
           btnText: "Converti Tabella",
+        },
+        p7mreader: {
+          title: "P7M Reader",
+          desc: "Apri ed estrai file P7M direttamente nel browser. Nessun upload e nessun account: il documento resta sul tuo dispositivo.",
+          btnText: "Apri P7M Reader",
         },
         splitmedia: {
           title: "Split Your Media",
