@@ -12,11 +12,12 @@ interface Props {
   entry: CollectionEntry<"projects">;
 }
 
-function linkInstagramUsernames(text: string) {
-  if (!text) return "";
-  return text.replace(/@([a-zA-Z0-9_.]+)/g, (_, username) => {
-    return `<a class="link" href="https://www.instagram.com/${username}" target="_blank">@${username}</a>`;
-  });
+function splitInstagramUsernames(text: string) {
+  return text.split(/(@[a-zA-Z0-9_.]+)/g).filter(Boolean);
+}
+
+function isInstagramUsername(text: string) {
+  return /^@[a-zA-Z0-9_.]+$/.test(text);
 }
 
 export async function getStaticPaths() {
@@ -81,7 +82,7 @@ function isVertical(width: number, height: number) {
     <div class="card card-border border-base-300 m-6 bg-base-100">
       <figure>
         <div class="aspect-video">
-           <!-- Use secure proxy for hero image (1280px) and disable Astro optimization -->
+          <!-- Use secure proxy for hero image (1280px) and disable Astro optimization -->
           <img src={getThumbUrl(data.heroImage, 1280)} alt={data.title} width={1280} height={720} class="w-full h-full object-cover" loading="lazy" decoding="async" />
         </div>
       </figure>
@@ -90,9 +91,45 @@ function isVertical(width: number, height: number) {
           {data.title}
         </h2>
         <div class="badge badge-secondary">{formatDate(data.pubDate)}</div>
-        <p set:html={linkInstagramUsernames(data.credit)} />
-        <p set:html={linkInstagramUsernames(data.colorCorrection ?? "")} />
-        <p set:html={linkInstagramUsernames(data.editing ?? "")} />
+        <p>
+          {
+            splitInstagramUsernames(data.credit).map((part) =>
+              isInstagramUsername(part) ? (
+                <a class="link" href={`https://www.instagram.com/${part.slice(1)}`} target="_blank" rel="noopener noreferrer">
+                  {part}
+                </a>
+              ) : (
+                part
+              ),
+            )
+          }
+        </p>
+        <p>
+          {
+            splitInstagramUsernames(data.colorCorrection ?? "").map((part) =>
+              isInstagramUsername(part) ? (
+                <a class="link" href={`https://www.instagram.com/${part.slice(1)}`} target="_blank" rel="noopener noreferrer">
+                  {part}
+                </a>
+              ) : (
+                part
+              ),
+            )
+          }
+        </p>
+        <p>
+          {
+            splitInstagramUsernames(data.editing ?? "").map((part) =>
+              isInstagramUsername(part) ? (
+                <a class="link" href={`https://www.instagram.com/${part.slice(1)}`} target="_blank" rel="noopener noreferrer">
+                  {part}
+                </a>
+              ) : (
+                part
+              ),
+            )
+          }
+        </p>
       </div>
     </div>
   </div>
@@ -103,7 +140,7 @@ function isVertical(width: number, height: number) {
         galleryImages.map((image) => (
           <a href={image.originalSrc} data-pswp-width={image.width} data-pswp-height={image.height} class={`${isVertical(image.width, image.height) ? "row-span-2" : ""}`} target="_blank">
             <div class={`block w-44 h-full ${isVertical(image.width, image.height) ? "h-full" : "aspect-video"}`}>
-               <!-- Use secure proxy src, unoptimized to prevent double-processing -->
+              {/* Use secure proxy src, unoptimized to prevent double-processing */}
               <img src={image.src} alt={data.title} width={400} height={Math.round(400 * (image.height / image.width))} class="rounded-btn object-cover h-full w-full" loading="lazy" decoding="async" />
             </div>
           </a>

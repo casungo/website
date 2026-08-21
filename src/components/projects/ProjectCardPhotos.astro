@@ -8,11 +8,12 @@ interface Props {
 
 const { data, id } = Astro.props.project;
 
-function linkInstagramUsernames(text: string) {
-  if (!text) return "";
-  return text.replace(/@([a-zA-Z0-9_.]+)/g, (_, username) => {
-    return `<a class="link" href="https://www.instagram.com/${username}" target="_blank">@${username}</a>`;
-  });
+function splitInstagramUsernames(text: string) {
+  return text.split(/(@[a-zA-Z0-9_.]+)/g).filter(Boolean);
+}
+
+function isInstagramUsername(text: string) {
+  return /^@[a-zA-Z0-9_.]+$/.test(text);
 }
 
 function formatDate(date: number | Date) {
@@ -34,9 +35,45 @@ function formatDate(date: number | Date) {
     <div class="card-body p-4">
       <h5 class="card-title text-lg">{data.title}</h5>
       <div class="badge badge-secondary">{formatDate(data.pubDate)}</div>
-      <p set:html={linkInstagramUsernames(data.credit)} />
-      <p set:html={linkInstagramUsernames(data.colorCorrection ?? "")} />
-      <p set:html={linkInstagramUsernames(data.editing ?? "")} />
+      <p>
+        {
+          splitInstagramUsernames(data.credit).map((part) =>
+            isInstagramUsername(part) ? (
+              <a class="link" href={`https://www.instagram.com/${part.slice(1)}`} target="_blank" rel="noopener noreferrer">
+                {part}
+              </a>
+            ) : (
+              part
+            ),
+          )
+        }
+      </p>
+      <p>
+        {
+          splitInstagramUsernames(data.colorCorrection ?? "").map((part) =>
+            isInstagramUsername(part) ? (
+              <a class="link" href={`https://www.instagram.com/${part.slice(1)}`} target="_blank" rel="noopener noreferrer">
+                {part}
+              </a>
+            ) : (
+              part
+            ),
+          )
+        }
+      </p>
+      <p>
+        {
+          splitInstagramUsernames(data.editing ?? "").map((part) =>
+            isInstagramUsername(part) ? (
+              <a class="link" href={`https://www.instagram.com/${part.slice(1)}`} target="_blank" rel="noopener noreferrer">
+                {part}
+              </a>
+            ) : (
+              part
+            ),
+          )
+        }
+      </p>
       <div class="card-actions justify-end mt-auto">
         <a href={`/projects/${id}`} class="btn btn-primary btn-sm">
           <i class="bi bi-camera"></i> Vai alle foto!
