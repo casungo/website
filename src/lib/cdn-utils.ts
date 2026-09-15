@@ -39,5 +39,5 @@ export function getThumbUrl(localPath: string | AstroImage, width: number): stri
   // We can reuse that logic but strip the potentially leading chars if needed.
   // However, looking at usage, input is usually "2024.../img.jpg"
 
-  return `/thumb/${width}/${path}?v=2`;
+  return `/thumb/${width}/${path}?v=3`;
 }
