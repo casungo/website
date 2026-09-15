@@ -4,7 +4,7 @@ pubDate: 2026-08-01
 credit: Fotografie di @casungo e @mattus.design
 colorCorrection: Color correction di @casungo
 editing: Editing di @casungo
-heroImage: "20260801-Putangina Party/20260801-Putangina Party_000.jpg"
+heroImage: "20260801-Putangina Party/20260801-Putangina Party_0030.jpg"
 images:
   - "20260801-Putangina Party/20260801-Putangina Party_000.jpg"
   - "20260801-Putangina Party/20260801-Putangina Party_001.jpg"
