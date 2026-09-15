@@ -2,14 +2,14 @@
 import { Icon } from "astro-iconset/components";
 import { type CollectionEntry, getCollection } from "astro:content";
 import Default from "@layouts/Default.astro";
-import imageDimensions from "@projects/image-dimensions.json";
+import imageDimensions from "@galleries/image-dimensions.json";
 import { getCdnUrl, getThumbUrl } from "@lib/cdn-utils";
 import { SEO } from "astro-seo";
 
 export const prerender = true;
 
 interface Props {
-  entry: CollectionEntry<"projects">;
+  entry: CollectionEntry<"galleries">;
 }
 
 function splitInstagramUsernames(text: string) {
@@ -21,8 +21,8 @@ function isInstagramUsername(text: string) {
 }
 
 export async function getStaticPaths() {
-  const projects = await getCollection("projects");
-  return projects.map((entry) => ({
+  const galleries = await getCollection("galleries");
+  return galleries.map((entry) => ({
     params: { id: entry.id },
     props: { entry },
   }));
@@ -77,7 +77,7 @@ function isVertical(width: number, height: number) {
     }}
   />
 
-  <a href="/projects" class="btn btn-neutral text-xl"><Icon name="material-symbols:arrow-back" /> Altri Progetti</a>
+  <a href="/galleries" class="btn btn-neutral text-xl"><Icon name="material-symbols:arrow-back" /> Altre gallerie</a>
   <div class="flex flex-col items-center justify-center m-4">
     <div class="card card-border border-base-300 m-6 bg-base-100">
       <figure>

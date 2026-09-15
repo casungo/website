@@ -1,0 +1,18 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+
+import Default from "@layouts/Default.astro";
+import GalleryCard from "@components/galleries/GalleryCard.astro";
+
+const galleries = (await getCollection("galleries")).sort((a: CollectionEntry<"galleries">, b: CollectionEntry<"galleries">) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+export const prerender = true;
+---
+
+<Default>
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {galleries.map((gallery) => <GalleryCard gallery={gallery} />)}
+    </div>
+  </div>
+</Default>

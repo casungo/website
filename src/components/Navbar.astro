@@ -19,7 +19,7 @@ const homeLink = getRelativeLocaleUrl(lang, "/");
     </div>
     <div class="navbar-end">
       <ThemeSelector />
-      {Astro.url.pathname.startsWith("/projects") ? null : (
+      {Astro.url.pathname.startsWith("/galleries") ? null : (
         <div class="dropdown dropdown-end">
           <div tabindex="0" role="button" class="btn btn-ghost">
             <div class="indicator">

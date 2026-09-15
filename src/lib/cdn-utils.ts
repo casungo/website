@@ -1,6 +1,6 @@
 /**
  * Converts a local image path to a CDN URL
- * @param localPath The local path (e.g., "@projects/images/20240810-Putangina Party/20240810-Putangina Party_1.jpg")
+ * @param localPath The local path (e.g., "20240810-Putangina Party/20240810-Putangina Party_1.jpg")
  * @returns The CDN URL (e.g., "https://cdn.casungo.top/20240810-Putangina Party/20240810-Putangina Party_1.jpg")
  */
 // Define a type for Astro image objects

@@ -1,0 +1,3 @@
+/projects /galleries 301
+/projects/ /galleries/ 301
+/projects/* /galleries/:splat 301

@@ -33,7 +33,7 @@ No test framework is configured. There are no tests in this project.
 - `src/components/` — Reusable Astro and Svelte components
 - `src/i18n/` — Translations (ui.ts) and helper functions (utils.ts)
 - `src/locales/` — JSON translation files (en, it)
-- `src/projects/` — Markdown content files for projects collection
+- `src/galleries/` — Markdown content files for the photo galleries collection
 - `src/loaders/` — Custom Astro live content loaders (e.g., Spotify)
 - `src/lib/` — Shared utility functions
 - `src/styles/` — Global CSS (Tailwind + DaisyUI imports and theme config)
@@ -134,7 +134,7 @@ import { useTranslations, type UiLang } from "@i18n/utils";
 
 ### Content Collections
 
-- Standard: `src/content.config.ts` with glob loader for `projects` collection
+- Standard: `src/content.config.ts` with glob loader for `galleries` collection
 - Live: `src/live.config.ts` for real-time data (Spotify)
 - Project markdown files have frontmatter only (no body), with Zod-validated schema
 

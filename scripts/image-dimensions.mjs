@@ -1,8 +1,8 @@
 import { readFile, readdir, writeFile } from "node:fs/promises";
 import sharp from "sharp";
 
-const projectFiles = (await readdir("src/projects")).filter((file) => file.endsWith(".md"));
-const paths = (await Promise.all(projectFiles.map(async (file) => [...(await readFile(`src/projects/${file}`, "utf8")).matchAll(/^  - "(.+)"$/gm)].map((match) => match[1])))).flat();
+const galleryFiles = (await readdir("src/galleries")).filter((file) => file.endsWith(".md"));
+const paths = (await Promise.all(galleryFiles.map(async (file) => [...(await readFile(`src/galleries/${file}`, "utf8")).matchAll(/^  - "(.+)"$/gm)].map((match) => match[1])))).flat();
 
 const entries = [];
 let next = 0;
@@ -21,5 +21,5 @@ await Promise.all(
 
 const dimensions = Object.fromEntries(entries.sort(([a], [b]) => a.localeCompare(b)));
 
-await writeFile("src/projects/image-dimensions.json", `${JSON.stringify(dimensions, null, 2)}\n`);
+await writeFile("src/galleries/image-dimensions.json", `${JSON.stringify(dimensions, null, 2)}\n`);
 console.log(`Saved dimensions for ${paths.length} images.`);

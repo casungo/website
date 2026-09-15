@@ -3,10 +3,10 @@ import type { CollectionEntry } from "astro:content";
 import { getCdnUrl } from "@lib/cdn-utils";
 
 interface Props {
-  project: CollectionEntry<"projects">;
+  gallery: CollectionEntry<"galleries">;
 }
 
-const { data, id } = Astro.props.project;
+const { data, id } = Astro.props.gallery;
 
 function splitInstagramUsernames(text: string) {
   return text.split(/(@[a-zA-Z0-9_.]+)/g).filter(Boolean);
@@ -75,7 +75,7 @@ function formatDate(date: number | Date) {
         }
       </p>
       <div class="card-actions justify-end mt-auto">
-        <a href={`/projects/${id}`} class="btn btn-primary btn-sm">
+        <a href={`/galleries/${id}`} class="btn btn-primary btn-sm">
           <i class="bi bi-camera"></i> Vai alle foto!
         </a>
       </div>
