@@ -36,7 +36,7 @@ export const GET: APIRoute = async ({ params }) => {
           width: parsedWidth,
           // Let Cloudflare calculate height to maintain aspect ratio
           fit: "scale-down",
-          format: "webp", // Enforce webp or auto
+          format: "jpeg",
         },
       },
     } as any); // Cast to any because 'cf' is not in standard RequestInit type
