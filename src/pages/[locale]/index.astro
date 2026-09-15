@@ -8,15 +8,15 @@ import CardProjects from "@components/CardProjects.astro";
 
 import NowPlaying from "@components/NowPlaying.svelte";
 
-import Fedora33 from "@images/Fedora 33 wallpaper.jpg";
-import Briefmaker from "@images/briefmaker.png";
+import MarkdownDocx from "@images/generated/markdown-docx.png";
+import MsgEmlViewer from "@images/generated/msgemlviewer.png";
 import OsservaprezziCarburantiHa from "@images/osservaprezzi-carburanti-ha.jpg";
-import RelationSync from "@images/relation-sync.png";
-import Sedbot from "@images/sedbot.jpg";
-import BeRealImg from "@images/bereal.png";
-import Excel2MdImg from "@images/excel2md.png";
-import P7mReaderImg from "@images/p7mreader.png";
-import SplitMediaImg from "@images/splitmedia.png";
+import RelationSync from "@images/generated/relation-sync.png";
+import Sedbot from "@images/generated/sedbot.png";
+import BeRealImg from "@images/generated/bereal.png";
+import Excel2MdImg from "@images/generated/excel2md.png";
+import P7mReaderImg from "@images/generated/p7mreader.png";
+import SplitMediaImg from "@images/generated/splitmedia.png";
 
 import { useTranslations, type UiLang } from "@i18n/utils";
 
@@ -42,15 +42,24 @@ export function getStaticPaths() {
       <Socials />
     </div>
   </Card>
-  <Projects title={t("projects.title")}>
-    <CardProjects
-      img={OsservaprezziCarburantiHa}
-      title={t("projects.cards.osservaprezziCarburantiHa.title")}
-      desc={t("projects.cards.osservaprezziCarburantiHa.desc")}
-      btnLink="https://github.com/casungo/osservaprezzi-carburanti-ha"
-      btnText={t("projects.cards.osservaprezziCarburantiHa.btnText")}
-      btnIcon="bxl:github"
-    />
+  <div
+    class="briefmaker-hero m-6 overflow-hidden rounded-box border border-white/15 bg-[radial-gradient(circle_at_86%_14%,rgba(192,132,252,0.34),transparent_32%),radial-gradient(circle_at_8%_92%,rgba(45,212,191,0.2),transparent_35%),linear-gradient(135deg,#111827_0%,#312e81_58%,#4c1d95_100%)] text-white shadow-xl transition-transform duration-300 hover:-translate-y-1"
+  >
+    <div class="flex flex-col gap-8 p-8 sm:p-10 lg:flex-row lg:items-end lg:justify-between">
+      <div class="max-w-2xl">
+        <p class="mb-4 text-sm font-bold uppercase tracking-[0.2em] text-white/75">{t("apps.featuredLabel")}</p>
+        <h2 class="text-4xl font-black tracking-tight sm:text-5xl">{t("apps.cards.briefmaker.title")}</h2>
+        <p class="mt-4 max-w-xl text-lg leading-relaxed text-white/90">{t("apps.cards.briefmaker.desc")}</p>
+      </div>
+      <a
+        href="https://briefmakerapp.com/"
+        class="btn btn-lg border-0 bg-white px-7 text-violet-700 shadow-lg transition duration-300 hover:scale-105 hover:bg-white hover:shadow-[0_0_30px_rgba(255,255,255,0.35)] focus-visible:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+      >
+        {t("apps.cards.briefmaker.btnText")}
+      </a>
+    </div>
+  </div>
+  <Projects title={t("projects.openSourceTitle")}>
     <CardProjects
       img={BeRealImg}
       title={t("apps.cards.bereal.title")}
@@ -58,14 +67,6 @@ export function getStaticPaths() {
       btnLink="https://berealgdprviewer.eu"
       btnText={t("apps.cards.bereal.btnText")}
       btnIcon="material-symbols:open-in-new-rounded"
-    />
-    <CardProjects
-      img={Briefmaker}
-      title={t("apps.cards.briefmaker.title")}
-      desc={t("apps.cards.briefmaker.desc")}
-      btnLink="https://briefmakerapp.com/"
-      btnText={t("apps.cards.briefmaker.btnText")}
-      btnIcon="material-symbols:image-outline-rounded"
     />
     <CardProjects
       img={Excel2MdImg}
@@ -76,12 +77,44 @@ export function getStaticPaths() {
       btnIcon="material-symbols:table-chart-outline"
     />
     <CardProjects
+      img={OsservaprezziCarburantiHa}
+      title={t("projects.cards.osservaprezziCarburantiHa.title")}
+      desc={t("projects.cards.osservaprezziCarburantiHa.desc")}
+      btnLink="https://github.com/casungo/osservaprezzi-carburanti-ha"
+      btnText={t("projects.cards.osservaprezziCarburantiHa.btnText")}
+      btnIcon="bxl:github"
+    />
+    <CardProjects
       img={P7mReaderImg}
       title={t("apps.cards.p7mreader.title")}
       desc={t("apps.cards.p7mreader.desc")}
       btnLink="https://p7mreader.eu"
       btnText={t("apps.cards.p7mreader.btnText")}
       btnIcon="material-symbols:open-in-new-rounded"
+    />
+    <CardProjects
+      img={MarkdownDocx}
+      title={t("projects.cards.markdownDocx.title")}
+      desc={t("projects.cards.markdownDocx.desc")}
+      btnLink="https://github.com/casungo/markdown-docx-formatter"
+      btnText={t("projects.cards.markdownDocx.btnText")}
+      btnIcon="bxl:github"
+    />
+    <CardProjects
+      img={RelationSync}
+      title={t("projects.cards.relationSync.title")}
+      desc={t("projects.cards.relationSync.desc")}
+      btnLink="https://github.com/casungo/relation-sync-plugin"
+      btnText={t("projects.cards.relationSync.btnText")}
+      btnIcon="bxl:github"
+    />
+    <CardProjects
+      img={MsgEmlViewer}
+      title={t("projects.cards.msgEmlViewer.title")}
+      desc={t("projects.cards.msgEmlViewer.desc")}
+      btnLink="https://github.com/casungo/msgemlviewer"
+      btnText={t("projects.cards.msgEmlViewer.btnText")}
+      btnIcon="bxl:github"
     />
     <CardProjects
       img={SplitMediaImg}
@@ -92,22 +125,6 @@ export function getStaticPaths() {
       btnIcon="material-symbols:call-split"
     />
     <CardProjects img={Sedbot} title={t("projects.cards.sedbot.title")} desc={t("projects.cards.sedbot.desc")} btnLink="https://github.com/casungo/sedbot" btnText={t("projects.cards.sedbot.btnText")} btnIcon="bxl:github" />
-    <CardProjects
-      img={RelationSync}
-      title={t("projects.cards.relationSync.title")}
-      desc={t("projects.cards.relationSync.desc")}
-      btnLink="https://github.com/casungo/relation-sync-plugin"
-      btnText={t("projects.cards.relationSync.btnText")}
-      btnIcon="bxl:github"
-    />
-    <CardProjects
-      img={Fedora33}
-      title={t("projects.cards.fedora33.title")}
-      desc={t("projects.cards.fedora33.desc")}
-      btnLink="https://pagure.io/design/issue/raw/files/219f997ff4aa506ea4ec4b3f82d380f32e2411027f3d62f8d8b059d55ed3c3b3-dawn.png"
-      btnText={t("projects.cards.fedora33.btnText")}
-      btnIcon="material-symbols:image-outline-rounded"
-    />
   </Projects>
 </Default>
 <NowPlaying client:idle {translations} {defaultTranslations} />

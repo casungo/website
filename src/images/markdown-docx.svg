@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675">
+  <rect width="1200" height="675" fill="#081426"/>
+  <circle cx="160" cy="120" r="250" fill="#102b4d"/>
+  <circle cx="1020" cy="570" r="330" fill="#15264a"/>
+  <rect x="155" y="70" width="890" height="535" rx="24" fill="#10223b" stroke="#31569e" stroke-width="8"/>
+  <rect x="210" y="135" width="390" height="405" fill="#142b48" stroke="#496da9" stroke-width="6"/>
+  <rect x="650" y="135" width="340" height="405" fill="#10223b" stroke="#496da9" stroke-width="6"/>
+  <path d="M255 210h270M255 265h220M255 320h250M255 375h180" stroke="#31569e" stroke-width="18"/>
+  <path d="m560 335 70 0m-35-35 35 35-35 35" fill="none" stroke="#31569e" stroke-width="16"/>
+  <path d="M700 220h240M700 275h190M700 350h230M700 405h170" stroke="#e5edf9" stroke-width="16"/>
+  <text x="600" y="105" fill="#f5f7fb" font-family="sans-serif" font-size="42" font-weight="700" text-anchor="middle">Markdown DOCX Formatter</text>
+</svg>

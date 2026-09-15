@@ -44,6 +44,7 @@ export const ui = {
     },
     apps: {
       title: "Apps & Tools",
+      featuredLabel: "Featured project",
       cards: {
         bereal: {
           title: "BeReal GDPR Explorer",
@@ -73,7 +74,8 @@ export const ui = {
       },
     },
     projects: {
-      title: "Apps, Tools & Projects",
+      appsTitle: "Apps & Tools",
+      openSourceTitle: "Open Source & Contributions",
       cards: {
         relationSync: {
           title: "Relation Sync for Obsidian",
@@ -90,10 +92,15 @@ export const ui = {
           desc: "A Home Assistant integration that retrieves Italian fuel prices from the MIMIT Osservaprezzi service and creates automatic sensors.",
           btnText: "View on GitHub",
         },
-        fedora33: {
-          title: "Fedora 33 Wallpaper",
-          desc: "I contributed to the development of the default Fedora 33 wallpaper that is shown on every machine with a fresh installation of the operating system!",
-          btnText: "View the wallpaper!",
+        msgEmlViewer: {
+          title: "MSG/EML Viewer",
+          desc: "A local browser viewer for email files in EML and MSG formats.",
+          btnText: "View on GitHub",
+        },
+        markdownDocx: {
+          title: "Markdown DOCX Formatter",
+          desc: "A local browser tool that turns Markdown into consistently formatted Word documents.",
+          btnText: "View on GitHub",
         },
       },
     },
@@ -168,6 +175,7 @@ export const ui = {
     },
     apps: {
       title: "App e Strumenti",
+      featuredLabel: "Progetto in evidenza",
       cards: {
         bereal: {
           title: "BeReal GDPR Explorer",
@@ -197,7 +205,8 @@ export const ui = {
       },
     },
     projects: {
-      title: "App, strumenti e progetti",
+      appsTitle: "App e strumenti",
+      openSourceTitle: "Strumenti open source",
       cards: {
         relationSync: {
           title: "Relation Sync for Obsidian",
@@ -215,10 +224,15 @@ export const ui = {
           btnText: "Apri su GitHub",
         },
 
-        fedora33: {
-          title: "Fedora 33 Wallpaper",
-          desc: "Ho contribuito allo sviluppo dello sfondo predefinito di Fedora 33 che viene mostrato su ogni macchina con una nuova installazione del sistema operativo!",
-          btnText: "Visualizza lo sfondo!",
+        msgEmlViewer: {
+          title: "MSG/EML Viewer",
+          desc: "Un visualizzatore locale nel browser per file email nei formati EML e MSG.",
+          btnText: "Apri su GitHub",
+        },
+        markdownDocx: {
+          title: "Markdown DOCX Formatter",
+          desc: "Uno strumento locale nel browser che trasforma Markdown in documenti Word formattati in modo coerente.",
+          btnText: "Apri su GitHub",
         },
       },
     },

@@ -82,3 +82,43 @@
 .img-cover {
   object-fit: fill;
 }
+
+.briefmaker-hero {
+  background-size: 140% 140%;
+  background-position: 0% 50%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .briefmaker-hero {
+    animation: briefmaker-glow 8s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes briefmaker-glow {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 100% 50%;
+  }
+}
+
+.project-card-media {
+  background-color: #111827;
+  background-image: radial-gradient(circle at 18% 18%, rgba(99, 102, 241, 0.28) 0 18%, transparent 42%), radial-gradient(circle at 86% 86%, rgba(20, 184, 166, 0.2) 0 16%, transparent 42%);
+}
+
+.project-card:nth-child(4n + 2) .project-card-media {
+  background-color: #102a43;
+  background-image: radial-gradient(circle at 82% 16%, rgba(56, 189, 248, 0.28) 0 18%, transparent 42%), radial-gradient(circle at 12% 86%, rgba(59, 130, 246, 0.22) 0 16%, transparent 42%);
+}
+
+.project-card:nth-child(4n + 3) .project-card-media {
+  background-color: #172554;
+  background-image: radial-gradient(circle at 20% 18%, rgba(192, 132, 252, 0.25) 0 18%, transparent 42%), radial-gradient(circle at 84% 86%, rgba(244, 114, 182, 0.18) 0 16%, transparent 42%);
+}
+
+.project-card:nth-child(4n + 4) .project-card-media {
+  background-color: #12312d;
+  background-image: radial-gradient(circle at 82% 16%, rgba(45, 212, 191, 0.26) 0 18%, transparent 42%), radial-gradient(circle at 12% 86%, rgba(34, 197, 94, 0.16) 0 16%, transparent 42%);
+}

@@ -4,9 +4,9 @@ const { img, title, desc, btnLink, btnIcon, btnText } = Astro.props;
 import { Icon } from "astro-iconset/components";
 ---
 
-<div class="card h-full card-border border-base-300 bg-base-300 m-2">
-  <figure>
-    <Image src={img} class="card-img-top aspect-video" draggable="false" alt={title} />
+<div class="project-card card group h-full card-border border-base-300 bg-base-300 m-2">
+  <figure class="project-card-media relative overflow-hidden">
+    <Image src={img} class="card-img-top relative z-10 aspect-video transition duration-500 ease-out group-hover:scale-105 group-hover:saturate-125" draggable="false" alt={title} />
   </figure>
   <div class="card-body">
     <p class="card-title">{title}</p>

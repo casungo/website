@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675">
+  <rect width="1200" height="675" fill="#081426"/>
+  <circle cx="160" cy="120" r="250" fill="#102b4d"/>
+  <circle cx="1020" cy="570" r="330" fill="#15264a"/>
+  <rect x="405" y="130" width="390" height="390" rx="86" fill="#15264a" stroke="#496da9" stroke-width="8"/>
+  <path d="M505 235h190M505 320h190M505 405h130" stroke="#39ff14" stroke-width="28" stroke-linecap="round"/>
+  <path d="m730 215-62 210" stroke="#39ff14" stroke-width="28" stroke-linecap="round"/>
+  <text x="600" y="585" fill="#f5f7fb" font-family="sans-serif" font-size="38" font-weight="700" letter-spacing="8" text-anchor="middle">SEDBOT</text>
+</svg>
