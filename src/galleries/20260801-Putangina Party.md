@@ -4,18 +4,17 @@ pubDate: 2026-08-01
 credit: Fotografie di @casungo e @mattus.design
 colorCorrection: Color correction di @casungo
 editing: Editing di @casungo
-heroImage: "20260801-Putangina Party/20260801-Putangina Party_0030.jpg"
+heroImage: "20260801-Putangina Party/20260801-Putangina Party_0031.jpg"
 images:
-  - "20260801-Putangina Party/20260801-Putangina Party_000.jpg"
-  - "20260801-Putangina Party/20260801-Putangina Party_001.jpg"
-  - "20260801-Putangina Party/20260801-Putangina Party_002.jpg"
-  - "20260801-Putangina Party/20260801-Putangina Party_003.jpg"
-  - "20260801-Putangina Party/20260801-Putangina Party_004.jpg"
-  - "20260801-Putangina Party/20260801-Putangina Party_005.jpg"
-  - "20260801-Putangina Party/20260801-Putangina Party_006.jpg"
-  - "20260801-Putangina Party/20260801-Putangina Party_007.jpg"
-  - "20260801-Putangina Party/20260801-Putangina Party_008.jpg"
-  - "20260801-Putangina Party/20260801-Putangina Party_009.jpg"
+  - "20260801-Putangina Party/20260801-Putangina Party_0001.jpg"
+  - "20260801-Putangina Party/20260801-Putangina Party_0002.jpg"
+  - "20260801-Putangina Party/20260801-Putangina Party_0003.jpg"
+  - "20260801-Putangina Party/20260801-Putangina Party_0004.jpg"
+  - "20260801-Putangina Party/20260801-Putangina Party_0005.jpg"
+  - "20260801-Putangina Party/20260801-Putangina Party_0006.jpg"
+  - "20260801-Putangina Party/20260801-Putangina Party_0007.jpg"
+  - "20260801-Putangina Party/20260801-Putangina Party_0008.jpg"
+  - "20260801-Putangina Party/20260801-Putangina Party_0009.jpg"
   - "20260801-Putangina Party/20260801-Putangina Party_0010.jpg"
   - "20260801-Putangina Party/20260801-Putangina Party_0011.jpg"
   - "20260801-Putangina Party/20260801-Putangina Party_0012.jpg"
@@ -106,6 +105,6 @@ images:
   - "20260801-Putangina Party/20260801-Putangina Party_0097.jpg"
   - "20260801-Putangina Party/20260801-Putangina Party_0098.jpg"
   - "20260801-Putangina Party/20260801-Putangina Party_0099.jpg"
-  - "20260801-Putangina Party/20260801-Putangina Party_00100.jpg"
-  - "20260801-Putangina Party/20260801-Putangina Party_00101.jpg"
+  - "20260801-Putangina Party/20260801-Putangina Party_0100.jpg"
+  - "20260801-Putangina Party/20260801-Putangina Party_0101.jpg"
 ---
