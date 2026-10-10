@@ -51,6 +51,16 @@ export const ui = {
           desc: "A privacy-focused tool to explore and analyze your BeReal GDPR data export. View your posts, memories, and friends.",
           btnText: "Go to website",
         },
+        cartaviva: {
+          title: "CartaViva",
+          desc: "Compose handwritten A4 pages, edit individual words, and export to SVG or PDF.",
+          btnText: "Open CartaViva",
+        },
+        puntario: {
+          title: "Puntario",
+          desc: "An installable scoreboard for tennis, volleyball, Cucù, and Briscolone. It works offline and keeps match history on your device.",
+          btnText: "Open Puntario",
+        },
         excel2md: {
           title: "Excel to Markdown",
           desc: "Easily convert your Excel spreadsheets, Google Sheets, and CSV files into clean, formatted Markdown tables.",
@@ -75,7 +85,7 @@ export const ui = {
     },
     projects: {
       appsTitle: "Apps & Tools",
-      openSourceTitle: "Open Source & Contributions",
+      openSourceTitle: "Projects and tools",
       cards: {
         relationSync: {
           title: "Relation Sync for Obsidian",
@@ -182,6 +192,16 @@ export const ui = {
           desc: "Uno strumento incentrato sulla privacy per esplorare e analizzare l'esportazione dei tuoi dati BeReal. Visualizza i tuoi post, ricordi e amici.",
           btnText: "Vai al sito web",
         },
+        cartaviva: {
+          title: "CartaViva",
+          desc: "Componi pagine manoscritte in formato A4, modifica le singole parole ed esporta in SVG o PDF.",
+          btnText: "Apri CartaViva",
+        },
+        puntario: {
+          title: "Puntario",
+          desc: "Un segnapunti installabile per tennis, pallavolo, Cucù e Briscolone. Funziona offline e salva lo storico sul dispositivo.",
+          btnText: "Apri Puntario",
+        },
         excel2md: {
           title: "Excel to Markdown",
           desc: "Converti facilmente i tuoi fogli di calcolo Excel, Google Sheets e file CSV in tabelle Markdown pulite e formattate.",
@@ -206,7 +226,7 @@ export const ui = {
     },
     projects: {
       appsTitle: "App e strumenti",
-      openSourceTitle: "Strumenti open source",
+      openSourceTitle: "Progetti e strumenti",
       cards: {
         relationSync: {
           title: "Relation Sync for Obsidian",
